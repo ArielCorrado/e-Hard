@@ -125,7 +125,6 @@ do {o = prompt(`Elige una opción de busqueda:\n${verArrayConOpciones(opcionesHa
     switch (o) {
 
         case "1": 
-
         do {
             op = prompt(`Microprocesadores - Elige una opción - puedes filtrar por:\n${verArrayConOpciones(opcionesMicros)}`);
             if (parseFloat(op)%1 == 0 && parseFloat(op) >= 1 && parseFloat(op) <= opcionesMicros.length) {   
@@ -147,7 +146,7 @@ do {o = prompt(`Elige una opción de busqueda:\n${verArrayConOpciones(opcionesHa
                 filtroComponentes = listaMicros.filter((el) => el[op] == opc);
                 if (filtroComponentes.length > 1) {   
                     do {
-                        opc = prompt(mostrarDescripcion(filtroComponentes));
+                        opc = prompt(mostrarDescripciones(filtroComponentes));
                         if (parseFloat(opc)%1 == 0 && parseFloat(opc) >= 1 && parseFloat(opc) <= filtroComponentes.length) {
                             componenteElegido = filtroComponentes[parseInt(opc)-1];
                             alert(`Has elegido:\n${componenteElegido.describir()}`);
@@ -195,7 +194,7 @@ do {o = prompt(`Elige una opción de busqueda:\n${verArrayConOpciones(opcionesHa
                 filtroComponentes = listaMothers.filter((el) => el[op] == opc);
                 if (filtroComponentes.length > 1) {   
                     do {
-                        opc = prompt(mostrarDescripcion(filtroComponentes));
+                        opc = prompt(mostrarDescripciones(filtroComponentes));
                         if (parseFloat(opc)%1 == 0 && parseFloat(opc) >= 1 && parseFloat(opc) <= filtroComponentes.length) {
                             componenteElegido = filtroComponentes[parseInt(opc)-1];
                             alert(`Has elegido:\n${componenteElegido.describir()}`);
@@ -243,7 +242,7 @@ do {o = prompt(`Elige una opción de busqueda:\n${verArrayConOpciones(opcionesHa
                 filtroComponentes = listaMemorias.filter((el) => el[op] == opc);
                 if (filtroComponentes.length > 1) {   
                     do {
-                        opc = prompt(mostrarDescripcion(filtroComponentes));
+                        opc = prompt(mostrarDescripciones(filtroComponentes));
                         if (parseFloat(opc)%1 == 0 && parseFloat(opc) >= 1 && parseFloat(opc) <= filtroComponentes.length) {
                             componenteElegido = filtroComponentes[parseInt(opc)-1];
                             alert(`Has elegido:\n${componenteElegido.describir()}`);
@@ -307,7 +306,7 @@ function listar (opcion, lista) {           //Esta función obtiene determinados
 }
 
 
-function mostrarDescripcion (lista) {             //Esta función crea un string con números de opcion para las descripciones 
+function mostrarDescripciones (lista) {             //Esta función crea un string con números de opcion para las descripciones 
     let desc = "";                                //que genera el método "describir()"
     let i = 1;
     for (let list of lista) {
