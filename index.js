@@ -150,7 +150,7 @@ do {opciones = listarOpciones ("descripcion",todosLosProductos);
                 opc = opc.toLowerCase();                        //opc puede ser por ej: "marca"
                 opciones = listarOpciones (opc, filtro);
                 listaDeOpciones = verArrayComoLista (opciones);
-
+                                
                 do {
                     op = prompt (`Elige una opción de busqueda:\n${listaDeOpciones}`);     
                     if (parseFloat(op)%1 == 0 && parseFloat(op) >= 1 && parseFloat(op) <= opciones.length)  {
@@ -170,7 +170,7 @@ do {opciones = listarOpciones ("descripcion",todosLosProductos);
                                 }
 
                                 do {
-                                    op = prompt (`Tu carrito de compras tiene:\n\n ${(mostrarDescripSN(carrito))}\n TOTAL: $${total}\nPresiona 'Aceptar' para agregar otro producto o 'Cancelar' para continuar al pago`);
+                                    op = prompt (`Tu carrito de compras tiene:\n\n ${(mostrarDescripSN(carrito))}\n TOTAL: $${total}\nQuieres agregar otro producto? Presiona 'Aceptar' para agregar otro producto o 'Cancelar' para continuar al pago`);
                                     if (op == "")   {
                                         salir = true;
                                         carritoLleno = false;
