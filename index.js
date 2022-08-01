@@ -116,21 +116,24 @@ opcionesProductos[2] = opcionesMemorias;
 
 alert("Bienvenido a e-Hard computación, a continuación podrás buscar y elegir hardware para tu PC, presiona 'ENTER' para continuar");
 
-
-let salir;
 let todosLosProductos = [];
 todosLosProductos = todosLosProductos.concat(listaMicros, listaMothers, listaMemorias);
-let opciones = listarOpciones ("descripcion",todosLosProductos);
-let listaDeOpciones = verArrayComoLista (opciones);
+let salir;
+let opciones; 
+let listaDeOpciones; 
 let op;
 let opc;
 let filtro;
 let opcionesAmostrar;
 let productoElegido;
 let carrito = [];
+let carritoLleno = false;
+let total;
 
 
-do {
+do {opciones = listarOpciones ("descripcion",todosLosProductos);
+    listaDeOpciones = verArrayComoLista (opciones);
+
     op = prompt (`Elige una opción de busqueda:\n${listaDeOpciones}`)       //op es el numero de opción: 1, 2, 3 etc.
     if (parseFloat(op)%1 == 0 && parseFloat(op) >= 1 && parseFloat(op) <= opciones.length)  {
 
@@ -159,7 +162,29 @@ do {
                             if (parseFloat(op)%1 == 0 && parseFloat(op) >= 1 && parseFloat(op) <= filtro.length)  {
                                 productoElegido = filtro [parseInt(op)-1];
                                 carrito.push(productoElegido);
-                                alert (`Tu carrito de compras tiene:\n ${(mostrarDescripSN(carrito))}`);
+                                    
+                                total = 0;
+
+                                for (let el of carrito) {
+                                    total += el.precio;
+                                }
+
+                                do {
+                                    op = prompt (`Tu carrito de compras tiene:\n\n ${(mostrarDescripSN(carrito))}\n TOTAL: $${total}\nPresiona 'Aceptar' para agregar otro producto o 'Cancelar' para continuar al pago`);
+                                    if (op == "")   {
+                                        salir = true;
+                                        carritoLleno = false;
+                                    } 
+                                    else if (op == null) {
+                                        salir = true;
+                                        carritoLleno = true;
+                                    }
+                                    else {
+                                        alert ("Opción Incorrecta, vuele a intentar");
+                                        salir = false;
+                                    }
+                                } while (salir == false)   
+
                                 salir = true;
                             }
                             else {
@@ -194,7 +219,7 @@ do {
         salir = false;
     }
 
-} while (salir == false)
+} while (salir == false || carritoLleno == false)
 
 
 
