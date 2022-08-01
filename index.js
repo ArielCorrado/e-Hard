@@ -117,33 +117,84 @@ opcionesProductos[2] = opcionesMemorias;
 alert("Bienvenido a e-Hard computación, a continuación podrás buscar y elegir hardware para tu PC, presiona 'ENTER' para continuar");
 
 
-
+let salir;
 let todosLosProductos = [];
 todosLosProductos = todosLosProductos.concat(listaMicros, listaMothers, listaMemorias);
 let opciones = listarOpciones ("descripcion",todosLosProductos);
 let listaDeOpciones = verArrayComoLista (opciones);
-let op = prompt (`Elige una opción de busqueda:\n${listaDeOpciones}`)       //op es el numero de opción: 1, 2, 3 etc.
+let op;
+let opc;
+let filtro;
+let opcionesAmostrar;
+let productoElegido;
+let carrito = [];
 
-let opc = opciones [parseInt(op)-1];                                        //opc es el nombre de la opcion: Microprocesadores, Motherboards, etc    
-let filtro = todosLosProductos.filter((el) => el.descripcion == opc);
 
-let opcionesAmostrar = opcionesProductos[parseInt(op)-1];
-op = prompt (`${opc} - Elige una opción: Puedes filtrar por:\n${verArrayComoLista(opcionesAmostrar)}`);
+do {
+    op = prompt (`Elige una opción de busqueda:\n${listaDeOpciones}`)       //op es el numero de opción: 1, 2, 3 etc.
+    if (parseFloat(op)%1 == 0 && parseFloat(op) >= 1 && parseFloat(op) <= opciones.length)  {
 
-opc = opcionesAmostrar [parseInt(op)-1];
-opc = opc.toLowerCase();                        //opc puede ser por ej: "marca"
-opciones = listarOpciones (opc, filtro);
-listaDeOpciones = verArrayComoLista (opciones);
-op = prompt (`Elige una opción de busqueda:\n${listaDeOpciones}`);     
+        opc = opciones [parseInt(op)-1];                                        //opc es el nombre de la opcion: Microprocesadores, Motherboards, etc    
+        filtro = todosLosProductos.filter((el) => el.descripcion == opc);
 
-op = opciones [parseInt(op)-1];                 //op puede ser por ej: "Amd";
-filtro = filtro.filter((el) => el[opc] == op);
-op = prompt (`Elige una opción:\n${mostrarDescripciones(filtro)}`);
+        opcionesAmostrar = opcionesProductos[parseInt(op)-1];
 
-productoElegido = filtro [parseInt(op)-1];
+        do {
+            op = prompt (`${opc} - Elige una opción: Puedes filtrar por:\n${verArrayComoLista(opcionesAmostrar)}`);
+            if (parseFloat(op)%1 == 0 && parseFloat(op) >= 1 && parseFloat(op) <= opcionesAmostrar.length)  {
 
-prompt (`Has elegido:\n ${(productoElegido.describir())}`);
+                opc = opcionesAmostrar [parseInt(op)-1];
+                opc = opc.toLowerCase();                        //opc puede ser por ej: "marca"
+                opciones = listarOpciones (opc, filtro);
+                listaDeOpciones = verArrayComoLista (opciones);
 
+                do {
+                    op = prompt (`Elige una opción de busqueda:\n${listaDeOpciones}`);     
+                    if (parseFloat(op)%1 == 0 && parseFloat(op) >= 1 && parseFloat(op) <= opciones.length)  {
+
+                        op = opciones [parseInt(op)-1];                 //op puede ser por ej: "Amd";
+                        filtro = filtro.filter((el) => el[opc] == op);
+                        do {
+                            op = prompt (`Elige una opción:\n${mostrarDescripciones(filtro)}`);
+                            if (parseFloat(op)%1 == 0 && parseFloat(op) >= 1 && parseFloat(op) <= filtro.length)  {
+                                productoElegido = filtro [parseInt(op)-1];
+                                carrito.push(productoElegido);
+                                alert (`Tu carrito de compras tiene:\n ${(mostrarDescripSN(carrito))}`);
+                                salir = true;
+                            }
+                            else {
+                                alert ("Opción Incorrecta, vuele a intentar");
+                                salir = false; 
+                            }
+
+                        } while (salir == false)   
+
+                        salir = true;
+                    }
+                    else {
+                        alert ("Opción Incorrecta, vuele a intentar");
+                        salir = false;    
+                    }    
+
+                } while (salir == false)   
+
+                salir = true;
+            }
+            else {
+                alert ("Opción Incorrecta, vuele a intentar");
+                salir = false;
+            }  
+
+        } while (salir == false);   
+
+        salir = true;
+    } 
+    else {
+        alert ("Opción Incorrecta, vuele a intentar");
+        salir = false;
+    }
+
+} while (salir == false)
 
 
 
@@ -173,7 +224,7 @@ function verArrayComoLista (array) {       //Esta función genera un string para
 }
 
 
-function mostrarDescripciones (lista) {             //Esta función crea un string con números de opcion para las descripciones 
+function mostrarDescripciones (lista) {           //Esta función crea un string con números de opcion para las descripciones 
     let desc = "";                                //que genera el método "describir()"
     let i = 1;
     for (let list of lista) {
@@ -182,7 +233,13 @@ function mostrarDescripciones (lista) {             //Esta función crea un stri
     return desc;
 }
 
-
+function mostrarDescripSN (lista) {               //Esta función crea un string sin números de opcion para las descripciones 
+    let desc = "";                                //que genera el método "describir()"
+    for (let list of lista) {
+        desc += `${list.describir()}\n`;
+    }
+    return desc;
+}
 
 
 
