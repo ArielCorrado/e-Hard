@@ -116,6 +116,7 @@ let o;
 let op;
 let opc;
 let list;
+let salir;
 let componenteElegido;
 let filtroComponentes = [];
 
@@ -123,58 +124,149 @@ do {o = prompt(`Elige una opción de busqueda:\n${verArrayConOpciones(opcionesHa
 
     switch (o) {
 
-        case "1": op = prompt(`Microprocesadores - Elige una opción - puedes filtrar por:\n${verArrayConOpciones(opcionesMicros)}`);
-        op = opcionesMicros[parseInt(op)-1];
-        op = op.toLowerCase();
-        list = (listar(op,listaMicros))
-        
-        opc = prompt (verArrayConOpciones(list));
-        opc = list[parseInt(opc)-1];
-        filtroComponentes = listaMicros.filter((el) => el[op] == opc);
-        if (filtroComponentes.length > 1) {      
-            opc = prompt(mostrarDescripcion(filtroComponentes));
-            componenteElegido = filtroComponentes[parseInt(opc)-1];
-            alert(`Has elegido:\n${componenteElegido.describir()}`);
-        } else alert(`Has elegido:\n${filtroComponentes[0].describir()}`); 
+        case "1": 
+
+        do {
+            op = prompt(`Microprocesadores - Elige una opción - puedes filtrar por:\n${verArrayConOpciones(opcionesMicros)}`);
+            if (parseFloat(op)%1 == 0 && parseFloat(op) >= 1 && parseFloat(op) <= opcionesMicros.length) {   
+                op = opcionesMicros[parseInt(op)-1];
+                op = op.toLowerCase();
+                list = (listar(op,listaMicros));   
+                salir = true;
+            }   
+            else {
+                (salir = false);  
+                alert("Opcion incorrecta, vuelve a intentar");  
+            }    
+        } while (salir == false)    
+            
+        do  {
+            opc = prompt (verArrayConOpciones(list));
+            if (parseFloat(opc)%1 == 0 && parseFloat(opc) >= 1 && parseFloat(opc) <= list.length) {
+                opc = list[parseInt(opc)-1];
+                filtroComponentes = listaMicros.filter((el) => el[op] == opc);
+                if (filtroComponentes.length > 1) {   
+                    do {
+                        opc = prompt(mostrarDescripcion(filtroComponentes));
+                        if (parseFloat(opc)%1 == 0 && parseFloat(opc) >= 1 && parseFloat(opc) <= filtroComponentes.length) {
+                            componenteElegido = filtroComponentes[parseInt(opc)-1];
+                            alert(`Has elegido:\n${componenteElegido.describir()}`);
+                            salir = true;
+                        }    
+                        else {
+                            salir = false;    
+                            alert("Opcion incorrecta, vuelve a intentar");
+                        }
+                    } while (salir == false)   
+
+                } 
+                else {alert(`Has elegido:\n${filtroComponentes[0].describir()}`)}; 
+                salir = true;
+            }   
+            else {
+                (salir = false);  
+                alert("Opcion incorrecta, vuelve a intentar");  
+            }    
+        } while (salir == false)    
 
         break;
 
 
 
-        case "2": op = prompt (`Motherboards - Elige una opción - puedes filtrar por:\n${verArrayConOpciones(opcionesMothers)}`);
-        op = opcionesMothers[parseInt(op)-1];
-        op = op.toLowerCase();
-        list = (listar(op,listaMothers))
-        
-        opc = prompt (verArrayConOpciones(list));
-        opc = list[parseInt(opc)-1];
-        filtroComponentes = listaMothers.filter((el) => el[op] == opc);
-        if (filtroComponentes.length > 1) {      
-            opc = prompt(mostrarDescripcion(filtroComponentes));
-            componenteElegido = filtroComponentes[parseInt(opc)-1];
-            alert(`Has elegido:\n${componenteElegido.describir()}`);
-        } else alert(`Has elegido:\n${filtroComponentes[0].describir()}`); 
+        case "2":         
+        do {
+            op = prompt(`Motherboards - Elige una opción - puedes filtrar por:\n${verArrayConOpciones(opcionesMothers)}`);
+            if (parseFloat(op)%1 == 0 && parseFloat(op) >= 1 && parseFloat(op) <= opcionesMothers.length) {   
+                op = opcionesMothers[parseInt(op)-1];
+                op = op.toLowerCase();
+                list = (listar(op,listaMothers));   
+                salir = true;
+            }   
+            else {
+                (salir = false);  
+                alert("Opcion incorrecta, vuelve a intentar");  
+            }    
+        } while (salir == false)    
+            
+        do  {
+            opc = prompt (verArrayConOpciones(list));
+            if (parseFloat(opc)%1 == 0 && parseFloat(opc) >= 1 && parseFloat(opc) <= list.length) {
+                opc = list[parseInt(opc)-1];
+                filtroComponentes = listaMothers.filter((el) => el[op] == opc);
+                if (filtroComponentes.length > 1) {   
+                    do {
+                        opc = prompt(mostrarDescripcion(filtroComponentes));
+                        if (parseFloat(opc)%1 == 0 && parseFloat(opc) >= 1 && parseFloat(opc) <= filtroComponentes.length) {
+                            componenteElegido = filtroComponentes[parseInt(opc)-1];
+                            alert(`Has elegido:\n${componenteElegido.describir()}`);
+                            salir = true;
+                        }    
+                        else {
+                            salir = false;    
+                            alert("Opcion incorrecta, vuelve a intentar");
+                        }
+                    } while (salir == false)   
+
+                } 
+                else {alert(`Has elegido:\n${filtroComponentes[0].describir()}`)}; 
+                salir = true;
+            }   
+            else {
+                (salir = false);  
+                alert("Opcion incorrecta, vuelve a intentar");  
+            }    
+        } while (salir == false)    
 
         break;
 
 
 
-        case "3": op = prompt (`Memorias RAM - Elige una opción - puedes filtrar por:\n${verArrayConOpciones(opcionesMemorias)}`);
-        op = opcionesMemorias[parseInt(op)-1];
-        op = op.toLowerCase();
-        list = (listar(op,listaMemorias))
-        
-        opc = prompt (verArrayConOpciones(list));
-        opc = list[parseInt(opc)-1];
-        filtroComponentes = listaMemorias.filter((el) => el[op] == opc);
-        if (filtroComponentes.length > 1) {      
-            opc = prompt(mostrarDescripcion(filtroComponentes));
-            componenteElegido = filtroComponentes[parseInt(opc)-1];
-            alert(`Has elegido:\n${componenteElegido.describir()}`);
-        } else alert(`Has elegido:\n${filtroComponentes[0].describir()}`); 
+        case "3": 
+        do {
+            op = prompt(`Memorias RAM - Elige una opción - puedes filtrar por:\n${verArrayConOpciones(opcionesMemorias)}`);
+            if (parseFloat(op)%1 == 0 && parseFloat(op) >= 1 && parseFloat(op) <= opcionesMemorias.length) {   
+                op = opcionesMemorias[parseInt(op)-1];
+                op = op.toLowerCase();
+                list = (listar(op,listaMemorias));   
+                salir = true;
+            }   
+            else {
+                (salir = false);  
+                alert("Opcion incorrecta, vuelve a intentar");  
+            }    
+        } while (salir == false)    
+            
+        do  {
+            opc = prompt (verArrayConOpciones(list));
+            if (parseFloat(opc)%1 == 0 && parseFloat(opc) >= 1 && parseFloat(opc) <= list.length) {
+                opc = list[parseInt(opc)-1];
+                filtroComponentes = listaMemorias.filter((el) => el[op] == opc);
+                if (filtroComponentes.length > 1) {   
+                    do {
+                        opc = prompt(mostrarDescripcion(filtroComponentes));
+                        if (parseFloat(opc)%1 == 0 && parseFloat(opc) >= 1 && parseFloat(opc) <= filtroComponentes.length) {
+                            componenteElegido = filtroComponentes[parseInt(opc)-1];
+                            alert(`Has elegido:\n${componenteElegido.describir()}`);
+                            salir = true;
+                        }    
+                        else {
+                            salir = false;    
+                            alert("Opcion incorrecta, vuelve a intentar");
+                        }
+                    } while (salir == false)   
+
+                } 
+                else {alert(`Has elegido:\n${filtroComponentes[0].describir()}`)}; 
+                salir = true;
+            }   
+            else {
+                (salir = false);  
+                alert("Opcion incorrecta, vuelve a intentar");  
+            }    
+        } while (salir == false)    
 
         break;
-
+        
 
 
 
