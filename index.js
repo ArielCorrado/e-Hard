@@ -66,7 +66,7 @@ listaMicros[9] = new micro ("Microprocesador", "Intel", "Core i5 12400", "LGA170
 listaMicros[10] = new micro ("Microprocesador", "Intel", "Core i7 12700KF", "LGA1700", "5.0Ghz", 87900);
 listaMicros[11] = new micro ("Microprocesador", "Intel", "Core i9 12900KF", "LGA1700", "5.2Ghz", 147719);
 
-const opcionesMicros = "Marca,Modelo,Socket,Frecuencia,Mostrar Todo".split(",");   //Array con las opciones a mostrar en el buscador
+const opcionesMicros = "Marca,Socket,Frecuencia,Mostrar Todo".split(",");   //Array con las opciones a mostrar en el buscador
 
 
 
@@ -84,7 +84,7 @@ listaMothers[7] = new motherboard ("Motherboard", "Msi", "PRO B660M-G", "LGA1700
 listaMothers[8] = new motherboard ("Motherboard", "Msi", "PRO Z690-A", "LGA1700", "DDR4", 47900);
 listaMothers[9] = new motherboard ("Motherboard", "Msi", "Z690 Tomahawk WiFi", "LGA1700", "DDR4", 64900);
 
-const opcionesMothers = "Marca,Modelo,Socket,Memoria,Mostrar Todo".split(",");   //Array con las opciones a mostrar en el buscador
+const opcionesMothers = "Marca,Socket,Memoria,Mostrar Todo".split(",");   //Array con las opciones a mostrar en el buscador
 
 
 
@@ -318,129 +318,4 @@ function mostrarDescripciones (lista) {             //Esta función crea un stri
 
 
 
-
-
-
-
-
-/*
-let total;
-let productosElegidos = "";
-let cuotas;
-let recargo;
-let descuentoEyT = 10;          //Descuento efectivo y transferencia en %
-let opcion;
-let confirmar;
-
-do {    
-
-    total = 0;
-    productosElegidos = "";
-
-    alert("Bienvenido a e-Hard Computación a continuación podrás elegir un combo de actualización para tu PC que incluye MotherBoard, Microprocesador y memoria RAM. Presiona Enter para comenzar");     
-
-    opciones (listaMicros);
-    opciones (listaMothers);
-    opciones (listaMemorias);
-
-    alert ("Has elegido los siguientes componentes:\n\n" + productosElegidos + "\n" + "TOTAL: $" + total);
-
-    metodosDePago ();
-        
-} while(confirmar == null);
-
-
-function metodosDePago () {
-
-    do {
-        opcion = prompt ("Como desea pagar?:\n\n 1: Efectivo / transferencia bancaria (10% de descuento) \n 2: Tarjeta de credito en cuotas");
-        switch (opcion) {
-            case "1": 
-                confirmar = prompt("El total a pagar es: $" + total * (1 - descuentoEyT/100) + "\nPresione 'Aceptar' para confirmar o 'Cancelar' para volver a empezar");
-                break;
-            case "2": 
-                do {
-                    cuotas = prompt("Elija la cantidad de cuotas \n\n" +
-                    "1: 1 x $" + total + "\n" + 
-                    "3: 3 x $" + ((total * 1.09)/3).toFixed(2) + " ($" + (total * 1.09).toFixed(2) + ")\n" + 
-                    "6: 6 x $" + ((total * 1.18)/6).toFixed(2) + " ($" + (total * 1.18).toFixed(2) + ")\n" + 
-                    "12: 12 x $" + ((total * 1.27)/12).toFixed(2) + " ($" + (total * 1.27).toFixed(2) + ")" );
-                    
-                        switch (cuotas) {
-                            case "1": 
-                                recargo = 1;
-                                informarCuotas();
-                                break;
-                            case "3": 
-                                recargo = 1.09;
-                                informarCuotas();
-                                break;    
-                            case "6": 
-                                recargo = 1.18;
-                                informarCuotas();
-                                break;  
-                            case "12": 
-                                recargo = 1.27;
-                                informarCuotas();
-                                break; 
-                            default:
-                                alert("La opción ingresada no es correcta, vuelva a intentar");    
-                        }
-                    
-                } while (cuotas!= "1" && cuotas!="3" && cuotas!="6" && cuotas!="12");
-                break;
-                
-            default:  
-                alert("La opción ingresada no es correcta, vuelva a intentar");
-
-        }
-        
-    } while (opcion!="1" && opcion!="2")
-
-}
-
-
-function informarCuotas () {
-
-    confirmar = prompt("Has elegido la siguiente forma de pago:\n\n" + 
-            cuotas + " cuota/s de $" + (total * recargo /cuotas).toFixed(2) + " por un total de: $" + (total * recargo).toFixed(2) + 
-            "\nPresione 'Aceptar' para confirmar o 'Cancelar' para volver a empezar");
-}
-
-
-function opciones (list) { 
-  
-    let i = 1;                                          //Muestra en pantalla la lista de micros/mothers/memorias
-    let mensaje = ""; 
-    for (let producto of list) {
-        mensaje += `\n${i}: ${producto.describir()} $${producto.precio}`;
-        i++;  
-    }    
-
-    let opcion;
-    let salir;
-  
-    do {
-        
-        opcion = parseFloat(prompt(`Elige un componente de la siguiente lista ingresando el número de opción: ${mensaje}`));
-                
-        if (opcion%1 == 0  && opcion >= 1 && opcion <= list.length)  {          //Si "opcion" es entero entre 1 y el número de elementos del array..
-            
-            total += list[opcion-1].precio;
-            productosElegidos += `${list[opcion-1].describir()}\n`;
-            salir = true;
-
-        } else {
-            alert("La opción ingresada no es correcta, vuelva a intentar");
-            salir = false;
-        }
-    
-    } while (!salir)
-
-}
-
-
-
-
-*/
 
