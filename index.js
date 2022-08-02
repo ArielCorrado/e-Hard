@@ -1,5 +1,5 @@
 class memoriaRam {
-    constructor ( descripcion, marca, modelo, tipo, capacidad, frecuencia, precio) {
+    constructor ( descripcion, marca, modelo, tipo, capacidad, frecuencia, precio, cantidad) {
         this.descripcion = descripcion;
         this.marca = marca;
         this.modelo = modelo;
@@ -7,7 +7,8 @@ class memoriaRam {
         this.capacidad = capacidad;
         this.frecuencia = frecuencia;
         this.precio = precio;
-    
+            this.cantidad = cantidad;
+        
         this.opcionesBusqueda = "Marca,Modelo,Tipo,Capacidad,Frecuencia,Mostrar Todo".split(",");
 
         this.describir = () => {
@@ -19,13 +20,14 @@ class memoriaRam {
 }
 
 class motherboard {
-    constructor ( descripcion, marca, modelo, socket, memoria, precio) {
+    constructor ( descripcion, marca, modelo, socket, memoria, precio, cantidad) {
         this.descripcion = descripcion;
         this.marca = marca;
         this.modelo = modelo;
         this.socket = socket;
         this.memoria = memoria;
         this.precio = precio;
+            this.cantidad = cantidad;
     
         this.opcionesBusqueda = "Marca,Socket,Memoria,Mostrar Todo".split(","); 
 
@@ -38,13 +40,14 @@ class motherboard {
 }
 
 class micro {
-    constructor ( descripcion, marca, modelo, socket, frecuencia, precio) {
+    constructor ( descripcion, marca, modelo, socket, frecuencia, precio, cantidad) {
         this.descripcion = descripcion;
         this.marca = marca;
         this.modelo = modelo;
         this.socket = socket;
         this.frecuencia = frecuencia;
         this.precio = precio;
+            this.cantidad = cantidad;
 
         this.opcionesBusqueda = "Marca,Socket,Frecuencia,Mostrar Todo".split(","); 
     
@@ -145,15 +148,28 @@ do {
     listaDeOpciones = mostrarDescripciones(filtro);
     mostrarMensaje(`Ingrese una opción:\n${listaDeOpciones}`)
     opc = filtro[parseInt(op)-1];  
-    carrito.push(opc);
+    
+    do {
+        op = prompt ("Ingrese la cantidad de unidades:");
+        if (parseFloat(op)%1 == 0 && parseFloat(op) >=1 && parseFloat(op) <= 5) {
+            break;
+        }
+        else {
+            alert("Opción incorrecta. Vuelve a intentar");
+            salir = false;
+        }
+    } while (salir == false)    
 
+    opc.cantidad = op;
+
+    carrito.push(opc);
     total = 0;
     for (let el of carrito) {
-        total += el.precio;
+        total += el.precio * el.cantidad;
     }
 
     do {
-        op = prompt(`Has elegido:\n\n${mostrarDescripSN(carrito)}TOTAL: $${total}\n\n Quieres agregar otro producto? Presiona 'Aceptar' para agregar otro producto o cancelar para ir al pago`);
+        op = prompt(`Has elegido:\n\n${mostrarDescripCC(carrito)}TOTAL: $${total}\n\n Quieres agregar otro producto? Presiona 'Aceptar' para agregar otro producto o cancelar para ir al pago`);
         if (op == "" || op == null) {
             break;
         }
@@ -166,8 +182,42 @@ do {
 
 } while (op == "")
 
+do {
+
+    op = prompt ("Elige la forma de Pago:\n\n1: Efectivo - Transferencia - Mercadopago (10% OFF)\n2: Tarjeta de credito");
+    if ( op != "1" && op != "2")    {
+        alert("Opción incorrecta. Vuelve a intentar");
+        salir = false;
+    } else {
+        break;
+    }
+
+} while (salir == false);
+
+switch (op) {
+    case "1":
+        alert (`El total a pagar es $${(total*0.9).toFixed(2)}\n\nGracias por su compra!`)
+        break;
+    case "2":
+        op = prompt (`Ingresa la cantidad de cuotas:\n\n1 Cuota de $${total.toFixed(2)}\n3 Cuotas de $${(total*1.09/3).toFixed(2)} por un total de $${(total*1.09).toFixed(2)}\n6 Cuotas de $${(total*1.18/6).toFixed(2)} por un total de $${(total*1.18).toFixed(2)}\n12 Cuotas de $${(total*1.36/12).toFixed(2)} por un total de $${(total*1.36).toFixed(2)}`);  
+        op = parseInt(op);
+        alert (`La forma de pago es:\n\n${op} cuota/s de $${(total*interes(op)/op).toFixed(2)}\nPor un total de $${(total*interes(op)).toFixed(2)}\n\nGracias por su compra!`)
+        break;
+    default: alert("Opción incorrecta. Vuelve a intentar");     
+}
 
 
+
+
+
+function interes (cc) { 
+    if (cc == 1) {
+        return 1;
+    } 
+    else { 
+        return (1 + (0.03 * cc));
+    }
+}
 
 function mostrarMensaje (msj) { 
     do {
@@ -216,10 +266,10 @@ function mostrarDescripciones (lista) {           //Esta función crea un string
     return desc;
 }
 
-function mostrarDescripSN (lista) {               //Esta función crea un string sin números de opcion para las descripciones 
-    let desc = "";                                //que genera el método "describir()"
+function mostrarDescripCC (lista) {               //Esta función crea un string con la cantidad de productos elegidos y su valor 
+    let desc = "";                                //"lista" es un array de objetos
     for (let list of lista) {
-        desc += `${list.describir()}\n`;
+        desc += `${list.cantidad}x ${list.describir()}\n`;
     }
     return desc;
 }
