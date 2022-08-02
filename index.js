@@ -1,15 +1,17 @@
 class memoriaRam {
-    constructor ( descripcion, marca, modelo, tipo, tamano, frecuencia, precio) {
+    constructor ( descripcion, marca, modelo, tipo, capacidad, frecuencia, precio) {
         this.descripcion = descripcion;
         this.marca = marca;
         this.modelo = modelo;
         this.tipo = tipo;
-        this.tamano = tamano;
+        this.capacidad = capacidad;
         this.frecuencia = frecuencia;
         this.precio = precio;
     
+        this.opcionesBusqueda = "Marca,Modelo,Tipo,Capacidad,Frecuencia,Mostrar Todo".split(",");
+
         this.describir = () => {
-            return (`${this.descripcion} ${this.marca} ${this.modelo} ${this.tipo} ${this.tamano} ${this.frecuencia} $${this.precio}`);
+            return (`${this.descripcion} ${this.marca} ${this.modelo} ${this.tipo} ${this.capacidad} ${this.frecuencia} $${this.precio}`);
         } 
 
     }
@@ -25,6 +27,8 @@ class motherboard {
         this.memoria = memoria;
         this.precio = precio;
     
+        this.opcionesBusqueda = "Marca,Socket,Memoria,Mostrar Todo".split(","); 
+
         this.describir = () => {
             return (`${this.descripcion} ${this.marca} ${this.modelo} ${this.socket} ${this.memoria} $${this.precio}`);
         } 
@@ -41,6 +45,8 @@ class micro {
         this.socket = socket;
         this.frecuencia = frecuencia;
         this.precio = precio;
+
+        this.opcionesBusqueda = "Marca,Socket,Frecuencia,Mostrar Todo".split(","); 
     
         this.describir = () => {
             return (`${this.descripcion} ${this.marca} ${this.modelo} ${this.socket} ${this.frecuencia} $${this.precio}`);
@@ -66,9 +72,6 @@ listaMicros[9] = new micro ("Microprocesadores", "Intel", "Core i5 12400", "LGA1
 listaMicros[10] = new micro ("Microprocesadores", "Intel", "Core i7 12700KF", "LGA1700", "5.0Ghz", 87900);
 listaMicros[11] = new micro ("Microprocesadores", "Intel", "Core i9 12900KF", "LGA1700", "5.2Ghz", 147719);
 
-const opcionesMicros = "Marca,Socket,Frecuencia,Mostrar Todo".split(",");   //Array con las opciones a mostrar en el buscador
-
-
 
 
 const listaMothers = [];
@@ -83,9 +86,6 @@ listaMothers[6] = new motherboard ("Motherboards", "Msi", "PRO H610M-G", "LGA170
 listaMothers[7] = new motherboard ("Motherboards", "Msi", "PRO B660M-G", "LGA1700", "DDR4", 25800);
 listaMothers[8] = new motherboard ("Motherboards", "Msi", "PRO Z690-A", "LGA1700", "DDR4", 47900);
 listaMothers[9] = new motherboard ("Motherboards", "Msi", "Z690 Tomahawk WiFi", "LGA1700", "DDR4", 64900);
-
-const opcionesMothers = "Marca,Socket,Memoria,Mostrar Todo".split(",");   //Array con las opciones a mostrar en el buscador
-
 
 
 
@@ -102,129 +102,88 @@ listaMemorias[7] = new memoriaRam ("Memorias RAM", "kingston", "fury", "ddr4", "
 listaMemorias[8] = new memoriaRam ("Memorias RAM", "Corsair", "Vengance Rgb Pro Blanco", "ddr4", "16gb (2x8Gb)", "2666mhz", 20500);
 listaMemorias[9] = new memoriaRam ("Memorias RAM", "Corsair", "Vengance Rgb Pro Blanco", "ddr4", "16gb (2x8Gb)", "3600mhz", 24000);
 
-const opcionesMemorias = "Marca,Modelo,Tipo,Tamano,Frecuencia,Mostrar Todo".split(",");   //Array con las opciones a mostrar en el buscador
 
-
-const opcionesProductos  = [];
-opcionesProductos[0] = opcionesMicros;
-opcionesProductos[1] = opcionesMothers;
-opcionesProductos[2] = opcionesMemorias;
-
-//const opcionesHardware = "Microprocesadores,Motherboards,Memorias RAM".split(",");
 
 
 
 alert("Bienvenido a e-Hard computación, a continuación podrás buscar y elegir hardware para tu PC, presiona 'ENTER' para continuar");
 
-let todosLosProductos = [];
-todosLosProductos = todosLosProductos.concat(listaMicros, listaMothers, listaMemorias);
-let salir;
-let opciones; 
-let listaDeOpciones; 
+let filtro = [];
 let op;
 let opc;
-let filtro;
-let opcionesAmostrar;
-let productoElegido;
+let opc2;
+let opcAnterior;
+let opciones;
+let listaDeOpciones;
 let carrito = [];
-let carritoLleno = false;
 let total;
+let salir;
+
+do {
+
+    filtro = filtro.concat (listaMicros, listaMothers, listaMemorias);
+
+    opciones = arrayDeOpciones("descripcion", filtro);
+    listaDeOpciones = verArrayComoLista (opciones);
+    mostrarMensaje(`Ingrese una opción de búsqueda. Puedes filtrar por:\n${listaDeOpciones}`)
+    opc = opciones[parseInt(op)-1];                 // opc puede ser por ej. "Memorias RAM"
+    filtro = filtro.filter((el) => el.descripcion == opc);   //Acá pueden quedar por ejemplo las "memorias RAM"
 
 
-do {opciones = listarOpciones ("descripcion",todosLosProductos);
+    opciones = filtro[0].opcionesBusqueda;  //Cargamos las opciones de busqueda del primer elemento de la lista
+    listaDeOpciones = verArrayComoLista (opciones);
+    mostrarMensaje(`Ingrese una opción de búsqueda. Puedes filtrar por:\n${listaDeOpciones}`)
+    opc = opciones[parseInt(op)-1];         //opc puede ser por ej. "frecuencia"
+    opc = opc.toLowerCase();
+    opciones = arrayDeOpciones (opc,filtro);
     listaDeOpciones = verArrayComoLista (opciones);
 
-    op = prompt (`Elige una opción de busqueda:\n${listaDeOpciones}`)       //op es el numero de opción: 1, 2, 3 etc.
-    if (parseFloat(op)%1 == 0 && parseFloat(op) >= 1 && parseFloat(op) <= opciones.length)  {
+    mostrarMensaje(`Ingrese una opción de búsqueda. Puedes filtrar por:\n${listaDeOpciones}`)
+    opc2 = opciones[parseInt(op)-1];                                 //opc puede ser por ej: "2666mhz"
+    filtro = filtro.filter((el) => el[opc] == opc2);  
 
-        opc = opciones [parseInt(op)-1];                                        //opc es el nombre de la opcion: Microprocesadores, Motherboards, etc    
-        filtro = todosLosProductos.filter((el) => el.descripcion == opc);
+    listaDeOpciones = mostrarDescripciones(filtro);
+    mostrarMensaje(`Ingrese una opción:\n${listaDeOpciones}`)
+    opc = filtro[parseInt(op)-1];  
+    carrito.push(opc);
 
-        opcionesAmostrar = opcionesProductos[parseInt(op)-1];
-
-        do {
-            op = prompt (`${opc} - Elige una opción: Puedes filtrar por:\n${verArrayComoLista(opcionesAmostrar)}`);
-            if (parseFloat(op)%1 == 0 && parseFloat(op) >= 1 && parseFloat(op) <= opcionesAmostrar.length)  {
-
-                opc = opcionesAmostrar [parseInt(op)-1];
-                opc = opc.toLowerCase();                        //opc puede ser por ej: "marca"
-                opciones = listarOpciones (opc, filtro);
-                listaDeOpciones = verArrayComoLista (opciones);
-                                
-                do {
-                    op = prompt (`Elige una opción de busqueda:\n${listaDeOpciones}`);     
-                    if (parseFloat(op)%1 == 0 && parseFloat(op) >= 1 && parseFloat(op) <= opciones.length)  {
-
-                        op = opciones [parseInt(op)-1];                 //op puede ser por ej: "Amd";
-                        filtro = filtro.filter((el) => el[opc] == op);
-                        do {
-                            op = prompt (`Elige una opción:\n${mostrarDescripciones(filtro)}`);
-                            if (parseFloat(op)%1 == 0 && parseFloat(op) >= 1 && parseFloat(op) <= filtro.length)  {
-                                productoElegido = filtro [parseInt(op)-1];
-                                carrito.push(productoElegido);
-                                    
-                                total = 0;
-
-                                for (let el of carrito) {
-                                    total += el.precio;
-                                }
-
-                                do {
-                                    op = prompt (`Tu carrito de compras tiene:\n\n ${(mostrarDescripSN(carrito))}\n TOTAL: $${total}\nQuieres agregar otro producto? Presiona 'Aceptar' para agregar otro producto o 'Cancelar' para continuar al pago`);
-                                    if (op == "")   {
-                                        salir = true;
-                                        carritoLleno = false;
-                                    } 
-                                    else if (op == null) {
-                                        salir = true;
-                                        carritoLleno = true;
-                                    }
-                                    else {
-                                        alert ("Opción Incorrecta, vuele a intentar");
-                                        salir = false;
-                                    }
-                                } while (salir == false)   
-
-                                salir = true;
-                            }
-                            else {
-                                alert ("Opción Incorrecta, vuele a intentar");
-                                salir = false; 
-                            }
-
-                        } while (salir == false)   
-
-                        salir = true;
-                    }
-                    else {
-                        alert ("Opción Incorrecta, vuele a intentar");
-                        salir = false;    
-                    }    
-
-                } while (salir == false)   
-
-                salir = true;
-            }
-            else {
-                alert ("Opción Incorrecta, vuele a intentar");
-                salir = false;
-            }  
-
-        } while (salir == false);   
-
-        salir = true;
-    } 
-    else {
-        alert ("Opción Incorrecta, vuele a intentar");
-        salir = false;
+    total = 0;
+    for (let el of carrito) {
+        total += el.precio;
     }
 
-} while (salir == false || carritoLleno == false)
+    do {
+        op = prompt(`Has elegido:\n\n${mostrarDescripSN(carrito)}TOTAL: $${total}\n\n Quieres agregar otro producto? Presiona 'Aceptar' para agregar otro producto o cancelar para ir al pago`);
+        if (op == "" || op == null) {
+            break;
+        }
+        else {
+            alert("Opción incorrecta. Vuelve a intentar");
+            salir = false;
+        }
+    
+    } while (salir == false)    
+
+} while (op == "")
 
 
 
 
-function listarOpciones (opcion, lista) {     //Esta función obtiene determinados valores de un array de objetos
+function mostrarMensaje (msj) { 
+    do {
+        op = prompt(msj);
+        if (parseFloat(op)%1 == 0 && parseFloat(op) >= 1 && parseFloat(op) <= listaDeOpciones.length) {
+            return;
+        } 
+        else {
+            alert("Opción incorrecta. Vuelve a intentar");
+            salir = false;
+        }    
+    } while (salir == false)
+        
+}  
+
+function arrayDeOpciones (opcion, lista) {     //Esta función obtiene determinados valores de un array de objetos
     let valores = [];                         //por ejemplo las diferentes marcas que hay en la lista de memorias.
     let i = 0;                                //"opcion" es un string y "lista" es un array de objetos. La funcion devuelve
     valores[i] = lista[0][opcion];            //Un array de strings
@@ -239,7 +198,7 @@ function listarOpciones (opcion, lista) {     //Esta función obtiene determinad
 }
 
 function verArrayComoLista (array) {       //Esta función genera un string para mostrar en pantalla el cual es una lista con número
-    let lista = "";                          //de opciones. Para un determinado array
+    let lista = "";                        //de opciones. Para un determinado array
     let i = 1;
     for (let el of array) {
         lista += `${i}: ${el}\n`;
@@ -247,7 +206,6 @@ function verArrayComoLista (array) {       //Esta función genera un string para
     }
     return lista;
 }
-
 
 function mostrarDescripciones (lista) {           //Esta función crea un string con números de opcion para las descripciones 
     let desc = "";                                //que genera el método "describir()"
@@ -265,215 +223,5 @@ function mostrarDescripSN (lista) {               //Esta función crea un string
     }
     return desc;
 }
-
-
-
-
-/*
-let o;
-let op;
-let opc;
-let list;
-let salir;
-let componenteElegido;
-let filtroComponentes = [];
-
-do {o = prompt(`Elige una opción de busqueda:\n${verArrayConOpciones(opcionesHardware)}`);
-
-    switch (o) {
-
-        case "1": 
-        do {
-            op = prompt(`Microprocesadores - Elige una opción - puedes filtrar por:\n${verArrayConOpciones(opcionesMicros)}`);
-            if (parseFloat(op)%1 == 0 && parseFloat(op) >= 1 && parseFloat(op) <= opcionesMicros.length) {   
-                op = opcionesMicros[parseInt(op)-1];
-                op = op.toLowerCase();
-                list = (listar(op,listaMicros));   
-                salir = true;
-            }   
-            else {
-                (salir = false);  
-                alert("Opcion incorrecta, vuelve a intentar");  
-            }    
-        } while (salir == false)    
-            
-        do  {
-            opc = prompt (verArrayConOpciones(list));
-            if (parseFloat(opc)%1 == 0 && parseFloat(opc) >= 1 && parseFloat(opc) <= list.length) {
-                opc = list[parseInt(opc)-1];
-                filtroComponentes = listaMicros.filter((el) => el[op] == opc);
-                if (filtroComponentes.length > 1) {   
-                    do {
-                        opc = prompt(mostrarDescripciones(filtroComponentes));
-                        if (parseFloat(opc)%1 == 0 && parseFloat(opc) >= 1 && parseFloat(opc) <= filtroComponentes.length) {
-                            componenteElegido = filtroComponentes[parseInt(opc)-1];
-                            alert(`Has elegido:\n${componenteElegido.describir()}`);
-                            salir = true;
-                        }    
-                        else {
-                            salir = false;    
-                            alert("Opcion incorrecta, vuelve a intentar");
-                        }
-                    } while (salir == false)   
-
-                } 
-                else {alert(`Has elegido:\n${filtroComponentes[0].describir()}`)}; 
-                salir = true;
-            }   
-            else {
-                (salir = false);  
-                alert("Opcion incorrecta, vuelve a intentar");  
-            }    
-        } while (salir == false)    
-
-        break;
-
-
-
-        case "2":         
-        do {
-            op = prompt(`Motherboards - Elige una opción - puedes filtrar por:\n${verArrayConOpciones(opcionesMothers)}`);
-            if (parseFloat(op)%1 == 0 && parseFloat(op) >= 1 && parseFloat(op) <= opcionesMothers.length) {   
-                op = opcionesMothers[parseInt(op)-1];
-                op = op.toLowerCase();
-                list = (listar(op,listaMothers));   
-                salir = true;
-            }   
-            else {
-                (salir = false);  
-                alert("Opcion incorrecta, vuelve a intentar");  
-            }    
-        } while (salir == false)    
-            
-        do  {
-            opc = prompt (verArrayConOpciones(list));
-            if (parseFloat(opc)%1 == 0 && parseFloat(opc) >= 1 && parseFloat(opc) <= list.length) {
-                opc = list[parseInt(opc)-1];
-                filtroComponentes = listaMothers.filter((el) => el[op] == opc);
-                if (filtroComponentes.length > 1) {   
-                    do {
-                        opc = prompt(mostrarDescripciones(filtroComponentes));
-                        if (parseFloat(opc)%1 == 0 && parseFloat(opc) >= 1 && parseFloat(opc) <= filtroComponentes.length) {
-                            componenteElegido = filtroComponentes[parseInt(opc)-1];
-                            alert(`Has elegido:\n${componenteElegido.describir()}`);
-                            salir = true;
-                        }    
-                        else {
-                            salir = false;    
-                            alert("Opcion incorrecta, vuelve a intentar");
-                        }
-                    } while (salir == false)   
-
-                } 
-                else {alert(`Has elegido:\n${filtroComponentes[0].describir()}`)}; 
-                salir = true;
-            }   
-            else {
-                (salir = false);  
-                alert("Opcion incorrecta, vuelve a intentar");  
-            }    
-        } while (salir == false)    
-
-        break;
-
-
-
-        case "3": 
-        do {
-            op = prompt(`Memorias RAM - Elige una opción - puedes filtrar por:\n${verArrayConOpciones(opcionesMemorias)}`);
-            if (parseFloat(op)%1 == 0 && parseFloat(op) >= 1 && parseFloat(op) <= opcionesMemorias.length) {   
-                op = opcionesMemorias[parseInt(op)-1];
-                op = op.toLowerCase();
-                list = (listar(op,listaMemorias));   
-                salir = true;
-            }   
-            else {
-                (salir = false);  
-                alert("Opcion incorrecta, vuelve a intentar");  
-            }    
-        } while (salir == false)    
-            
-        do  {
-            opc = prompt (verArrayConOpciones(list));
-            if (parseFloat(opc)%1 == 0 && parseFloat(opc) >= 1 && parseFloat(opc) <= list.length) {
-                opc = list[parseInt(opc)-1];
-                filtroComponentes = listaMemorias.filter((el) => el[op] == opc);
-                if (filtroComponentes.length > 1) {   
-                    do {
-                        opc = prompt(mostrarDescripciones(filtroComponentes));
-                        if (parseFloat(opc)%1 == 0 && parseFloat(opc) >= 1 && parseFloat(opc) <= filtroComponentes.length) {
-                            componenteElegido = filtroComponentes[parseInt(opc)-1];
-                            alert(`Has elegido:\n${componenteElegido.describir()}`);
-                            salir = true;
-                        }    
-                        else {
-                            salir = false;    
-                            alert("Opcion incorrecta, vuelve a intentar");
-                        }
-                    } while (salir == false)   
-
-                } 
-                else {alert(`Has elegido:\n${filtroComponentes[0].describir()}`)}; 
-                salir = true;
-            }   
-            else {
-                (salir = false);  
-                alert("Opcion incorrecta, vuelve a intentar");  
-            }    
-        } while (salir == false)    
-
-        break;
-        
-
-
-
-        default: alert("Opcion incorrecta, vuelve a intentar");
-        break;
-    }
-
-} while (o != "1" && o !="2" && o !="3")
-
-
-
-
-
-
-function verArrayConOpciones (array) {       //Esta función genera un string para mostrar en pantalla el cual es una lista con número
-    let lista = "";                          //de opciones. Para un determinado array
-    let i = 1;
-    for (let el of array) {
-        lista += `${i}: ${el}\n`;
-        i++;
-    }
-    return lista;
-}
-
-
-function listar (opcion, lista) {           //Esta función obtiene determinados valores de un array
-    let valores = [];                       //por ejemplo las diferentes marcas que hay en la lista de memorias.
-    let i = 0;                              //"opcion" es un string y "lista" es un array
-    valores[i] = lista[0][opcion];
-    for (let elemento of lista) {
-        
-        if (!(valores.some((el) => el == elemento[opcion])))   {
-            i++;
-            valores[i] = elemento[opcion];
-        }
-    }
-    return valores;
-}
-
-
-function mostrarDescripciones (lista) {             //Esta función crea un string con números de opcion para las descripciones 
-    let desc = "";                                //que genera el método "describir()"
-    let i = 1;
-    for (let list of lista) {
-        desc += `${i++}: ${list.describir()}\n`;
-    }
-    return desc;
-}
-
-*/
-
 
 
