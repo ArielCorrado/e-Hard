@@ -16,6 +16,16 @@ body {
     align-items: center;
 }
 
+.flexColumn {
+    flex-direction: column;
+}
+
+.general {
+    height: 100vh;
+    flex-direction: column;
+    padding-bottom: 300px;
+}
+
 .opcionesCont {
     flex-direction: column;
 }
@@ -36,6 +46,7 @@ body {
     position: absolute;
     height: 200px;
     bottom: 0;
+    flex-direction: row;
 }
 
 .cartasCarrito {
@@ -43,6 +54,7 @@ body {
     flex-direction: column;
     position: relative;
     border: 1px solid rgb(14, 14, 59);
+    padding: 10px;
 }
 
 .imagenesCarrito {
@@ -55,4 +67,19 @@ body {
     left: 0;
 }
 
+.total {
+    color: brown;
+    margin-bottom: 50px;
+}
 
+.botones {
+    min-width: 100px;
+    min-height: 20px;
+    margin: 5px;
+    padding: 3px;
+}
+
+.gracias {
+    margin-top: 50px;
+    color: rgb(64, 64, 158)
+}
