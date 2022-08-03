@@ -1,0 +1,58 @@
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    height: 100vh;
+    position: relative;
+}
+
+.flex {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.opcionesCont {
+    flex-direction: column;
+}
+
+.opciones {
+    display: inline-block;
+}
+
+.prodDesc {
+    flex-direction: column;
+}
+
+.imagenes {
+    height: 300px;
+}
+
+.carrito {
+    position: absolute;
+    height: 200px;
+    bottom: 0;
+}
+
+.cartasCarrito {
+    height: 100%;
+    flex-direction: column;
+    position: relative;
+    border: 1px solid rgb(14, 14, 59);
+}
+
+.imagenesCarrito {
+    height: 80%;
+}
+
+.cantCarrito {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+
