@@ -186,7 +186,7 @@ function mostrarProductoElegido (prod) {
     document.getElementById("btnCarrito").onclick = () => {     
         cant = document.getElementById("prodCant").value;
         if (cant > 10) {
-            document.getElementById("cantEx").innerHTML = `<h3>No tenemos esa cantidad (máximo 10)</h3>`
+            document.getElementById("cantEx").innerHTML = `<h3 class="cantMax">No tenemos esa cantidad (máximo 10)</h3>`
             return;
         }           
         document.getElementById("cantEx").innerHTML = ""; 

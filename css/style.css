@@ -83,3 +83,7 @@ body {
     margin-top: 50px;
     color: rgb(64, 64, 158)
 }
+
+.cantMax {
+    color: red;
+}
