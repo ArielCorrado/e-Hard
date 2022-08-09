@@ -23,7 +23,7 @@ body {
 .general {
     height: 100vh;
     flex-direction: column;
-    padding-bottom: 300px;
+    padding-bottom: 200px;
 }
 
 .opcionesCont {
@@ -74,9 +74,14 @@ body {
 
 .botones {
     min-width: 100px;
-    min-height: 20px;
+    min-height: 30px;
     margin: 5px;
-    padding: 3px;
+    padding: 3px 10px;
+    background-color: rgb(157, 157, 216);
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bolder;
+    border: none;
 }
 
 .gracias {
@@ -86,4 +91,16 @@ body {
 
 .cantMax {
     color: red;
+}
+
+.closeIcons {
+    position: absolute;
+    height: 30px;
+    top: 0;
+    right: 0;
+    cursor: pointer;
+}
+
+.agregar {
+    margin-top: 80px;
 }

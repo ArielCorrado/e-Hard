@@ -119,6 +119,9 @@ let carrito = [];
 let total = 0;
 let cant;
 
+let prodAEliminar;
+let botonesClose;
+
 
 inicio ();
 
@@ -185,10 +188,15 @@ function mostrarProductoElegido (prod) {
     
     document.getElementById("btnCarrito").onclick = () => {     
         cant = document.getElementById("prodCant").value;
-        if (cant > 10) {
-            document.getElementById("cantEx").innerHTML = `<h3 class="cantMax">No tenemos esa cantidad (máximo 10)</h3>`
+        if (cant%1 == 0 && cant > 0)    {
+            if (cant > 10) {
+                document.getElementById("cantEx").innerHTML = `<h3 class="cantMax">No tenemos esa cantidad (máximo 10)</h3>`;
+                return;
+            }       
+        }  else {
+            document.getElementById("cantEx").innerHTML = `<h3 class="cantMax">Ingrese una cantidad válida</h3>`;
             return;
-        }           
+        }      
         document.getElementById("cantEx").innerHTML = ""; 
         prod.cantidad = document.getElementById("prodCant").value;
         carrito.push(prod);                                  //Agregamos producto al carrito
@@ -202,18 +210,40 @@ function mostrarCarrito () {
         document.getElementById("carrito").innerHTML += `<div class="cartasCarrito flex">
                                                             <h2 class="cantCarrito" id="cantCarrito">${prod.cantidad}X</h2>   
                                                             <img class="imagenesCarrito" src="${prod.imgScr}" alt="">
+                                                            <img class="closeIcons" src="./images/close.png" alt="">
                                                             <p>${prod.describir()}<p> 
-                                                         </div>                                                       `
+                                                         </div>`
     }                               
+     
+    if (document.getElementById("prodCantCont")!=null)  {   //Si el input para ingresar cantidad esta en pantalla...
+        document.getElementById("prodCantCont").innerHTML = `<button class="botones" id="otroProdBtn">Agregar otro Producto</button> <button class="botones" id="contBtn">Continuar al pago</button>`
+        document.getElementById("otroProdBtn").addEventListener("click", inicio);
+        document.getElementById("contBtn").addEventListener("click", pago);
+    }    
+
+    botonesClose = document.getElementsByClassName("closeIcons");       //Cargamos listeners en botones de eliminar productos del carrito
+    for (let boton of botonesClose) {
+        boton.addEventListener("click", eliminarProd);
+    }
+   
+}
+
+function eliminarProd () {
+    prodAEliminar = this.nextElementSibling.innerHTML;
+    carrito = carrito.filter((el) => el.describir() != prodAEliminar);
+    mostrarCarrito();    
     
-    document.getElementById("prodCantCont").innerHTML = `<button class="botones" id="otroProdBtn">Agregar otro Producto</button> <button class="botones" id="contBtn">Continuar al pago</button>`
-    document.getElementById("otroProdBtn").addEventListener("click", inicio);
-    document.getElementById("contBtn").addEventListener("click", pago);
+    if (document.getElementById("1Cuota")!=null){           //Si estamos en la pantalla de cuotas actualizamos los montos listados
+        pagoTarjeta();
+    } else if (document.getElementById("metodoPago")!=null){           //Si estamos en la pantalla de metodo de pago actualizamos los productos listados
+        pago();
+    }
+    
 }
 
 function pago () {
     document.getElementById("general").innerHTML = `<div class="flex prodDesc"><p id="hasElegido">Tu carrito tiene los siguientes productos:</p></div>`
-
+    total = 0;
     for (let prod of carrito) {
         document.getElementById("general").innerHTML += `<div class="flex"><h2>${prod.cantidad}X ${prod.describir()}</h2><div>`
         total += prod.precio * prod.cantidad;
@@ -223,28 +253,45 @@ function pago () {
                                                         <div class="flex"><p>Tienes las siguientes formas de pago:</p></div>   
                                                         <div class="flex"><h3>Efectivo - Transferecia Bancaria - Mercadopago: 10% OFF</h3><button class="botones" id="10OffBtn">Seleccionar</button></div>
                                                         <div class="flex"><h3>Tarjeta de Crédito</h3><button class="botones" id="tarjetaBtn">Seleccionar</button></div>    
+                                                        <button class="botones agregar" id="otroProdBtn">Agregar otro Producto</button>
                                                     </div>    
                                                     `
     document.getElementById("10OffBtn").addEventListener("click", pago10Off);
     document.getElementById("tarjetaBtn").addEventListener("click", pagoTarjeta);
+    document.getElementById("otroProdBtn").addEventListener("click", inicio);
+   
 }
 
 function pago10Off () {
     document.getElementById("metodoPago").innerHTML = `<div class="flex total"><h2>TOTAL: $${total}</h2></div>
-                                                       <h1> El Total a pagar es de $${total*0.9} (10% OFF)</h1><br><br>
+                                                       <h1> El Total a pagar es de $${(total*0.9).toFixed(2)} (10% OFF)</h1><br><br>
                                                        <h2 class="gracias"> Gracias por tu compra! </h2> 
-    
-                                                        `
+                                                      `
+    botonesClose = document.querySelectorAll(".closeIcons");        //Sacamos iconos de eliminar elemento del carrito
+    for (let boton of botonesClose) {
+        boton.remove();
+    }                                                
 }
 
 function pagoTarjeta () {
-    document.getElementById("metodoPago").innerHTML = `<div class="flex total"><h2>TOTAL: $${total}</h2></div>
-                                                       <div class="flex"><p>Tienes las siguientes formas de pago:</p></div>  
-                                                       <div class="flex"><h3>1 Cuota de $${total} </h3><button class="botones" id="1Cuota">Seleccionar</button></div>
-                                                       <div class="flex"><h3>3 Cuotas de $${(total*1.09/3).toFixed(2)} por un total de $${(total*1.09).toFixed(2)} </h3><button class="botones" id="3Cuotas">Seleccionar</button></div> 
-                                                       <div class="flex"><h3>6 Cuotas de $${(total*1.18/6).toFixed(2)} por un total de $${(total*1.18).toFixed(2)} </h3><button class="botones" id="6Cuotas">Seleccionar</button></div>  
-                                                       <div class="flex"><h3>12 Cuotas de $${(total*1.36/12).toFixed(2)} por un total de $${(total*1.36).toFixed(2)} </h3><button class="botones" id="12Cuotas">Seleccionar</button></div> 
-                                                        `
+    document.getElementById("general").innerHTML = `<div class="flex prodDesc"><p id="hasElegido">Tu carrito tiene los siguientes productos:</p></div>`
+    total = 0;
+    for (let prod of carrito) {
+        document.getElementById("general").innerHTML += `<div class="flex"><h2>${prod.cantidad}X ${prod.describir()}</h2><div>`
+        total += prod.precio * prod.cantidad;
+    }
+    document.getElementById("general").innerHTML += `<div class="flex flexColumn" id="metodoPago">
+                                                            <div class="flex total"><h2>TOTAL: $${total}</h2></div>
+                                                            <div class="flex"><p>Tienes las siguientes formas de pago:</p></div>  
+                                                            <div class="flex"><h3>1 Cuota de $${total} </h3><button class="botones" id="1Cuota">Seleccionar</button></div>
+                                                            <div class="flex"><h3>3 Cuotas de $${(total*1.09/3).toFixed(2)} por un total de $${(total*1.09).toFixed(2)} </h3><button class="botones" id="3Cuotas">Seleccionar</button></div> 
+                                                            <div class="flex"><h3>6 Cuotas de $${(total*1.18/6).toFixed(2)} por un total de $${(total*1.18).toFixed(2)} </h3><button class="botones" id="6Cuotas">Seleccionar</button></div>  
+                                                            <div class="flex"><h3>12 Cuotas de $${(total*1.36/12).toFixed(2)} por un total de $${(total*1.36).toFixed(2)} </h3><button class="botones" id="12Cuotas">Seleccionar</button></div> 
+                                                            <button class="botones agregar" id="otroProdBtn">Agregar otro Producto</button>
+                                                        </div>`
+
+    document.getElementById("otroProdBtn").addEventListener("click", inicio);
+
     let finPago = document.getElementsByClassName("botones") 
 
     for (let elem of finPago ) {
@@ -257,8 +304,13 @@ function pagoTarjeta () {
                                                            <div> <h1>${this.previousElementSibling.innerHTML}<h1></div> 
                                                            <h2 class="gracias"> Gracias por tu compra! </h2>
                                                           `  
-    }
+        botonesClose = document.querySelectorAll(".closeIcons");        //Sacamos iconos de eliminar elemento del carrito
+        for (let boton of botonesClose) {
+            boton.remove();
+        }    
 
+    }
+    
 }
 
 function mostrarFiltro (fil) {
