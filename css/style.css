@@ -1,13 +1,7 @@
-
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-}
-
-body {
-    height: 100vh;
-    position: relative;
 }
 
 .flex {
@@ -16,91 +10,96 @@ body {
     align-items: center;
 }
 
-.flexColumn {
+header {
     flex-direction: column;
 }
 
-.general {
-    height: 100vh;
-    flex-direction: column;
-    padding-bottom: 200px;
+main {
+    display: grid;
+    grid-template-columns: 0 100%;
 }
 
-.opcionesCont {
-    flex-direction: column;
+body {
+    min-height: 100vh;
 }
 
-.opciones {
-    display: inline-block;
-}
-
-.prodDesc {
-    flex-direction: column;
-}
-
-.imagenes {
-    height: 300px;
-}
-
-.carrito {
-    position: absolute;
-    height: 200px;
-    bottom: 0;
-    flex-direction: row;
-}
-
-.cartasCarrito {
+.banner {
+    width: 100%;
     height: 100%;
+    object-fit: cover;
+}
+
+
+
+
+
+
+.contFiltro {
     flex-direction: column;
-    position: relative;
-    border: 1px solid rgb(14, 14, 59);
+    height: fit-content;
+}
+
+.subOpciones {
+    display: inline-block;
+    margin-right: 5px;
+}
+
+.contProductos {
+    grid-column: 2;
+    flex-wrap: wrap;
+}
+
+
+
+
+.cart {
+    border-radius: 5px;
+    border: 1px solid gray;
+    flex-direction: column;
+    width: 300px;
+    height: 450px;
+    margin: 5px;
+    padding: 10px;
+    text-align: center;
+
+    grid-column: 2;
+}
+
+.cart img {
+    width: 100%;
+    height: 50%;
+    object-fit: contain;
+}
+
+.cart button {
+    border: none;
+    background-color: rgb(176, 64, 199);
+    color: white;
+    border-radius: 5px;
     padding: 10px;
 }
 
-.imagenesCarrito {
-    height: 80%;
+
+
+
+.buscador {
+    height: 50px;
+    background-color: rgb(44, 44, 44);
+    width: 100%;
 }
 
-.cantCarrito {
-    position: absolute;
-    top: 0;
-    left: 0;
-}
-
-.total {
-    color: brown;
-    margin-bottom: 50px;
-}
-
-.botones {
-    min-width: 100px;
-    min-height: 30px;
-    margin: 5px;
-    padding: 3px 10px;
-    background-color: rgb(157, 157, 216);
+.buscar {
     border-radius: 5px;
-    cursor: pointer;
-    font-weight: bolder;
-    border: none;
+    padding: 5px;
+    border-style: none;
+    margin: 0 10px;
+    width: 320px;
 }
 
-.gracias {
-    margin-top: 50px;
-    color: rgb(64, 64, 158)
-}
-
-.cantMax {
-    color: red;
-}
-
-.closeIcons {
-    position: absolute;
-    height: 30px;
-    top: 0;
-    right: 0;
-    cursor: pointer;
-}
-
-.agregar {
-    margin-top: 80px;
+.botonBuscar {
+    border-radius: 5px;
+    border: 1px solid rgb(176, 64, 199);
+    color: white;
+    background: inherit;
+    padding: 5px;
 }

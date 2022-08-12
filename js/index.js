@@ -1,6 +1,6 @@
 class memoriaRam {
-    constructor ( descripcion, marca, modelo, tipo, capacidad, frecuencia, precio, imgScr, cantidad ) {
-        this.descripcion = descripcion;
+    constructor ( categoria, marca, modelo, tipo, capacidad, frecuencia, precio, imgScr, cantidad ) {
+        this.categoria = categoria;
         this.marca = marca;
         this.modelo = modelo;
         this.tipo = tipo;
@@ -10,10 +10,10 @@ class memoriaRam {
         this.imgScr = imgScr;
         this.cantidad = cantidad;
         
-        this.opcionesBusqueda = "Marca,Modelo,Tipo,Capacidad,Frecuencia,Mostrar Todo".split(",");
+        this.opcionesBusqueda = "Marca,Modelo,Tipo,Capacidad,Frecuencia".split(",");
 
         this.describir = () => {
-            return (`${this.marca} ${this.modelo} ${this.tipo} ${this.capacidad} ${this.frecuencia} <b>$${this.precio}</b>`);
+            return (`${this.marca} ${this.modelo} ${this.tipo} ${this.capacidad} ${this.frecuencia}`);
         } 
 
     }
@@ -21,8 +21,8 @@ class memoriaRam {
 }
 
 class motherboard {
-    constructor ( descripcion, marca, modelo, socket, memoria, precio, imgScr, cantidad) {
-        this.descripcion = descripcion;
+    constructor ( categoria, marca, modelo, socket, memoria, precio, imgScr, cantidad) {
+        this.categoria = categoria;
         this.marca = marca;
         this.modelo = modelo;
         this.socket = socket;
@@ -31,10 +31,10 @@ class motherboard {
         this.imgScr = imgScr;
         this.cantidad = cantidad;
     
-        this.opcionesBusqueda = "Marca,Socket,Memoria,Mostrar Todo".split(","); 
+        this.opcionesBusqueda = "Marca,Socket,Memoria".split(","); 
 
         this.describir = () => {
-            return (`${this.marca} ${this.modelo} ${this.socket} ${this.memoria} <b>$${this.precio}</b>`);
+            return (`${this.marca} ${this.modelo} ${this.socket} ${this.memoria}`);
         } 
 
     }
@@ -42,8 +42,8 @@ class motherboard {
 }
 
 class micro {
-    constructor ( descripcion, marca, modelo, socket, frecuencia, precio, imgScr, cantidad) {
-        this.descripcion = descripcion;
+    constructor ( categoria, marca, modelo, socket, frecuencia, precio, imgScr, cantidad) {
+        this.categoria = categoria;
         this.marca = marca;
         this.modelo = modelo;
         this.socket = socket;
@@ -52,10 +52,10 @@ class micro {
         this.imgScr = imgScr;
         this.cantidad = cantidad;
 
-        this.opcionesBusqueda = "Marca,Socket,Frecuencia,Mostrar Todo".split(","); 
+        this.opcionesBusqueda = "Marca,Socket,Frecuencia".split(","); 
     
         this.describir = () => {
-            return (`${this.marca} ${this.modelo} ${this.socket} ${this.frecuencia} <b>$${this.precio}</b>`);
+            return (`${this.marca} ${this.modelo} ${this.socket} ${this.frecuencia}`);
         } 
 
     }
@@ -109,249 +109,92 @@ listaMemorias[8] = new memoriaRam ("Memorias RAM", "Corsair", "Vengance Rgb Pro 
 listaMemorias[9] = new memoriaRam ("Memorias RAM", "Corsair", "Vengance Rgb Pro Blanco", "ddr4", "16gb (2x8Gb)", "3600mhz", 24000, "./images/mr3.jpeg");
 
 
-let opciones;
-let botonesOpciones;
-let opcionElegida;
-let opcionElegida2;
-let instancia;
-let productoElegido;
-let carrito = [];
-let total = 0;
-let cant;
 
-let prodAEliminar;
-let botonesClose;
+let botones;
+let productosAMostrar;
+let opcionesDeBusqueda;
+
+const todosLosProductos = listaMicros.concat(listaMothers,listaMemorias);
 
 
-inicio ();
 
-function inicio () {
-    instancia = 0;
-    filtro = [];
-    filtro = filtro.concat (listaMicros, listaMothers, listaMemorias);
+mostrarProductos (todosLosProductos);
+let categorias = cargarOpciones (todosLosProductos, "categoria")
+cargarCategoriasEnMenu ();
 
-    document.getElementById("general").innerHTML = `    <div class="flex"><h2 id="mensaje"></h2></div>
-                                                        <div class="opcionesCont flex" id="opciones"></div> 
-                                                        <div class="flex" id="productoImagen"></div>
-                                                        <div class="flex prodDesc"><p id="hasElegido"></p><h1 id="productoDesc"></h1></div>
-                                                        <div class="flex" id="prodCantCont"></div>
-                                                        <div class="flex" id="cantEx"></div>`
-
-    mostrarMensaje ("Bienvenido a e-Hard Computación. A continuación podrás buscar y elegir hardware para tu PC. Elige alguna opción de busqueda:")
-    opciones = cargarOpciones("descripcion", filtro);           //Cargamos opciones de busqueda por la propiedad "descripción"
-    mostrarOpciones (opciones);
+botonesCategorias = document.getElementsByClassName("botonesCategorias");
+for (let boton of botonesCategorias) {
+    boton.addEventListener("click", filtrarCategoria);
 }
 
-function leerOpciones () {
-    if (instancia == 0) {
-        opcionElegida = this.previousElementSibling.innerHTML;
-        mostrarMensaje(opcionElegida);
-        filtro = filtro.filter((el) => el.descripcion == opcionElegida);   //Acá pueden quedar por ejemplo las "memorias RAM"
-        opciones = filtro[0].opcionesBusqueda;  //Cargamos las opciones de busqueda del primer elemento de la lista
-        mostrarOpciones (opciones);             //opciones es un array de strings
-        instancia ++;
-    } else if (instancia == 1) {
-        opcionElegida2 = this.previousElementSibling.innerHTML;            //Acá la opción elegida puede ser por Ej: "Marca" 
 
-        if (opcionElegida2.toLowerCase() != "mostrar todo") {
-            mostrarMensaje(opcionElegida2);
-            opcionElegida2 = opcionElegida2.toLowerCase();
-            opciones = cargarOpciones(opcionElegida2, filtro);  
-            mostrarOpciones (opciones);
-            instancia++;
-        } else {
-            mostrarFiltro(filtro);
-            instancia+=2;
-        }
 
-    } else if (instancia == 2) {
-        opcionElegida = this.previousElementSibling.innerHTML;            //Acá la opción elegida puede ser por Ej: "kingston" 
-        mostrarMensaje(opcionElegida);
-        filtro = filtro.filter((el) => el[opcionElegida2] == opcionElegida);    //opcionElegida2 es un texto, por eso, esta entre corchetes
-        mostrarFiltro(filtro);
-        instancia++;
-    } else if (instancia == 3) {
-        opcionElegida = this.previousElementSibling.innerHTML;
-        productoElegido = filtro.find((el) => el.describir() == opcionElegida);
-        mostrarProductoElegido (productoElegido);
-    }
 
-}
 
-function mostrarProductoElegido (prod) {
-    document.getElementById("mensaje").innerHTML = "";      //Borramos mensaje cabecera
-    document.getElementById("opciones").innerHTML = "";     //Borramos opciones
-    document.getElementById("productoImagen").innerHTML = `<img class="imagenes" src="${prod.imgScr}" alt="">`  //Mostramos foto
-    document.getElementById("hasElegido").innerHTML = "Has Elegido:";
-    document.getElementById("productoDesc").innerHTML = prod.describir();
-    document.getElementById("prodCantCont").innerHTML = `Ingresa La cantidad: <input type="number" value=1 id="prodCant"> <button class="botones" id="btnCarrito">Agregar al Carrito</button>`
-    
-    document.getElementById("btnCarrito").onclick = () => {     
-        cant = document.getElementById("prodCant").value;
-        if (cant%1 == 0 && cant > 0)    {
-            if (cant > 10) {
-                document.getElementById("cantEx").innerHTML = `<h3 class="cantMax">No tenemos esa cantidad (máximo 10)</h3>`;
-                return;
-            }       
-        }  else {
-            document.getElementById("cantEx").innerHTML = `<h3 class="cantMax">Ingrese una cantidad válida</h3>`;
-            return;
-        }      
-        document.getElementById("cantEx").innerHTML = ""; 
-        prod.cantidad = document.getElementById("prodCant").value;
-        carrito.push(prod);                                  //Agregamos producto al carrito
-        mostrarCarrito();       
+
+function filtrarCategoria () {
+    let categoria = this.innerHTML;
+    if (categoria != "Todos") {
+        productosAMostrar = todosLosProductos.filter((prod) => prod.categoria == categoria);
+        document.getElementById("main").style = "grid-template-columns: 200px calc(100% - 200px);"      //Dejo lugar para el filtro
+        document.getElementById("contFiltro").style = "display: flex";
+        mostrarFiltro ();
+    } else {
+        productosAMostrar = todosLosProductos;
+        document.getElementById("main").style = "grid-template-columns: 0 100%;"      //Columna de filtro en cero
+        document.getElementById("contFiltro").style = "display: none";
     }   
+    mostrarProductos (productosAMostrar);
 }
 
-function mostrarCarrito () {
-    document.getElementById("carrito").innerHTML = "";
-    for (let prod of carrito) {
-        document.getElementById("carrito").innerHTML += `<div class="cartasCarrito flex">
-                                                            <h2 class="cantCarrito" id="cantCarrito">${prod.cantidad}X</h2>   
-                                                            <img class="imagenesCarrito" src="${prod.imgScr}" alt="">
-                                                            <img class="closeIcons" src="./images/close.png" alt="">
-                                                            <p>${prod.describir()}<p> 
-                                                         </div>`
-    }                               
-     
-    if (document.getElementById("prodCantCont")!=null)  {   //Si el input para ingresar cantidad esta en pantalla...
-        document.getElementById("prodCantCont").innerHTML = `<button class="botones" id="otroProdBtn">Agregar otro Producto</button> <button class="botones" id="contBtn">Continuar al pago</button>`
-        document.getElementById("otroProdBtn").addEventListener("click", inicio);
-        document.getElementById("contBtn").addEventListener("click", pago);
-    }    
+function mostrarFiltro () {
+    let subOpciones;
 
-    botonesClose = document.getElementsByClassName("closeIcons");       //Cargamos listeners en botones de eliminar productos del carrito
-    for (let boton of botonesClose) {
-        boton.addEventListener("click", eliminarProd);
-    }
-   
-}
+    opcionesDeBusqueda = productosAMostrar[0].opcionesBusqueda;
+    document.getElementById("contFiltro").innerHTML = "";
+    for (let opcion of opcionesDeBusqueda) {
+        document.getElementById("contFiltro").innerHTML +=  `<b><h4>${opcion}</h5></b>`  //Acá opcion puede ser "Marca"
 
-function eliminarProd () {
-    prodAEliminar = this.nextElementSibling.innerHTML;
-    carrito = carrito.filter((el) => el.describir() != prodAEliminar);
-    mostrarCarrito();    
-    
-    if (document.getElementById("1Cuota")!=null){           //Si estamos en la pantalla de cuotas actualizamos los montos listados
-        pagoTarjeta();
-    } else if (document.getElementById("metodoPago")!=null){           //Si estamos en la pantalla de metodo de pago actualizamos los productos listados
-        pago();
-    }
-    
-}
+        opcion = opcion.toLowerCase();              //Buscamos las diferentes opciones de Marcas por ejemplo.
 
-function pago () {
-    document.getElementById("general").innerHTML = `<div class="flex prodDesc"><p id="hasElegido">Tu carrito tiene los siguientes productos:</p></div>`
-    total = 0;
-    for (let prod of carrito) {
-        document.getElementById("general").innerHTML += `<div class="flex"><h2>${prod.cantidad}X ${prod.describir()}</h2><div>`
-        total += prod.precio * prod.cantidad;
-    }
-    document.getElementById("general").innerHTML += `<div class="flex flexColumn" id="metodoPago">
-                                                        <div class="flex total"><h2>TOTAL: $${total}</h2></div>
-                                                        <div class="flex"><p>Tienes las siguientes formas de pago:</p></div>   
-                                                        <div class="flex"><h3>Efectivo - Transferecia Bancaria - Mercadopago: 10% OFF</h3><button class="botones" id="10OffBtn">Seleccionar</button></div>
-                                                        <div class="flex"><h3>Tarjeta de Crédito</h3><button class="botones" id="tarjetaBtn">Seleccionar</button></div>    
-                                                        <button class="botones agregar" id="otroProdBtn">Agregar otro Producto</button>
-                                                    </div>    
-                                                    `
-    document.getElementById("10OffBtn").addEventListener("click", pago10Off);
-    document.getElementById("tarjetaBtn").addEventListener("click", pagoTarjeta);
-    document.getElementById("otroProdBtn").addEventListener("click", inicio);
-   
-}
+        subOpciones = cargarOpciones (productosAMostrar, opcion)
 
-function pago10Off () {
-    document.getElementById("metodoPago").innerHTML = `<div class="flex total"><h2>TOTAL: $${total}</h2></div>
-                                                       <h1> El Total a pagar es de $${(total*0.9).toFixed(2)} (10% OFF)</h1><br><br>
-                                                       <h2 class="gracias"> Gracias por tu compra! </h2> 
-                                                      `
-    botonesClose = document.querySelectorAll(".closeIcons");        //Sacamos iconos de eliminar elemento del carrito
-    for (let boton of botonesClose) {
-        boton.remove();
-    }                                                
-}
-
-function pagoTarjeta () {
-    document.getElementById("general").innerHTML = `<div class="flex prodDesc"><p id="hasElegido">Tu carrito tiene los siguientes productos:</p></div>`
-    total = 0;
-    for (let prod of carrito) {
-        document.getElementById("general").innerHTML += `<div class="flex"><h2>${prod.cantidad}X ${prod.describir()}</h2><div>`
-        total += prod.precio * prod.cantidad;
-    }
-    document.getElementById("general").innerHTML += `<div class="flex flexColumn" id="metodoPago">
-                                                            <div class="flex total"><h2>TOTAL: $${total}</h2></div>
-                                                            <div class="flex"><p>Tienes las siguientes formas de pago:</p></div>  
-                                                            <div class="flex"><h3>1 Cuota de $${total} </h3><button class="botones" id="1Cuota">Seleccionar</button></div>
-                                                            <div class="flex"><h3>3 Cuotas de $${(total*1.09/3).toFixed(2)} por un total de $${(total*1.09).toFixed(2)} </h3><button class="botones" id="3Cuotas">Seleccionar</button></div> 
-                                                            <div class="flex"><h3>6 Cuotas de $${(total*1.18/6).toFixed(2)} por un total de $${(total*1.18).toFixed(2)} </h3><button class="botones" id="6Cuotas">Seleccionar</button></div>  
-                                                            <div class="flex"><h3>12 Cuotas de $${(total*1.36/12).toFixed(2)} por un total de $${(total*1.36).toFixed(2)} </h3><button class="botones" id="12Cuotas">Seleccionar</button></div> 
-                                                            <button class="botones agregar" id="otroProdBtn">Agregar otro Producto</button>
-                                                        </div>`
-
-    document.getElementById("otroProdBtn").addEventListener("click", inicio);
-
-    let finPago = document.getElementsByClassName("botones") 
-
-    for (let elem of finPago ) {
-        elem.addEventListener("click", finalizar)
-    }
-
-    function finalizar () {
-        document.getElementById("metodoPago").innerHTML = `<div class="flex total"><h2>TOTAL: $${total}</h2></div>
-                                                           <div class="flex"><p>Has elegido la siguiente forma de pago:</p></div>
-                                                           <div> <h1>${this.previousElementSibling.innerHTML}<h1></div> 
-                                                           <h2 class="gracias"> Gracias por tu compra! </h2>
-                                                          `  
-        botonesClose = document.querySelectorAll(".closeIcons");        //Sacamos iconos de eliminar elemento del carrito
-        for (let boton of botonesClose) {
-            boton.remove();
-        }    
-
-    }
-    
-}
-
-function mostrarFiltro (fil) {
-        document.getElementById("opciones").innerHTML = "";
-    for (let elem of fil) {
-        document.getElementById("opciones").innerHTML += `<div> <p class="opciones">${elem.describir()}</p> <button class="botones btnOp">Seleccionar</button> </div>`;   
-    }
-
-    botonesOpciones = document.getElementsByClassName("btnOp");             //vuelvo a agregar os listener ya que los botones cambian
-    for (let bot of botonesOpciones) {
-        bot.addEventListener("click", leerOpciones)
-    }  
-}
-
-function mostrarOpciones (opt) {
-        document.getElementById("opciones").innerHTML = "";
-    for (let op of opt)  {
-        document.getElementById("opciones").innerHTML += `<div> <p class="opciones">${op}</p> <button class="botones btnOp">Seleccionar</button> </div>`;
-    }
-
-    botonesOpciones = document.getElementsByClassName("btnOp");             //vuelvo a agregar os listener ya que los botones cambian
-    for (let bot of botonesOpciones) {
-        bot.addEventListener("click", leerOpciones)
-    }
-
-}
-
-function mostrarMensaje (msg) {
-    document.getElementById("mensaje").innerHTML = msg;
-}
-
-function cargarOpciones (opcion, lista) {    //Esta función obtiene determinados valores de un array de objetos
-    let valores = [];                         //por ejemplo las diferentes marcas que hay en la lista de memorias.
-    let i = 0;                                //"opcion" es un string y "lista" es un array de objetos. La funcion devuelve
-    valores[i] = lista[0][opcion];            //Un array de strings
-    for (let elemento of lista) {
-        
-        if (!(valores.some((el) => el == elemento[opcion])))   {
-            i++;
-            valores[i] = elemento[opcion];
+        for (let opc of subOpciones) {
+            document.getElementById("contFiltro").innerHTML += `<div><p class="subOpciones">${opc}</p><input type="checkbox" id="checkSubOpciones"></div>`
         }
     }
+}
+
+function mostrarProductos (productos) {
+    document.getElementById("contProductos").innerHTML = "";
+    for (let producto of productos) {
+        document.getElementById("contProductos").innerHTML += 
+        `<div class="cart flex">
+            <img src=${producto.imgScr} alt="">
+            <h2>$${producto.precio}</h2>
+            <h6>${producto.describir()}</h6>
+            <button>Agregar al Carrito</button>
+        </div>`
+    }
+}
+
+function cargarCategoriasEnMenu () {
+    for (let categoria of categorias) {
+        document.getElementById("menuProductos").innerHTML += 
+            `<li><a class="dropdown-item botonesCategorias" href="#">${categoria}</a></li>
+             <hr class="dropdown-divider">`
+    }
+    document.getElementById("menuProductos").innerHTML += 
+    `<li><a class="dropdown-item botonesCategorias" href="#">Todos</a></li>`
+}
+
+function cargarOpciones (arrayDeProductos, propiedad) {
+    let valores = [];
+
+    for (let producto of arrayDeProductos) {   
+        if(!valores.some((el) => el == producto[propiedad])) {
+            valores.push(producto[propiedad]);
+        }
+    }    
     return valores;
 }
