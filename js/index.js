@@ -158,11 +158,34 @@ function mostrarFiltro () {
         opcion = opcion.toLowerCase();              //Buscamos las diferentes opciones de Marcas por ejemplo.
 
         subOpciones = cargarOpciones (productosAMostrar, opcion)
-
-        for (let opc of subOpciones) {
-            document.getElementById("contFiltro").innerHTML += `<div><p class="subOpciones">${opc}</p><input type="checkbox" id="checkSubOpciones"></div>`
+                
+        for (let opc of subOpciones) {              //Si la cantidad de subopciones es 1 sacamos el checkbox
+            if (subOpciones.length > 1) {           
+                document.getElementById("contFiltro").innerHTML += `<div><p class="subOpciones">${opc}</p><input name="${opcion}" type="checkbox" class="checkSubOpciones"></div>`
+            } else {
+                document.getElementById("contFiltro").innerHTML += `<div><p class="subOpciones">${opc}</p></div>`
+            }    
         }
+          
     }
+
+    let checkSubOpciones = document.getElementsByClassName("checkSubOpciones");
+    for (let check of checkSubOpciones) {
+        check.addEventListener("change", listarSubOpciones );
+    }
+
+}
+
+function listarSubOpciones () {
+    if (this.checked) {
+        let opcion = this.name.toLowerCase();
+        let subOpcion = this.previousElementSibling.innerHTML;
+        productosAMostrar = productosAMostrar.filter((el) => el[opcion] == subOpcion);
+        mostrarProductos (productosAMostrar);
+        mostrarFiltro ();
+        
+    }
+   
 }
 
 function mostrarProductos (productos) {
