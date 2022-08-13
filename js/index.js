@@ -111,7 +111,7 @@ listaMemorias[9] = new memoriaRam ("Memorias RAM", "Corsair", "Vengance Rgb Pro 
 
 
 let botones;
-let productosAMostrar;
+let filtro;
 let opcionesDeBusqueda;
 
 const todosLosProductos = listaMicros.concat(listaMothers,listaMemorias);
@@ -135,29 +135,29 @@ for (let boton of botonesCategorias) {
 function filtrarCategoria () {
     let categoria = this.innerHTML;
     if (categoria != "Todos") {
-        productosAMostrar = todosLosProductos.filter((prod) => prod.categoria == categoria);
+        filtro = todosLosProductos.filter((prod) => prod.categoria == categoria);
         document.getElementById("main").style = "grid-template-columns: 200px calc(100% - 200px);"      //Dejo lugar para el filtro
         document.getElementById("contFiltro").style = "display: flex";
         mostrarFiltro ();
     } else {
-        productosAMostrar = todosLosProductos;
+        filtro = todosLosProductos;
         document.getElementById("main").style = "grid-template-columns: 0 100%;"      //Columna de filtro en cero
         document.getElementById("contFiltro").style = "display: none";
     }   
-    mostrarProductos (productosAMostrar);
+    mostrarProductos (filtro);
 }
 
 function mostrarFiltro () {
     let subOpciones;
 
-    opcionesDeBusqueda = productosAMostrar[0].opcionesBusqueda;
+    opcionesDeBusqueda = filtro[0].opcionesBusqueda;
     document.getElementById("contFiltro").innerHTML = "";
     for (let opcion of opcionesDeBusqueda) {
         document.getElementById("contFiltro").innerHTML +=  `<b><h4>${opcion}</h5></b>`  //Acá opcion puede ser "Marca"
 
-        opcion = opcion.toLowerCase();              //Buscamos las diferentes opciones de Marcas por ejemplo.
+        opcion = opcion.toLowerCase();              
 
-        subOpciones = cargarOpciones (productosAMostrar, opcion)
+        subOpciones = cargarOpciones (filtro, opcion)   //Buscamos las diferentes opciones de Marcas por ejemplo.
                 
         for (let opc of subOpciones) {              //Si la cantidad de subopciones es 1 sacamos el checkbox
             if (subOpciones.length > 1) {           
@@ -180,8 +180,8 @@ function listarSubOpciones () {
     if (this.checked) {
         let opcion = this.name.toLowerCase();
         let subOpcion = this.previousElementSibling.innerHTML;
-        productosAMostrar = productosAMostrar.filter((el) => el[opcion] == subOpcion);
-        mostrarProductos (productosAMostrar);
+        filtro = filtro.filter((el) => el[opcion] == subOpcion);
+        mostrarProductos (filtro);
         mostrarFiltro ();
         
     }
