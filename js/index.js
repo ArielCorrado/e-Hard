@@ -127,7 +127,7 @@ for (let boton of botonesCategorias) {
     boton.addEventListener("click", filtrarCategoria);
 }
 
-  
+
 
 function filtrarCategoria () {
     let categoria = this.innerHTML;
@@ -150,20 +150,24 @@ function mostrarFiltro () {
     opcionesDeBusqueda = filtro[0].opcionesBusqueda;
     document.getElementById("contFiltro").innerHTML = "";
     for (let opcion of opcionesDeBusqueda) {
-        document.getElementById("contFiltro").innerHTML +=  `<b><h4>${opcion}</h5></b>`  //Acá opcion puede ser "Marca"
+        document.getElementById("contFiltro").innerHTML += `<b><h4>${opcion}</h5></b>`  //Acá opcion puede ser "Marca"
 
         opcion = opcion.toLowerCase();              
 
         subOpciones = cargarOpciones (filtro, opcion)   //Buscamos las diferentes opciones de Marcas por ejemplo.
-            
+                    
         for (let opc of subOpciones) {              //Si la cantidad de subopciones es 1 sacamos el checkbox
             if (subOpciones.length > 1) {           
                 document.getElementById("contFiltro").innerHTML += `<div><p class="subOpciones">${opc}</p><input name="${opcion}" type="checkbox" class="checkSubOpciones"></div>`
             } else {
-                document.getElementById("contFiltro").innerHTML += `<div><p class="subOpciones">${opc}</p></div>`
+                if (opcionesElegidas.some((el) => el == opcion)) {
+                    document.getElementById("contFiltro").innerHTML += `<div><p class="subOpciones">${opc}</p><span>X<span></div>`;
+                }    
+                else {
+                    document.getElementById("contFiltro").innerHTML += `<div><p class="subOpciones">${opc}</p></div>`;
+                }        
             }    
         }
-          
     }
        
     let checkSubOpciones = document.getElementsByClassName("checkSubOpciones");
@@ -172,9 +176,12 @@ function mostrarFiltro () {
     }
 }
 
+let opcionesElegidas = [];
+
 function listarSubOpciones () {
     if (this.checked) {
         let opcion = this.name.toLowerCase();
+        opcionesElegidas.push(opcion);
         let subOpcion = this.previousElementSibling.innerHTML;
         filtro = filtro.filter((el) => el[opcion] == subOpcion);
         mostrarProductos (filtro);
