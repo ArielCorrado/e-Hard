@@ -127,10 +127,7 @@ for (let boton of botonesCategorias) {
     boton.addEventListener("click", filtrarCategoria);
 }
 
-
-
-
-
+  
 
 function filtrarCategoria () {
     let categoria = this.innerHTML;
@@ -158,7 +155,7 @@ function mostrarFiltro () {
         opcion = opcion.toLowerCase();              
 
         subOpciones = cargarOpciones (filtro, opcion)   //Buscamos las diferentes opciones de Marcas por ejemplo.
-                
+            
         for (let opc of subOpciones) {              //Si la cantidad de subopciones es 1 sacamos el checkbox
             if (subOpciones.length > 1) {           
                 document.getElementById("contFiltro").innerHTML += `<div><p class="subOpciones">${opc}</p><input name="${opcion}" type="checkbox" class="checkSubOpciones"></div>`
@@ -168,12 +165,11 @@ function mostrarFiltro () {
         }
           
     }
-
+       
     let checkSubOpciones = document.getElementsByClassName("checkSubOpciones");
     for (let check of checkSubOpciones) {
-        check.addEventListener("change", listarSubOpciones );
+        check.addEventListener("click", listarSubOpciones );
     }
-
 }
 
 function listarSubOpciones () {
@@ -183,7 +179,6 @@ function listarSubOpciones () {
         filtro = filtro.filter((el) => el[opcion] == subOpcion);
         mostrarProductos (filtro);
         mostrarFiltro ();
-        
     }
    
 }
