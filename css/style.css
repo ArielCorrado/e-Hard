@@ -21,7 +21,31 @@ main {
 
 body {
     min-height: 100vh;
+    position: relative;
 }
+
+
+
+.carrito {
+    top: 25px;
+    right: 25px;
+    position: fixed;
+    height: 100px;
+    z-index: 100;
+}
+
+.carrito img {
+    height: 100%;
+}
+
+.carritoCant {
+    position: absolute;
+    z-index: 200; 
+    font-size: 40px;
+    font-weight: bold;
+    color: rgb(114, 114, 114);
+}
+
 
 .banner {
     width: 100%;
