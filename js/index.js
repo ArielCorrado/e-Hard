@@ -109,11 +109,13 @@ listaMemorias[8] = new memoriaRam ("Memorias RAM", "Corsair", "Vengance Rgb Pro 
 listaMemorias[9] = new memoriaRam ("Memorias RAM", "Corsair", "Vengance Rgb Pro Blanco", "ddr4", "16gb (2x8Gb)", "3600mhz", 24000, "./images/mr3.jpeg");
 
 
+let opcionesElegidas = [];
 
 let botones;
 let filtro;
 let opcionesDeBusqueda;
-
+let filtroCategoria;
+    
 const todosLosProductos = listaMicros.concat(listaMothers,listaMemorias);
 
 
@@ -135,6 +137,7 @@ function filtrarCategoria () {
         filtro = todosLosProductos.filter((prod) => prod.categoria == categoria);
         document.getElementById("main").style = "grid-template-columns: 200px calc(100% - 200px);"      //Dejo lugar para el filtro
         document.getElementById("contFiltro").style = "display: flex";
+            filtroCategoria = filtro;////
         mostrarFiltro ();
     } else {
         filtro = todosLosProductos;
@@ -146,22 +149,21 @@ function filtrarCategoria () {
 
 function mostrarFiltro () {
     let subOpciones;
-
     opcionesDeBusqueda = filtro[0].opcionesBusqueda;
     document.getElementById("contFiltro").innerHTML = "";
     for (let opcion of opcionesDeBusqueda) {
         document.getElementById("contFiltro").innerHTML += `<b><h4>${opcion}</h5></b>`  //Acá opcion puede ser "Marca"
 
         opcion = opcion.toLowerCase();              
-
+                    
         subOpciones = cargarOpciones (filtro, opcion)   //Buscamos las diferentes opciones de Marcas por ejemplo.
                     
         for (let opc of subOpciones) {              //Si la cantidad de subopciones es 1 sacamos el checkbox
             if (subOpciones.length > 1) {           
                 document.getElementById("contFiltro").innerHTML += `<div><p class="subOpciones">${opc}</p><input name="${opcion}" type="checkbox" class="checkSubOpciones"></div>`
             } else {
-                if (opcionesElegidas.some((el) => el == opcion)) {
-                    document.getElementById("contFiltro").innerHTML += `<div><p class="subOpciones">${opc}</p><span>X<span></div>`;
+                if (opcionesElegidas.some((el) => el.opcion == opcion)) { ////
+                    document.getElementById("contFiltro").innerHTML += `<div><p class="subOpciones">${opc}</p><span title="${opcion}" class="borrarFiltro">X<span></div>`;
                 }    
                 else {
                     document.getElementById("contFiltro").innerHTML += `<div><p class="subOpciones">${opc}</p></div>`;
@@ -170,23 +172,46 @@ function mostrarFiltro () {
         }
     }
        
+    let botonesBorrarFiltro = document.getElementsByClassName("borrarFiltro");
+    for (let boton of botonesBorrarFiltro) {
+        boton.addEventListener("click", borrarFiltro);
+    }
+
     let checkSubOpciones = document.getElementsByClassName("checkSubOpciones");
     for (let check of checkSubOpciones) {
         check.addEventListener("click", listarSubOpciones );
     }
 }
 
-let opcionesElegidas = [];
+function borrarFiltro () {
+    
+    filtro = filtroCategoria;
+
+    let opcionE = this.title.toLowerCase();
+    opcionesElegidas = opcionesElegidas.filter((el) => el.opcion != opcionE);   //Acá las opciones elegidas puedens ser: "Marca" "Socket" etc
+                                                                               //Sacamos del array la opcion eliminada del fitro 
+    for (let opc of opcionesElegidas) {
+        filtro = filtro.filter((el) => el[opc.opcion] == opc.subOpcion);
+    }
+        
+    mostrarProductos(filtro);
+    mostrarFiltro();
+}
+
+
+
+
+
 
 function listarSubOpciones () {
-    if (this.checked) {
-        let opcion = this.name.toLowerCase();
-        opcionesElegidas.push(opcion);
+    //if (this.checked) {
+        let opcion = this.name.toLowerCase();        
         let subOpcion = this.previousElementSibling.innerHTML;
+            opcionesElegidas.push({opcion:opcion, subOpcion: subOpcion}) ////  
         filtro = filtro.filter((el) => el[opcion] == subOpcion);
         mostrarProductos (filtro);
         mostrarFiltro ();
-    }
+    //}
    
 }
 

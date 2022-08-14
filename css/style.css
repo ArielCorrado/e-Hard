@@ -39,6 +39,10 @@ body {
     height: fit-content;
 }
 
+.borrarFiltro {
+    cursor: pointer;
+}
+
 .subOpciones {
     display: inline-block;
     margin-right: 5px;
