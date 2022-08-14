@@ -198,11 +198,6 @@ function borrarFiltro () {
     mostrarFiltro();
 }
 
-
-
-
-
-
 function listarSubOpciones () {
     //if (this.checked) {
         let opcion = this.name.toLowerCase();        
@@ -212,7 +207,6 @@ function listarSubOpciones () {
         mostrarProductos (filtro);
         mostrarFiltro ();
     //}
-   
 }
 
 function mostrarProductos (productos) {
