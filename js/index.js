@@ -168,8 +168,9 @@ function mostrarFiltro () {
     let subOpciones;
     opcionesDeBusqueda = filtro[0].opcionesBusqueda;
     document.getElementById("contFiltro").innerHTML = "";
+    document.getElementById("contFiltro").innerHTML = "<b><h3>Filtros de busqueda:</h3></b><br>";
     for (let opcion of opcionesDeBusqueda) {
-        document.getElementById("contFiltro").innerHTML += `<b><h4>${opcion}</h5></b>`  //Acá opcion puede ser "Marca"
+        document.getElementById("contFiltro").innerHTML += `<b><h4>${opcion}</h4></b>`  //Acá opcion puede ser "Marca"
 
         opcion = opcion.toLowerCase();              
                     
