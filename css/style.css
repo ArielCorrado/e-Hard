@@ -24,13 +24,28 @@ body {
     position: relative;
 }
 
-
-
-.home {
-    cursor: pointer;
+.botonConfirmarCarrito {
+    margin: 50px;
+    min-width: 200px;
 }
 
+.textoPago {
+    font-size: 17px;
+    margin-bottom: 0;
+}
 
+.checkPago {
+    margin: 10px;
+}
+
+.formasDePago {
+    background-color: rgb(241, 241, 241);
+    border: 1px solid gray;
+    text-align: center;
+    padding: 50px;
+    color: black;
+    border-radius: 10px;
+}
 
 .carrito {
     top: 25px;
@@ -53,7 +68,9 @@ body {
     color: rgb(99, 99, 99);
 }
 
-
+.total {
+    margin: 35px;
+}
 
 
 

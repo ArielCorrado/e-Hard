@@ -272,8 +272,29 @@ function mostrarCarrito () {
                                                                 <h2>$${producto.precio} x ${producto.cantidad} = $${producto.precio * producto.cantidad}</h2>
                                                             </div>`
     }                            
-    document.getElementById("contCarrito").innerHTML += `<h2>TOTAL $${carrito.reduce((ac, el) => ac + ((el.precio) * (el.cantidad)), 0 )}<h2>`
-    document.getElementById("contCarrito").innerHTML += `<button class="botonesCarrito">Continuar a forma de pago</button>`
+    let total = carrito.reduce((ac, el) => ac + ((el.precio) * (el.cantidad)), 0 )
+    document.getElementById("contCarrito").innerHTML += `<h2 class="total" id="totalCarrito">TOTAL $${total}<h2>`
+    
+    document.getElementById("contCarrito").innerHTML += `<div class="formasDePago" id="formasDePago">
+                                                            <h3> Selecciona una forma de pago: </h3><br>
+                                                            <div class="contTextoPago flex"><p class="textoPago"> Efectivo/Transferencia (TOTAL: $${total * 0.9}) (10% OFF)</p><input type="checkbox" class="checkPago"> </div> <br>  
+
+                                                            <h3> Tarjetas de credito: </h3> <br>
+                                                            <div class="contTextoPago flex"> <p class="textoPago"> 1 Cuota de $${total} </p> <input type="checkbox" class="checkPago"> </div>
+                                                            <div class="contTextoPago flex"> <p class="textoPago"> 3 Cuotas de $${(total*1.09/3).toFixed(2)} (TOTAL: $${(total*1.09).toFixed(2)})</p> <input type="checkbox" class="checkPago"> </div>
+                                                            <div class="contTextoPago flex"> <p class="textoPago"> 6 Cuotas de $${(total*1.18/6).toFixed(2)} (TOTAL: $${(total*1.18).toFixed(2)})</p> <input type="checkbox" class="checkPago"> </div>
+                                                            <div class="contTextoPago flex"> <p class="textoPago"> 9 Cuotas de $${(total*1.27/9).toFixed(2)} (TOTAL: $${(total*1.27).toFixed(2)})</p> <input type="checkbox" class="checkPago"> </div>
+                                                            <div class="contTextoPago flex"> <p class="textoPago"> 12 Cuotas de $${(total*1.36/12).toFixed(2)} (TOTAL: $${(total*1.36).toFixed(2)})</p> <input type="checkbox" class="checkPago"> </div>
+                                                         </div>`
+
+    document.getElementById("contCarrito").innerHTML += `<button class="botonesCarrito botonConfirmarCarrito" id="botonConfirmarCarrito">Confirmar forma de pago</button>`
+                                                       
+    document.getElementById("botonConfirmarCarrito").addEventListener("click", confirmarCarrito)
+   
+    let checkPago = document.getElementsByClassName("checkPago");
+    for (let check of checkPago) {
+        check.addEventListener("click", seleccionCheckPago)
+    }
 
     let botonesMas = document.getElementsByClassName("botonesMas");
     for( let boton of botonesMas) {
@@ -283,6 +304,46 @@ function mostrarCarrito () {
     let botonesMenos = document.getElementsByClassName("botonesMenos");
     for( let boton of botonesMenos) {
         boton.addEventListener("click", restarAlCarrito);
+    }
+    
+    function confirmarCarrito () {
+        let opcionPago = "";
+        let checksPagos = document.getElementsByClassName("checkPago");
+        for (let check of checksPagos) {
+            if (check.checked) {        //Si el checkbox esta seleccionado check.checked devuelve true
+                opcionPago = check.previousElementSibling.innerHTML;
+            }
+        }
+       
+        document.getElementById("totalCarrito").remove();
+        document.getElementById("formasDePago").innerHTML = `<h2>Has seleccionado la siguiente forma de pago:</h2> <br>
+                                                             <h2>${opcionPago}<h2>`
+        document.getElementById("botonConfirmarCarrito").remove();
+        document.getElementById("contCarrito").innerHTML += `<div class="flex">
+                                                                <button class="botonesCarrito botonConfirmarCarrito" id="botonVolver">Volver</button>
+                                                                <button class="botonesCarrito botonConfirmarCarrito" id="botonConfirmarPago">Confirmar pago</button>
+                                                             </div>`
+
+        document.getElementById("botonVolver").addEventListener("click", () => mostrarCarrito());
+
+        document.getElementById("botonConfirmarPago").addEventListener("click", finalizarPago);
+    }
+
+    function finalizarPago () {
+        document.getElementById("contCarrito").innerHTML = `<div class="formasDePago">
+                                                                <h2>El pago se ha realizado con éxito</h2> <br>
+                                                                <h2>Gracias por tu compra!</h2>
+                                                            </div>`
+        carrito = [];
+        document.getElementById("carrito").innerHTML = "";
+    }
+
+    function seleccionCheckPago () {
+        let checkPago = document.getElementsByClassName("checkPago");
+        for (let check of checkPago) {
+        check.checked = false;
+        this.checked = true;
+        }
     }
 
     function sumarAlCarrito () {
