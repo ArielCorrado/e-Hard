@@ -13,10 +13,7 @@ class memoriaRam {
         
         this.opcionesBusqueda = "Marca,Modelo,Tipo,Capacidad,Frecuencia".split(",");
 
-        this.describir = () => {
-            return (`Memoria Ram ${this.marca} ${this.modelo} ${this.tipo} ${this.capacidad} ${this.frecuencia}`);
-        } 
-
+        this.describir = `Memoria Ram ${this.marca} ${this.modelo} ${this.tipo} ${this.capacidad} ${this.frecuencia}`;
     }
  
 }
@@ -35,10 +32,7 @@ class motherboard {
     
         this.opcionesBusqueda = "Marca,Socket,Memoria".split(","); 
 
-        this.describir = () => {
-            return (`Motherboard ${this.marca} ${this.modelo} ${this.socket} ${this.memoria}`);
-        } 
-
+        this.describir = `Motherboard ${this.marca} ${this.modelo} ${this.socket} ${this.memoria}`;
     }
  
 }
@@ -57,10 +51,7 @@ class micro {
 
         this.opcionesBusqueda = "Marca,Socket,Frecuencia".split(","); 
     
-        this.describir = () => {
-            return (`Microprocesador ${this.marca} ${this.modelo} ${this.socket} ${this.frecuencia}`);
-        } 
-
+        this.describir = `Microprocesador ${this.marca} ${this.modelo} ${this.socket} ${this.frecuencia}`;
     }
 
 }
@@ -116,11 +107,18 @@ let opcionesElegidas = [];
 
 let botones;
 let filtro;
-let carrito = [];
 let opcionesDeBusqueda;
 let filtroCategoria;
 
-    
+
+let carrito = JSON.parse(localStorage.getItem("carrito"));
+if (carrito == null) {
+    carrito = [];
+} else if (carrito.length > 0) {
+    actualizarIconoCarrito();
+}
+ 
+
 const todosLosProductos = listaMicros.concat(listaMothers,listaMemorias);
 
 
@@ -140,7 +138,7 @@ function buscarProducto () {
     filtro = [];
     let producto = document.getElementById("buscadorInput").value;
     if (producto != "") {
-        filtro = todosLosProductos.filter((el) => (el.describir().toLowerCase()).includes(producto.toLowerCase()));
+        filtro = todosLosProductos.filter((el) => (el.describir.toLowerCase()).includes(producto.toLowerCase()));
         document.getElementById("contFiltro").style = "display: none";
         document.getElementById("main").style = "grid-template-columns: 0 100%";      //Columna de filtro en cero
         mostrarProductos(filtro);
@@ -154,7 +152,7 @@ function filtrarCategoria () {
     let categoria = this.innerHTML;
     if (categoria != "Todos") {
         filtro = todosLosProductos.filter((prod) => prod.categoria == categoria);
-        document.getElementById("main").style = "grid-template-columns: 200px calc(100% - 200px);"      //Dejo lugar para el filtro
+        document.getElementById("main").style = "grid-template-columns: max-content auto;"      //Dejo lugar para el filtro
         document.getElementById("contFiltro").style = "display: flex";
             filtroCategoria = filtro;////
         mostrarFiltro ();
@@ -179,13 +177,13 @@ function mostrarFiltro () {
                     
         for (let opc of subOpciones) {              //Si la cantidad de subopciones es 1 sacamos el checkbox
             if (subOpciones.length > 1) {           
-                document.getElementById("contFiltro").innerHTML += `<div><p class="subOpciones">${opc}</p><input name="${opcion}" type="checkbox" class="checkSubOpciones"></div>`
+                document.getElementById("contFiltro").innerHTML += `<div> <p class="subOpciones">${opc}</p> <input name="${opcion}" type="checkbox" class="checkSubOpciones"> </div>`
             } else {
                 if (opcionesElegidas.some((el) => el.opcion == opcion)) { ////
-                    document.getElementById("contFiltro").innerHTML += `<div><p class="subOpciones">${opc}</p><span title="${opcion}" class="borrarFiltro">X<span></div>`;
-                }    
+                    document.getElementById("contFiltro").innerHTML += `<div> <p class="subOpciones">${opc}</p> <img src="./images/close.png" alt="" title="${opcion}" class="borrarFiltro"></img> </div>`;
+                }                                                                                                   
                 else {
-                    document.getElementById("contFiltro").innerHTML += `<div><p class="subOpciones">${opc}</p></div>`;
+                    document.getElementById("contFiltro").innerHTML += `<div> <p class="subOpciones">${opc}</p> </div>`;
                 }        
             }    
         }
@@ -233,7 +231,7 @@ function mostrarProductos (productos) {
         `<div class="cart flex">
             <img class="imgProductos" src=${producto.imgScr} alt="">
             <h2>$${producto.precio}</h2>
-            <h6>${producto.describir()}</h6>
+            <h6>${producto.describir}</h6>
             <button value="${producto.id}" class="botonesCarrito">Agregar al Carrito</button>
         </div>`
     }
@@ -251,19 +249,20 @@ function agregarAlCarrito () {
     let enCarrito = carrito.findIndex((el) => el.id == producto.id) //Verificamos si el producto agregado ya está en el carrito
             
     if (enCarrito == -1) {
-        carrito.push(producto);
-        producto.cantidad = 1;
+        carrito.push(producto);                             //Si no estñá lo pusheamos
+        producto.cantidad = 1;                              //Le ponemos cantidad en 1 ya que por defecto la cantidad no viene seteada
     } else {
-        carrito[enCarrito].cantidad ++;
+        carrito[enCarrito].cantidad ++;                     //Si está le aumentamos la cantidad        
     }
     
-    let carritoCantidad = carrito.reduce((ac, el) => el.cantidad + ac, 0);
+    let carritoCantidad = carrito.reduce((ac, el) => el.cantidad + ac, 0);              //Calculamos la cantidad total de productos en el carrito
 
     document.getElementById("carrito").innerHTML = "";          //Mostramos Icono carrito
     document.getElementById("carrito").innerHTML += `<img src="./images/carrito.png" alt=""></img>
                                                      <div class="carritoCant flex">${carritoCantidad}</div>`;
 
-    document.getElementById("carrito").addEventListener("click", mostrarCarrito);                                                
+    document.getElementById("carrito").addEventListener("click", mostrarCarrito);        
+        guardarCarritoEnStorage ();////                                        
 }
 
 function mostrarCarrito () {
@@ -282,7 +281,7 @@ function mostrarCarrito () {
                                                                 </div>
                                                                 <button value="${producto.id}" class="botonesMasMenos botonesMenos">-</button>
                                                                 <button value="${producto.id}" class="botonesMasMenos botonesMas">+</button>
-                                                                <h6 class="carritoDescripciones">${producto.describir()}</h6>
+                                                                <h6 class="carritoDescripciones">${producto.describir}</h6>
                                                                 <h2>$${producto.precio} x ${producto.cantidad} = $${producto.precio * producto.cantidad}</h2>
                                                             </div>`
     }                            
@@ -319,11 +318,10 @@ function mostrarCarrito () {
     for( let boton of botonesMenos) {
         boton.addEventListener("click", restarAlCarrito);
     }
- 
 }
 
-function verificarCarrito (e) {
-    e.preventDefault();
+function verificarCarrito (e) {             //
+    e.preventDefault();     
     let error = true;
     let checksPagos = document.getElementsByClassName("checkPago");
     for (let check of checksPagos) {
@@ -333,7 +331,7 @@ function verificarCarrito (e) {
         }
     }
     if (error) {
-        if (document.getElementById("error") != null) {
+        if (document.getElementById("error") != null) {         
             document.getElementById("error").remove();
         }
         document.getElementById("formasDePago").innerHTML += "<h4 id='error' style='color: red'>Seleccione una opción de pago</h4>";
@@ -387,6 +385,7 @@ function sumarAlCarrito () {
     carrito[indexASumar].cantidad++;
     mostrarCarrito();
     actualizarIconoCarrito();
+        guardarCarritoEnStorage();
 }
 
 function restarAlCarrito () {
@@ -400,10 +399,11 @@ function restarAlCarrito () {
     }
     mostrarCarrito();
     actualizarIconoCarrito();
+        guardarCarritoEnStorage();
 }
 
 function actualizarIconoCarrito () {
-    let carritoCantidad = carrito.reduce((ac, el) => el.cantidad + ac, 0);
+    let carritoCantidad = carrito.reduce((ac, el) => el.cantidad + ac, 0);      //Calculamos cantidad total de productos en el carrito
 
     if (carritoCantidad != 0) {
         document.getElementById("carrito").innerHTML = "";          //Mostramos Icono carrito
@@ -412,7 +412,8 @@ function actualizarIconoCarrito () {
     } else {
         document.getElementById("carrito").innerHTML = "";          //Si la cantidad de productos en carrito es cero borramos icono carrito
         document.getElementById("contProductos").innerHTML = "<h2>Carrito Vacío</h2>"
-    }                                                 
+    }           
+    document.getElementById("carrito").addEventListener("click", mostrarCarrito);  ////                                      
 }
 
 function cargarCategoriasEnMenu () {
@@ -434,4 +435,9 @@ function cargarOpciones (arrayDeProductos, propiedad) {
         }
     }    
     return valores;
+}
+
+function guardarCarritoEnStorage () {  ////
+    let carritoEnJSON = JSON.stringify(carrito);
+    localStorage.setItem("carrito", carritoEnJSON);
 }
