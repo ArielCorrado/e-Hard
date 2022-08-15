@@ -289,8 +289,8 @@ function mostrarCarrito () {
 
     document.getElementById("contCarrito").innerHTML += `<button class="botonesCarrito botonConfirmarCarrito" id="botonConfirmarCarrito">Confirmar forma de pago</button>`
                                                        
-    document.getElementById("botonConfirmarCarrito").addEventListener("click", confirmarCarrito)
-   
+    document.getElementById("botonConfirmarCarrito").addEventListener("click", () => verificarCarrito(event))
+       
     let checkPago = document.getElementsByClassName("checkPago");
     for (let check of checkPago) {
         check.addEventListener("click", seleccionCheckPago)
@@ -305,68 +305,87 @@ function mostrarCarrito () {
     for( let boton of botonesMenos) {
         boton.addEventListener("click", restarAlCarrito);
     }
-    
-    function confirmarCarrito () {
-        let opcionPago = "";
-        let checksPagos = document.getElementsByClassName("checkPago");
-        for (let check of checksPagos) {
-            if (check.checked) {        //Si el checkbox esta seleccionado check.checked devuelve true
-                opcionPago = check.previousElementSibling.innerHTML;
-            }
-        }
-       
-        document.getElementById("totalCarrito").remove();
-        document.getElementById("formasDePago").innerHTML = `<h2>Has seleccionado la siguiente forma de pago:</h2> <br>
-                                                             <h2>${opcionPago}<h2>`
-        document.getElementById("botonConfirmarCarrito").remove();
-        document.getElementById("contCarrito").innerHTML += `<div class="flex">
-                                                                <button class="botonesCarrito botonConfirmarCarrito" id="botonVolver">Volver</button>
-                                                                <button class="botonesCarrito botonConfirmarCarrito" id="botonConfirmarPago">Confirmar pago</button>
-                                                             </div>`
-
-        document.getElementById("botonVolver").addEventListener("click", () => mostrarCarrito());
-
-        document.getElementById("botonConfirmarPago").addEventListener("click", finalizarPago);
-    }
-
-    function finalizarPago () {
-        document.getElementById("contCarrito").innerHTML = `<div class="formasDePago">
-                                                                <h2>El pago se ha realizado con éxito</h2> <br>
-                                                                <h2>Gracias por tu compra!</h2>
-                                                            </div>`
-        carrito = [];
-        document.getElementById("carrito").innerHTML = "";
-    }
-
-    function seleccionCheckPago () {
-        let checkPago = document.getElementsByClassName("checkPago");
-        for (let check of checkPago) {
-        check.checked = false;
-        this.checked = true;
-        }
-    }
-
-    function sumarAlCarrito () {
-        let id = this.value;
-        let indexASumar = carrito.findIndex((el) => el.id == id);
-        carrito[indexASumar].cantidad++;
-        mostrarCarrito();
-        actualizarIconoCarrito();
-    }
-
-    function restarAlCarrito () {
-        let id = this.value;
-        let indexARestar = carrito.findIndex((el) => el.id == id);
-        carrito[indexARestar].cantidad--;
-        if(carrito[indexARestar].cantidad == 0) {
-            carrito = carrito.filter((el) => el.id != id)       //Al llegar a cero borramos el producto del carrito
-            mostrarCarrito();
-            actualizarIconoCarrito();
-        }
-        mostrarCarrito();
-        actualizarIconoCarrito();
-    }
  
+}
+
+function verificarCarrito (e) {
+    e.preventDefault();
+    let error = true;
+    let checksPagos = document.getElementsByClassName("checkPago");
+    for (let check of checksPagos) {
+        if (check.checked) {        //Si el checkbox esta seleccionado check.checked devuelve true
+            confirmarCarrito();
+            error = false;
+        }
+    }
+    if (error) {
+        if (document.getElementById("error") != null) {
+            document.getElementById("error").remove();
+        }
+        document.getElementById("formasDePago").innerHTML += "<h4 id='error' style='color: red'>Seleccione una opción de pago</h4>";
+    }    
+}
+
+function confirmarCarrito () {
+   
+    let opcionPago = "";
+    let checksPagos = document.getElementsByClassName("checkPago");
+    for (let check of checksPagos) {
+        if (check.checked) {        //Si el checkbox esta seleccionado check.checked devuelve true
+            opcionPago = check.previousElementSibling.innerHTML;
+        }
+    }
+    
+    document.getElementById("totalCarrito").remove();
+    document.getElementById("formasDePago").innerHTML = `<h2>Has seleccionado la siguiente forma de pago:</h2> <br>
+                                                         <h2>${opcionPago}<h2>`
+    document.getElementById("botonConfirmarCarrito").remove();
+    document.getElementById("contCarrito").innerHTML += `<div class="flex">
+                                                            <button class="botonesCarrito botonConfirmarCarrito" id="botonVolver">Volver</button>
+                                                            <button class="botonesCarrito botonConfirmarCarrito" id="botonConfirmarPago">Confirmar pago</button>
+                                                         </div>`
+
+    document.getElementById("botonVolver").addEventListener("click", () => mostrarCarrito());
+
+    document.getElementById("botonConfirmarPago").addEventListener("click", finalizarPago);
+}
+
+function finalizarPago () {
+    document.getElementById("contCarrito").innerHTML = `<div class="formasDePago">
+                                                            <h2>El pago se ha realizado con éxito</h2> <br>
+                                                            <h2>Gracias por tu compra!</h2>
+                                                        </div>`
+    carrito = [];
+    document.getElementById("carrito").innerHTML = "";
+}
+
+function seleccionCheckPago () {
+    let checkPago = document.getElementsByClassName("checkPago");
+    for (let check of checkPago) {
+    check.checked = false;
+    this.checked = true;
+    }
+}
+
+function sumarAlCarrito () {
+    let id = this.value;
+    let indexASumar = carrito.findIndex((el) => el.id == id);
+    carrito[indexASumar].cantidad++;
+    mostrarCarrito();
+    actualizarIconoCarrito();
+}
+
+function restarAlCarrito () {
+    let id = this.value;
+    let indexARestar = carrito.findIndex((el) => el.id == id);
+    carrito[indexARestar].cantidad--;
+    if(carrito[indexARestar].cantidad == 0) {
+        carrito = carrito.filter((el) => el.id != id)       //Al llegar a cero borramos el producto del carrito
+        mostrarCarrito();
+        actualizarIconoCarrito();
+    }
+    mostrarCarrito();
+    actualizarIconoCarrito();
 }
 
 function actualizarIconoCarrito () {
