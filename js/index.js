@@ -14,7 +14,7 @@ class memoriaRam {
         this.opcionesBusqueda = "Marca,Modelo,Tipo,Capacidad,Frecuencia".split(",");
 
         this.describir = () => {
-            return (`${this.marca} ${this.modelo} ${this.tipo} ${this.capacidad} ${this.frecuencia}`);
+            return (`Memoria Ram ${this.marca} ${this.modelo} ${this.tipo} ${this.capacidad} ${this.frecuencia}`);
         } 
 
     }
@@ -36,7 +36,7 @@ class motherboard {
         this.opcionesBusqueda = "Marca,Socket,Memoria".split(","); 
 
         this.describir = () => {
-            return (`${this.marca} ${this.modelo} ${this.socket} ${this.memoria}`);
+            return (`Motherboard ${this.marca} ${this.modelo} ${this.socket} ${this.memoria}`);
         } 
 
     }
@@ -58,7 +58,7 @@ class micro {
         this.opcionesBusqueda = "Marca,Socket,Frecuencia".split(","); 
     
         this.describir = () => {
-            return (`${this.marca} ${this.modelo} ${this.socket} ${this.frecuencia}`);
+            return (`Microprocesador ${this.marca} ${this.modelo} ${this.socket} ${this.frecuencia}`);
         } 
 
     }
@@ -133,6 +133,22 @@ for (let boton of botonesCategorias) {
     boton.addEventListener("click", filtrarCategoria);
 }
 
+document.getElementById("botonBuscar").addEventListener("click", buscarProducto);
+
+
+function buscarProducto () {
+    filtro = [];
+    let producto = document.getElementById("buscadorInput").value;
+    if (producto != "") {
+        filtro = todosLosProductos.filter((el) => (el.describir().toLowerCase()).includes(producto.toLowerCase()));
+        document.getElementById("contFiltro").style = "display: none";
+        document.getElementById("main").style = "grid-template-columns: 0 100%";      //Columna de filtro en cero
+        mostrarProductos(filtro);
+        if (filtro.length == 0) {
+            document.getElementById("contProductos").innerHTML = "<h2>No hay resultados de busqueda</h2>";
+        }
+    }    
+}
 
 function filtrarCategoria () {
     let categoria = this.innerHTML;
@@ -202,14 +218,12 @@ function borrarFiltro () {
 }
 
 function listarSubOpciones () {
-    //if (this.checked) {
-        let opcion = this.name.toLowerCase();        
-        let subOpcion = this.previousElementSibling.innerHTML;
-            opcionesElegidas.push({opcion: opcion, subOpcion: subOpcion}) ////  
-        filtro = filtro.filter((el) => el[opcion] == subOpcion);
-        mostrarProductos (filtro);
-        mostrarFiltro ();
-    //}
+    let opcion = this.name.toLowerCase();        
+    let subOpcion = this.previousElementSibling.innerHTML;
+    opcionesElegidas.push({opcion: opcion, subOpcion: subOpcion}); 
+    filtro = filtro.filter((el) => el[opcion] == subOpcion);
+    mostrarProductos (filtro);
+    mostrarFiltro ();
 }
 
 function mostrarProductos (productos) { 
@@ -247,7 +261,7 @@ function agregarAlCarrito () {
 
     document.getElementById("carrito").innerHTML = "";          //Mostramos Icono carrito
     document.getElementById("carrito").innerHTML += `<img src="./images/carrito.png" alt=""></img>
-                                                     <p class="carritoCant">${carritoCantidad}</p>`;
+                                                     <div class="carritoCant flex">${carritoCantidad}</div>`;
 
     document.getElementById("carrito").addEventListener("click", mostrarCarrito);                                                
 }
@@ -394,7 +408,7 @@ function actualizarIconoCarrito () {
     if (carritoCantidad != 0) {
         document.getElementById("carrito").innerHTML = "";          //Mostramos Icono carrito
         document.getElementById("carrito").innerHTML += `<img src="./images/carrito.png" alt=""></img>
-                                                        <p class="carritoCant">${carritoCantidad}</p>`;
+                                                        <p class="carritoCant flex">${carritoCantidad}</p>`;
     } else {
         document.getElementById("carrito").innerHTML = "";          //Si la cantidad de productos en carrito es cero borramos icono carrito
         document.getElementById("contProductos").innerHTML = "<h2>Carrito Vacío</h2>"
