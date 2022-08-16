@@ -93,9 +93,9 @@ listaPlacas[9] = new placaVideo ("pv9", "Placas de Video", "Msi", "Radeon RX", "
 listaPlacas[10] = new placaVideo ("pv10", "Placas de Video", "Asus", "Radeon RX", "6700 XT Dual Oc", "12gb", "DDR6", 160000, "./images/pv11.jpeg");
 listaPlacas[11] = new placaVideo ("pv11", "Placas de Video", "Asus", "Radeon RX", "6800 XT Rog Strix Gaming Oc", "16gb", "DDR6", 260000, "./images/pv12.jpeg");
 listaPlacas[12] = new placaVideo ("pv12", "Placas de Video", "Gigabyte", "Radeon RX", "6900 XT Gaming Oc", "16gb", "DDR6", 250700, "./images/pv13.jpeg");
-listaPlacas[13] = new placaVideo ("pv13", "Placas de Video", "Gigabyte", "GTX 16xx", "1650 D6 Oc", "4gb", "DDR6", 55000, "./images/pv14.jpeg");
-listaPlacas[14] = new placaVideo ("pv14", "Placas de Video", "Msi", "GTX 16xx", "1660 Super Ventus Xs Oc", "6gb", "DDR6", 85000, "./images/pv15.jpeg");
-listaPlacas[15] = new placaVideo ("pv15", "Placas de Video", "Gigabyte", "GTX 16xx", "1660 Ti Oc", "6gb", "DDR6", 84000, "./images/pv16.jpeg");
+listaPlacas[13] = new placaVideo ("pv13", "Placas de Video", "Gigabyte", "GeForce GTX", "1650 D6 Oc", "4gb", "DDR6", 55000, "./images/pv14.jpeg");
+listaPlacas[14] = new placaVideo ("pv14", "Placas de Video", "Msi", "GeForce GTX", "1660 Super Ventus Xs Oc", "6gb", "DDR6", 85000, "./images/pv15.jpeg");
+listaPlacas[15] = new placaVideo ("pv15", "Placas de Video", "Gigabyte", "GeForce GTX", "1660 Ti Oc", "6gb", "DDR6", 84000, "./images/pv16.jpeg");
 
 
 
@@ -285,25 +285,28 @@ function mostrarFiltro () {
 }
 
 function ordenarPorPrecio () {
-    let opcion = document.getElementById("precioOrdenSelect").value.toLowerCase();
-    
-    if (opcion == "precio ascendente") {
-        filtro == filtro.sort((a,b) => {
-            if (a.precio > b.precio) return 1;
-            if (a.precio < b.precio) return -1;
-            if (a.precio == b.precio) return 0;
-        })
-        opcOrdenPrecio = "";           //Para que la opcion de ordenar precio quede seleccionada
-    }
 
-    if (opcion == "precio descendente") {
-        filtro == filtro.sort((a,b) => {
-            if (a.precio < b.precio) return 1;
-            if (a.precio > b.precio) return -1;
-            if (a.precio == b.precio) return 0;
-        })
-        opcOrdenPrecio = "selected";
-    }
+    if (document.getElementById("precioOrdenSelect") != null) {         //Si estamos en home y seleccionamos home valdría null
+        let opcion = document.getElementById("precioOrdenSelect").value.toLowerCase();
+        
+        if (opcion == "precio ascendente") {
+            filtro == filtro.sort((a,b) => {
+                if (a.precio > b.precio) return 1;
+                if (a.precio < b.precio) return -1;
+                if (a.precio == b.precio) return 0;
+            })
+            opcOrdenPrecio = "";           //Para que la opcion de ordenar precio quede seleccionada
+        }
+
+        if (opcion == "precio descendente") {
+            filtro == filtro.sort((a,b) => {
+                if (a.precio < b.precio) return 1;
+                if (a.precio > b.precio) return -1;
+                if (a.precio == b.precio) return 0;
+            })
+            opcOrdenPrecio = "selected";
+        }
+    }    
     mostrarProductos(filtro);
 }
 
@@ -395,7 +398,10 @@ function mostrarCarrito () {
                                                             </div>`
     }                            
     let total = carrito.reduce((ac, el) => ac + ((el.precio) * (el.cantidad)), 0 )
-    document.getElementById("contCarrito").innerHTML += `<h2 class="total" id="totalCarrito">TOTAL $${total}<h2>`
+    document.getElementById("contCarrito").innerHTML += `<div class="total">
+                                                            <h2 id="totalCarrito">TOTAL $${total}</h2> 
+                                                            <p >(Tarjeta en 1 pago)</p>
+                                                         <div>`
     
     document.getElementById("contCarrito").innerHTML += `<div class="formasDePago" id="formasDePago">
                                                             <h3> Selecciona una forma de pago: </h3><br>
@@ -429,6 +435,14 @@ function mostrarCarrito () {
     }
 }
 
+function seleccionCheckPago () {
+    let checkPago = document.getElementsByClassName("checkPago");
+    for (let check of checkPago) {
+        check.checked = false;
+        this.checked = true;
+    }
+}
+
 function verificarCarrito (e) {             
     e.preventDefault();     
     let error = true;
@@ -440,10 +454,13 @@ function verificarCarrito (e) {
         }
     }
     if (error) {
-        if (document.getElementById("error") != null) {         
-            document.getElementById("error").remove();
+        if (document.getElementById("error") == null) {         
+            document.getElementById("formasDePago").innerHTML += "<h4 id='error' style='color: red'> Seleccione una opción de pago </h4>";
         }
-        document.getElementById("formasDePago").innerHTML += "<h4 id='error' style='color: red'>Seleccione una opción de pago</h4>";
+        let checkPago = document.getElementsByClassName("checkPago");
+        for (let check of checkPago) {
+            check.addEventListener("click", seleccionCheckPago)
+        }
     }    
 }
 
@@ -457,7 +474,7 @@ function confirmarCarrito () {
         }
     }
     
-    document.getElementById("totalCarrito").remove();
+    //document.getElementById("totalCarrito").remove();
     document.getElementById("formasDePago").innerHTML = `<h2>Has seleccionado la siguiente forma de pago:</h2> <br>
                                                          <h2>${opcionPago}<h2>`
     document.getElementById("botonConfirmarCarrito").remove();
@@ -481,21 +498,13 @@ function finalizarPago () {
     guardarCarritoEnStorage ();
 }
 
-function seleccionCheckPago () {
-    let checkPago = document.getElementsByClassName("checkPago");
-    for (let check of checkPago) {
-    check.checked = false;
-    this.checked = true;
-    }
-}
-
 function sumarAlCarrito () {
     let id = this.value;
     let indexASumar = carrito.findIndex((el) => el.id == id);
     carrito[indexASumar].cantidad++;
     mostrarCarrito();
     actualizarIconoCarrito();
-        guardarCarritoEnStorage();
+    guardarCarritoEnStorage();
 }
 
 function restarAlCarrito () {
