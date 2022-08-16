@@ -138,6 +138,7 @@ let botones;
 let filtro;
 let opcionesDeBusqueda;
 let filtroCategoria;
+let opcOrdenPrecio = "";
 
 
 let carrito = JSON.parse(localStorage.getItem("carrito"));
@@ -183,21 +184,30 @@ function filtrarCategoria () {
         filtro = todosLosProductos.filter((prod) => prod.categoria == categoria);
         document.getElementById("main").style = "grid-template-columns: max-content auto;"      //Dejo lugar para el filtro
         document.getElementById("contFiltro").style = "display: flex";
-            filtroCategoria = filtro;////
+        filtroCategoria = filtro;
         mostrarFiltro ();
     } else {
         filtro = todosLosProductos;
         document.getElementById("main").style = "grid-template-columns: 0 100%;"      //Columna de filtro en cero
         document.getElementById("contFiltro").style = "display: none";
     }   
-    mostrarProductos (filtro);
+    ordenarPorPrecio();             //Ordena los productos filtrados (filtro) por precio y los lista
 }
 
 function mostrarFiltro () {
     let subOpciones;
     opcionesDeBusqueda = filtro[0].opcionesBusqueda;
     document.getElementById("contFiltro").innerHTML = "";
-    document.getElementById("contFiltro").innerHTML = "<b><h3>Filtros de busqueda:</h3></b><br>";
+    document.getElementById("contFiltro").innerHTML = "<div><b><h3>Filtros de busqueda:</h3></b></div><br>";
+    document.getElementById("contFiltro").innerHTML +=  `
+                                                        <div class="filtroPrecio">
+                                                            <label for="ordenar"><h3>Ordenar por</h3></label><br>
+                                                            <select name="ordenar" id="precioOrdenSelect">
+                                                                <option>Precio ascendente</option>
+                                                                <option ${opcOrdenPrecio}>Precio descendente</option>
+                                                            </select>
+                                                        </div>`
+            
     for (let opcion of opcionesDeBusqueda) {
         document.getElementById("contFiltro").innerHTML += `<b><h4>${opcion}</h4></b>`  //Acá opcion puede ser "Marca"
 
@@ -228,6 +238,31 @@ function mostrarFiltro () {
     for (let check of checkSubOpciones) {
         check.addEventListener("click", listarSubOpciones );
     }
+
+    document.getElementById("precioOrdenSelect").addEventListener("change", ordenarPorPrecio)
+}
+
+function ordenarPorPrecio () {
+    let opcion = document.getElementById("precioOrdenSelect").value.toLowerCase();
+    
+    if (opcion == "precio ascendente") {
+        filtro == filtro.sort((a,b) => {
+            if (a.precio > b.precio) return 1;
+            if (a.precio < b.precio) return -1;
+            if (a.precio == b.precio) return 0;
+        })
+        opcOrdenPrecio = "";////            //Para que la opcion de ordenar precio quede seleccionada
+    }
+
+    if (opcion == "precio descendente") {
+        filtro == filtro.sort((a,b) => {
+            if (a.precio < b.precio) return 1;
+            if (a.precio > b.precio) return -1;
+            if (a.precio == b.precio) return 0;
+        })
+        opcOrdenPrecio = "selected";////
+    }
+    mostrarProductos(filtro);
 }
 
 function borrarFiltro () {
@@ -241,7 +276,7 @@ function borrarFiltro () {
         filtro = filtro.filter((el) => el[opc.opcion] == opc.subOpcion);
     }
         
-    mostrarProductos(filtro);
+    ordenarPorPrecio();
     mostrarFiltro();
 }
 
@@ -250,7 +285,7 @@ function listarSubOpciones () {
     let subOpcion = this.previousElementSibling.innerHTML;
     opcionesElegidas.push({opcion: opcion, subOpcion: subOpcion}); 
     filtro = filtro.filter((el) => el[opcion] == subOpcion);
-    mostrarProductos (filtro);
+    ordenarPorPrecio();
     mostrarFiltro ();
 }
 
