@@ -60,8 +60,24 @@ body {
     cursor: pointer;
 }
 
-.carrito img {
+.carritoImg {
     height: 100%;
+}
+
+.carritoImg:hover {
+    filter: brightness(110%);
+    /*filter: hue-rotate(90deg);*/
+}
+
+.vaciarCarritoImg {
+    position: absolute;
+    height: 40px;
+    bottom: -10px;
+    right: -10px;
+}
+
+.vaciarCarritoImg:hover {
+    filter: brightness(175%);
 }
 
 .carritoCant {
@@ -74,8 +90,9 @@ body {
     border-radius: 50%;
     width: 40px;
     height: 40px;
-    top: 0;
-    right: 0;
+    top: -10px;
+    right: -10px;
+    cursor: default;
 }
 
 .total {
@@ -125,6 +142,7 @@ body {
 }
 
 .carritoDescripciones {
+    font-size: 20px;
     margin: 15px;
 }
 

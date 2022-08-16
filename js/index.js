@@ -1,9 +1,10 @@
 class memoriaRam {
-    constructor (id, categoria, marca, modelo, tipo, capacidad, frecuencia, precio, imgScr, cantidad ) {
+    constructor (id, categoria, marca, modelo, rgb, tipo, capacidad, frecuencia, precio, imgScr, cantidad ) {
         this.id = id;
         this.categoria = categoria;
         this.marca = marca;
         this.modelo = modelo;
+        this.rgb = rgb;
         this.tipo = tipo;
         this.capacidad = capacidad;
         this.frecuencia = frecuencia;
@@ -11,9 +12,9 @@ class memoriaRam {
         this.imgScr = imgScr;
         this.cantidad = cantidad;
         
-        this.opcionesBusqueda = "Marca,Modelo,Tipo,Capacidad,Frecuencia".split(",");
+        this.opcionesBusqueda = "Marca,Modelo,Rgb,Tipo,Capacidad,Frecuencia".split(",");
 
-        this.describir = `Memoria Ram ${this.marca} ${this.modelo} ${this.tipo} ${this.capacidad} ${this.frecuencia}`;
+        this.describir = `Memoria Ram ${this.marca} ${this.modelo} ${this.rgb} ${this.tipo} ${this.capacidad} ${this.frecuencia}`;
     }
  
 }
@@ -71,40 +72,68 @@ listaMicros[8] = new micro ("mp8", "Microprocesadores", "Intel", "Core i3 12100"
 listaMicros[9] = new micro ("mp9", "Microprocesadores", "Intel", "Core i5 12400", "LGA1700", "4.4Ghz", 51000, "./images/intel3.jpeg");
 listaMicros[10] = new micro ("mp10", "Microprocesadores", "Intel", "Core i7 12700KF", "LGA1700", "5.0Ghz", 87900, "./images/intel4.jpg");
 listaMicros[11] = new micro ("mp11", "Microprocesadores", "Intel", "Core i9 12900KF", "LGA1700", "5.2Ghz", 147719, "./images/intel5.jpeg");
-
+listaMicros[12] = new micro ("mp12", "Microprocesadores", "Intel", "Core i9 12900K", "LGA1700", "5.2Ghz", 149900, "./images/intel5.jpeg");
+listaMicros[13] = new micro ("mp13", "Microprocesadores", "Intel", "Core i7 12700K", "LGA1700", "5.0Ghz", 99500, "./images/intel6.jpeg");
+listaMicros[14] = new micro ("mp14", "Microprocesadores", "Intel", "Core i5 11600K Comet Lake", "LGA1200", "4.9Ghz", 56300, "./images/intel7.jpeg");
+listaMicros[15] = new micro ("mp15", "Microprocesadores", "Intel", "Core i7 11700KF Rocket Lake", "LGA1200", "5.0Ghz", 75200, "./images/intel8.jpeg");
+listaMicros[16] = new micro ("mp16", "Microprocesadores", "Intel", "Celeron G5905", "LGA1200", "3.5Ghz", 8700, "./images/intel9.jpeg");
+listaMicros[17] = new micro ("mp17", "Microprocesadores", "Intel", "Pentium Gold G6405", "LGA1200", "4.1Ghz", 12400, "./images/intel10.jpeg");
+listaMicros[18] = new micro ("mp18", "Microprocesadores", "Intel", "Core i3 10105", "LGA1200", "4.4Ghz", 26900, "./images/intel11.jpeg");
 
 
 const listaMothers = [];
 
-listaMothers[0] = new motherboard ("mb1", "Motherboards", "Gigabyte", "GA-B450M DS3H", "AM4", "DDR4", 18000, "./images/mb0.jpeg");
-listaMothers[1] = new motherboard ("mb2", "Motherboards", "Gigabyte", "GA-A520M S2H", "AM4", "DDR4", 19900, "./images/mb1.jpeg");
-listaMothers[2] = new motherboard ("mb3", "Motherboards", "Gigabyte", "GA-B550M DS3H", "AM4", "DDR4", 32000, "./images/mb2.jpeg");
-listaMothers[3] = new motherboard ("mb4", "Motherboards", "Gigabyte", "GA-X570S UD", "AM4", "DDR4", 64800, "./images/mb3.jpeg");
-listaMothers[4] = new motherboard ("mb5", "Motherboards", "Gigabyte", "GA-X570S AORUS ELITE", "AM4", "DDR4", 95000, "./images/mb4.jpeg");
-listaMothers[5] = new motherboard ("mb6", "Motherboards", "Msi", "PRO H610M", "LGA1700", "DDR4", 18200, "./images/mb5.jpg");
-listaMothers[6] = new motherboard ("mb7", "Motherboards", "Msi", "PRO H610M-G", "LGA1700", "DDR4", 20000, "./images/mb6.jpeg");
-listaMothers[7] = new motherboard ("mb8", "Motherboards", "Msi", "PRO B660M-G", "LGA1700", "DDR4", 25800, "./images/mb7.jpg");
-listaMothers[8] = new motherboard ("mb9", "Motherboards", "Msi", "PRO Z690-A", "LGA1700", "DDR4", 47900, "./images/mb8.jpeg");
-listaMothers[9] = new motherboard ("mb10", "Motherboards", "Msi", "Z690 Tomahawk WiFi", "LGA1700", "DDR4", 64900, "./images/mb9.jpeg");
+listaMothers[0] = new motherboard ("mb0", "Motherboards", "Gigabyte", "GA-B450M DS3H", "AM4", "DDR4", 18000, "./images/mb0.jpeg");
+listaMothers[1] = new motherboard ("mb1", "Motherboards", "Gigabyte", "GA-A520M S2H", "AM4", "DDR4", 19900, "./images/mb1.jpeg");
+listaMothers[2] = new motherboard ("mb2", "Motherboards", "Gigabyte", "GA-B550M DS3H", "AM4", "DDR4", 32000, "./images/mb2.jpeg");
+listaMothers[3] = new motherboard ("mb3", "Motherboards", "Gigabyte", "GA-X570S UD", "AM4", "DDR4", 64800, "./images/mb3.jpeg");
+listaMothers[4] = new motherboard ("mb4", "Motherboards", "Gigabyte", "GA-X570S AORUS ELITE", "AM4", "DDR4", 95000, "./images/mb4.jpeg");
+listaMothers[5] = new motherboard ("mb5", "Motherboards", "Msi", "PRO H610M", "LGA1700", "DDR4", 18200, "./images/mb5.jpg");
+listaMothers[6] = new motherboard ("mb6", "Motherboards", "Msi", "PRO H610M-G", "LGA1700", "DDR4", 20000, "./images/mb6.jpeg");
+listaMothers[7] = new motherboard ("mb7", "Motherboards", "Msi", "PRO B660M-G", "LGA1700", "DDR4", 25800, "./images/mb7.jpg");
+listaMothers[8] = new motherboard ("mb8", "Motherboards", "Msi", "PRO Z690-A", "LGA1700", "DDR4", 47900, "./images/mb8.jpeg");
+listaMothers[9] = new motherboard ("mb9", "Motherboards", "Msi", "Z690 Tomahawk WiFi", "LGA1700", "DDR4", 64900, "./images/mb9.jpeg");
+listaMothers[10] = new motherboard ("mb10", "Motherboards", "Gigabyte", "GA-Z690 AORUS ULTRA", "LGA1700", "DDR5", 103000, "./images/mb10.jpeg");
+listaMothers[11] = new motherboard ("mb11", "Motherboards", "Asus", "Prime Z690-P WIFI", "LGA1700", "DDR4", 63400, "./images/mb11.jpeg");
+listaMothers[12] = new motherboard ("mb12", "Motherboards", "Asus", "Tuf GAMING Z690-PLUS WIFI", "LGA1700", "DDR4", 85000, "./images/mb12.jpeg");
+listaMothers[13] = new motherboard ("mb13", "Motherboards", "Asus", "Prime A320M-K", "AM4", "DDR4", 11900, "./images/mb13.jpeg");
+listaMothers[14] = new motherboard ("mb14", "Motherboards", "Asus", "Prime A520M-K", "AM4", "DDR4", 18000, "./images/mb14.jpeg");
+listaMothers[15] = new motherboard ("mb15", "Motherboards", "Asus", "Prime B450M-A II", "AM4", "DDR4", 17600, "./images/mb15.jpeg");
+listaMothers[16] = new motherboard ("mb16", "Motherboards", "Asus", "Tuf B550M GAMING PLUS WIFI II", "AM4", "DDR4", 42800, "./images/mb16.jpeg");
+listaMothers[17] = new motherboard ("mb17", "Motherboards", "Asus", "Rog B550-A GAMING", "AM4", "DDR4", 61000, "./images/mb17.jpeg");
+listaMothers[18] = new motherboard ("mb18", "Motherboards", "Asus", "Prime X570-P", "AM4", "DDR4", 38000, "./images/mb18.jpeg");
+listaMothers[19] = new motherboard ("mb19", "Motherboards", "Msi", "B560M PRO VDH", "LGA1200", "DDR4", 24100, "./images/mb19.jpeg");
+listaMothers[20] = new motherboard ("mb20", "Motherboards", "Msi", "B560M BAZOOKA", "LGA1200", "DDR4", 29700, "./images/mb20.jpeg");
+listaMothers[21] = new motherboard ("mb21", "Motherboards", "Msi", "Z590 GAMING PLUS", "LGA1200", "DDR4", 48030, "./images/mb21.jpeg");
+listaMothers[22] = new motherboard ("mb22", "Motherboards", "Msi", "Z590 GAMING CARBON WIFI", "LGA1200", "DDR4", 66000, "./images/mb22.jpeg");
 
 
 
 const listaMemorias = [];
 
-listaMemorias[0] = new memoriaRam ("mr1", "Memorias RAM", "kingston", "fury", "ddr4", "4gb", "2666mhz", 4940, "./images/mr0.jpeg");
-listaMemorias[1] = new memoriaRam ("mr2", "Memorias RAM", "kingston", "fury", "ddr4", "4gb", "3200mhz", 7900, "./images/mr0.jpeg");
-listaMemorias[2] = new memoriaRam ("mr3", "Memorias RAM", "kingston", "fury", "ddr4", "8gb", "2666mhz", 7450, "./images/mr0.jpeg");
-listaMemorias[3] = new memoriaRam ("mr4", "Memorias RAM", "kingston", "fury Rgb", "ddr4", "8gb", "2666mhz", 9999, "./images/mr1.jpeg");
-listaMemorias[4] = new memoriaRam ("mr5", "Memorias RAM", "kingston", "fury", "ddr4", "8gb", "3200mhz", 9250, "./images/mr0.jpeg");
-listaMemorias[5] = new memoriaRam ("mr6", "Memorias RAM", "kingston", "fury", "ddr4", "16gb", "2666mhz", 13600, "./images/mr0.jpeg");
-listaMemorias[6] = new memoriaRam ("mr7", "Memorias RAM", "kingston", "fury", "ddr4", "16gb", "3200mhz", 16700, "./images/mr0.jpeg");
-listaMemorias[7] = new memoriaRam ("mr8", "Memorias RAM", "kingston", "fury", "ddr4", "16gb", "3600mhz", 19000, "./images/mr0.jpeg");
-listaMemorias[8] = new memoriaRam ("mr9", "Memorias RAM", "Corsair", "Vengance Rgb Pro Blanco", "ddr4", "16gb (2x8Gb)", "2666mhz", 20500, "./images/mr2.jpeg");
-listaMemorias[9] = new memoriaRam ("mr10", "Memorias RAM", "Corsair", "Vengance Rgb Pro Blanco", "ddr4", "16gb (2x8Gb)", "3600mhz", 24000, "./images/mr3.jpeg");
+listaMemorias[0] = new memoriaRam ("mr1", "Memorias RAM", "kingston", "fury", "sin RGB", "ddr4", "4gb", "2666mhz", 4940, "./images/mr0.jpeg");
+listaMemorias[1] = new memoriaRam ("mr2", "Memorias RAM", "kingston", "fury", "sin RGB", "ddr4", "4gb", "3200mhz", 7900, "./images/mr0.jpeg");
+listaMemorias[2] = new memoriaRam ("mr3", "Memorias RAM", "kingston", "fury", "sin RGB", "ddr4", "8gb", "2666mhz", 7450, "./images/mr0.jpeg");
+listaMemorias[3] = new memoriaRam ("mr4", "Memorias RAM", "kingston", "fury", "RGB", "ddr4", "8gb", "2666mhz", 9999, "./images/mr1.jpeg");
+listaMemorias[4] = new memoriaRam ("mr5", "Memorias RAM", "kingston", "fury", "sin RGB", "ddr4", "8gb", "3200mhz", 9250, "./images/mr0.jpeg");
+listaMemorias[5] = new memoriaRam ("mr6", "Memorias RAM", "kingston", "fury", "sin RGB", "ddr4", "16gb", "2666mhz", 13600, "./images/mr0.jpeg");
+listaMemorias[6] = new memoriaRam ("mr7", "Memorias RAM", "kingston", "fury", "sin RGB", "ddr4", "16gb", "3200mhz", 16700, "./images/mr0.jpeg");
+listaMemorias[7] = new memoriaRam ("mr8", "Memorias RAM", "kingston", "fury", "sin RGB", "ddr4", "16gb", "3600mhz", 19000, "./images/mr0.jpeg");
+listaMemorias[8] = new memoriaRam ("mr9", "Memorias RAM", "Corsair", "Vengance Pro Blanco", "RGB", "ddr4", "16gb (2x8Gb)", "2666mhz", 20500, "./images/mr2.jpeg");
+listaMemorias[9] = new memoriaRam ("mr10", "Memorias RAM", "Corsair", "Vengance Pro Blanco", "RGB", "ddr4", "16gb (2x8Gb)", "3600mhz", 24000, "./images/mr3.jpeg");
+listaMemorias[10] = new memoriaRam ("mr11", "Memorias RAM", "kingston", "fury", "sin RGB", "ddr5", "8gb", "4800mhz", 15900, "./images/mr0.jpeg");
+listaMemorias[11] = new memoriaRam ("mr12", "Memorias RAM", "kingston", "fury", "sin RGB", "ddr5", "16gb", "5200mhz", 26000, "./images/mr0.jpeg");
+listaMemorias[12] = new memoriaRam ("mr13", "Memorias RAM", "Corsair", "Dominator", "RGB", "ddr5", "32gb (2x16Gb)", "5200mhz", 76700, "./images/mr4.jpeg");
+
+listaMemorias[13] = new memoriaRam ("mr14", "Memorias RAM", "kingston", "fury", "RGB", "ddr4", "8gb", "5200mhz", 9900, "./images/mr5.jpeg");
+listaMemorias[14] = new memoriaRam ("mr15", "Memorias RAM", "kingston", "fury", "RGB", "ddr4", "8gb", "5200mhz", 10800, "./images/mr6.jpeg");
+listaMemorias[15] = new memoriaRam ("mr16", "Memorias RAM", "Corsair", "Vengeance Pro Negro", "RGB", "ddr4", "8gb", "5200mhz", 10500, "./images/mr7.jpeg");
+listaMemorias[16] = new memoriaRam ("mr17", "Memorias RAM", "Corsair", "Vengeance Pro Negro", "RGB", "ddr4", "16gb (2x8Gb)", "5200mhz", 19900, "./images/mr8.jpeg");
+listaMemorias[17] = new memoriaRam ("mr18", "Memorias RAM", "Corsair", "Vengance Rs Negro", "RGB", "ddr4", "16gb (2x8Gb)", "5200mhz", 20900, "./images/mr9.jpeg");
+listaMemorias[18] = new memoriaRam ("mr19", "Memorias RAM", "Corsair", "Vengeance Pro Negro", "RGB", "ddr4", "16gb (2x8Gb)", "5200mhz", 19900, "./images/mr10.jpeg");
 
 
 let opcionesElegidas = [];
-
 let botones;
 let filtro;
 let opcionesDeBusqueda;
@@ -178,7 +207,7 @@ function mostrarFiltro () {
                     
         for (let opc of subOpciones) {              //Si la cantidad de subopciones es 1 sacamos el checkbox
             if (subOpciones.length > 1) {           
-                document.getElementById("contFiltro").innerHTML += `<div> <p class="subOpciones">${opc}</p> <input name="${opcion}" type="checkbox" class="checkSubOpciones"> </div>`
+                document.getElementById("contFiltro").innerHTML += `<div> <p class="subOpciones">${opc}</p> <input name="${opcion}" type="checkbox" class="checkSubOpciones"> </div>` //Si la cantidad de subopciones es mas que 1 ponemos los checkbox
             } else {
                 if (opcionesElegidas.some((el) => el.opcion == opcion)) { ////
                     document.getElementById("contFiltro").innerHTML += `<div> <p class="subOpciones">${opc}</p> <img src="./images/close.png" alt="" title="${opcion}" class="borrarFiltro"></img> </div>`;
@@ -259,10 +288,12 @@ function agregarAlCarrito () {
     let carritoCantidad = carrito.reduce((ac, el) => el.cantidad + ac, 0);              //Calculamos la cantidad total de productos en el carrito
 
     document.getElementById("carrito").innerHTML = "";          //Mostramos Icono carrito
-    document.getElementById("carrito").innerHTML += `<img src="./images/carrito.png" alt=""></img>
+    document.getElementById("carrito").innerHTML += `<img src="./images/carrito.png" alt="" class="carritoImg" id="carritoImg">
+                                                     <img src="./images/vaciar.png" alt="Vaciar Carrito" title="Vaciar Carrito" class="vaciarCarritoImg" id="botonVaciar">   
                                                      <div class="carritoCant flex">${carritoCantidad}</div>`;
 
-    document.getElementById("carrito").addEventListener("click", mostrarCarrito);        
+    document.getElementById("carritoImg").addEventListener("click", mostrarCarrito);        
+    document.getElementById("botonVaciar").addEventListener("click", vaciarCarrito);  ////  
         guardarCarritoEnStorage ();////                                        
 }
 
@@ -370,6 +401,7 @@ function finalizarPago () {
                                                         </div>`
     carrito = [];
     document.getElementById("carrito").innerHTML = "";
+    guardarCarritoEnStorage ();////
 }
 
 function seleccionCheckPago () {
@@ -408,13 +440,17 @@ function actualizarIconoCarrito () {
 
     if (carritoCantidad != 0) {
         document.getElementById("carrito").innerHTML = "";          //Mostramos Icono carrito
-        document.getElementById("carrito").innerHTML += `<img src="./images/carrito.png" alt=""></img>
-                                                        <p class="carritoCant flex">${carritoCantidad}</p>`;
+        document.getElementById("carrito").innerHTML += `<img src="./images/carrito.png" alt="" class="carritoImg" id="carritoImg">
+                                                         <img src="./images/vaciar.png" alt="Vaciar Carrito" class="vaciarCarritoImg" title="Vaciar Carrito" id="botonVaciar">   
+                                                         <div class="carritoCant flex">${carritoCantidad}</div>`;
+        document.getElementById("carritoImg").addEventListener("click", mostrarCarrito);  ////   
+        document.getElementById("botonVaciar").addEventListener("click", vaciarCarrito);  ////                                                    
     } else {
         document.getElementById("carrito").innerHTML = "";          //Si la cantidad de productos en carrito es cero borramos icono carrito
-        document.getElementById("contProductos").innerHTML = "<h2>Carrito Vacío</h2>"
+        if(document.getElementById("contCarrito") != null)  {       //Si estamos en la pagina del carrito, mnostramos mensaje "carrito vacio"
+            document.getElementById("contProductos").innerHTML = "<h2>Carrito Vacío</h2>"
+        }    
     }           
-    document.getElementById("carrito").addEventListener("click", mostrarCarrito);  ////                                      
 }
 
 function cargarCategoriasEnMenu () {
@@ -441,4 +477,10 @@ function cargarOpciones (arrayDeProductos, propiedad) {
 function guardarCarritoEnStorage () {  ////
     let carritoEnJSON = JSON.stringify(carrito);
     localStorage.setItem("carrito", carritoEnJSON);
+}
+
+function vaciarCarrito () { ////
+    carrito = []
+    actualizarIconoCarrito ();
+    guardarCarritoEnStorage ();
 }
