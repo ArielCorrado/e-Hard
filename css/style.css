@@ -27,6 +27,10 @@ body {
 
 .nav-link {
     font-size: 20px !important;
+    cursor: pointer;
+}
+.nav-item {
+    margin: 0 25px;
 }
 
 

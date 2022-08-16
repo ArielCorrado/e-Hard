@@ -151,10 +151,11 @@ if (carrito == null) {
 
 const todosLosProductos = listaMicros.concat(listaMothers,listaMemorias);
 
-
 mostrarProductos (todosLosProductos);
 let categorias = cargarOpciones (todosLosProductos, "categoria")
+
 cargarCategoriasEnMenu ();
+document.getElementById("home").addEventListener("click", () => mostrarProductos (todosLosProductos))
 
 botonesCategorias = document.getElementsByClassName("botonesCategorias");
 for (let boton of botonesCategorias) {
@@ -180,7 +181,7 @@ function buscarProducto () {
 
 function filtrarCategoria () {
     let categoria = this.innerHTML;
-    if (categoria != "Todos") {
+    if (categoria != "Home") {
         filtro = todosLosProductos.filter((prod) => prod.categoria == categoria);
         document.getElementById("main").style = "grid-template-columns: max-content auto;"      //Dejo lugar para el filtro
         document.getElementById("contFiltro").style = "display: flex";
@@ -489,13 +490,17 @@ function actualizarIconoCarrito () {
 }
 
 function cargarCategoriasEnMenu () {
+    document.getElementById("menuProductos").innerHTML = "";
+    document.getElementById("menuProductos").innerHTML +=
+            `<li class="nav-item">
+                <a class="nav-link active botonesCategorias" aria-current="page" id="home">Home</a>
+            </li>`;
     for (let categoria of categorias) {
-        document.getElementById("menuProductos").innerHTML += 
-            `<li><a class="dropdown-item botonesCategorias" href="#">${categoria}</a></li>
-             <hr class="dropdown-divider">`
-    }
-    document.getElementById("menuProductos").innerHTML += 
-    `<li><a class="dropdown-item botonesCategorias" href="#">Todos</a></li>`
+        document.getElementById("menuProductos").innerHTML +=
+            `<li class="nav-item">
+                <a class="nav-link active botonesCategorias" aria-current="page">${categoria}</a>
+            </li>`;
+    }        
 }
 
 function cargarOpciones (arrayDeProductos, propiedad) {
