@@ -57,7 +57,48 @@ class micro {
 
 }
 
-                                //Cargamos los productos
+class placaVideo {
+    constructor (id, categoria, marca, serie, modelo, memoria, ddr, precio, imgScr, cantidad) {
+        this.id = id;
+        this.categoria = categoria;
+        this.marca = marca;
+        this.serie = serie;
+        this.modelo = modelo;
+        this.memoria = memoria;
+        this.ddr = ddr;
+        this.precio = precio;
+        this.imgScr = imgScr;
+        this.cantidad = cantidad;
+
+        this.opcionesBusqueda = "Marca,Serie,Memoria,DDR".split(","); 
+    
+        this.describir = `Placa de video ${this.marca} ${this.serie} ${this.modelo} ${this.memoria} ${this.ddr}`;
+    }
+
+}
+
+                                                    //Cargamos los productos
+const listaPlacas = [];
+
+listaPlacas[0] = new placaVideo ("pv1", "Placas de Video", "Gigabyte", "GeForce RTX", "3060 Gaming Oc", "12gb", "DDR6", 117400, "./images/pv1.jpeg");
+listaPlacas[1] = new placaVideo ("pv2", "Placas de Video", "Gigabyte", "GeForce RTX", "3060 Vision Oc", "12gb", "DDR6", 118700, "./images/pv2.jpeg");
+listaPlacas[2] = new placaVideo ("pv3", "Placas de Video", "Gigabyte", "GeForce RTX", "3060 Gaming Oc", "8gb", "DDR6", 134000, "./images/pv3.jpeg");
+listaPlacas[3] = new placaVideo ("pv4", "Placas de Video", "Msi", "GeForce RTX", "3070 Ventus 3x Plus", "8gb", "DDR6", 165000, "./images/pv4.jpeg");
+listaPlacas[4] = new placaVideo ("pv5", "Placas de Video", "Msi", "GeForce RTX", "3080 Gaming Z Trio", "12gb", "DDR6", 270000, "./images/pv5.jpeg");
+listaPlacas[5] = new placaVideo ("pv6", "Placas de Video", "Asus", "GeForce RTX", "3080 Tuf Gaming", "12gb", "DDR6", 280000, "./images/pv6.jpeg");
+listaPlacas[6] = new placaVideo ("pv7", "Placas de Video", "Gainward", "GeForce RTX", "3090 Phantom +", "24gb", "DDR6", 330000, "./images/pv7.jpeg");
+listaPlacas[7] = new placaVideo ("pv8", "Placas de Video", "Evga", "GeForce RTX", "3090 FTW3 Ultra", "24gb", "DDR6", 370000, "./images/pv8.jpeg");
+listaPlacas[8] = new placaVideo ("pv8", "Placas de Video", "Asus", "GeForce RTX", "3090 Rog Strix Gaming Oc Blanco", "24gb", "DDR6", 499900, "./images/pv9.jpeg");
+listaPlacas[9] = new placaVideo ("pv9", "Placas de Video", "Msi", "Radeon RX", "6750 XT Mech 2X Oc", "12gb", "DDR6", 148300, "./images/pv10.jpeg");
+listaPlacas[10] = new placaVideo ("pv10", "Placas de Video", "Asus", "Radeon RX", "6700 XT Dual Oc", "12gb", "DDR6", 160000, "./images/pv11.jpeg");
+listaPlacas[11] = new placaVideo ("pv11", "Placas de Video", "Asus", "Radeon RX", "6800 XT Rog Strix Gaming Oc", "16gb", "DDR6", 260000, "./images/pv12.jpeg");
+listaPlacas[12] = new placaVideo ("pv12", "Placas de Video", "Gigabyte", "Radeon RX", "6900 XT Gaming Oc", "16gb", "DDR6", 250700, "./images/pv13.jpeg");
+listaPlacas[13] = new placaVideo ("pv13", "Placas de Video", "Gigabyte", "GTX 16xx", "1650 D6 Oc", "4gb", "DDR6", 55000, "./images/pv14.jpeg");
+listaPlacas[14] = new placaVideo ("pv14", "Placas de Video", "Msi", "GTX 16xx", "1660 Super Ventus Xs Oc", "6gb", "DDR6", 85000, "./images/pv15.jpeg");
+listaPlacas[15] = new placaVideo ("pv15", "Placas de Video", "Gigabyte", "GTX 16xx", "1660 Ti Oc", "6gb", "DDR6", 84000, "./images/pv16.jpeg");
+
+
+
 const listaMicros = [];
 
 listaMicros[0] = new micro ("mp0", "Microprocesadores", "Amd", "Ryzen 3 4100", "AM4", "4.0Ghz", 20900, "./images/amd0.jpeg");
@@ -79,6 +120,7 @@ listaMicros[15] = new micro ("mp15", "Microprocesadores", "Intel", "Core i7 1170
 listaMicros[16] = new micro ("mp16", "Microprocesadores", "Intel", "Celeron G5905", "LGA1200", "3.5Ghz", 8700, "./images/intel9.jpeg");
 listaMicros[17] = new micro ("mp17", "Microprocesadores", "Intel", "Pentium Gold G6405", "LGA1200", "4.1Ghz", 12400, "./images/intel10.jpeg");
 listaMicros[18] = new micro ("mp18", "Microprocesadores", "Intel", "Core i3 10105", "LGA1200", "4.4Ghz", 26900, "./images/intel11.jpeg");
+
 
 
 const listaMothers = [];
@@ -124,7 +166,6 @@ listaMemorias[9] = new memoriaRam ("mr10", "Memorias RAM", "Corsair", "Vengance 
 listaMemorias[10] = new memoriaRam ("mr11", "Memorias RAM", "kingston", "fury", "sin RGB", "ddr5", "8gb", "4800mhz", 15900, "./images/mr0.jpeg");
 listaMemorias[11] = new memoriaRam ("mr12", "Memorias RAM", "kingston", "fury", "sin RGB", "ddr5", "16gb", "5200mhz", 26000, "./images/mr0.jpeg");
 listaMemorias[12] = new memoriaRam ("mr13", "Memorias RAM", "Corsair", "Dominator", "RGB", "ddr5", "32gb (2x16Gb)", "5200mhz", 76700, "./images/mr4.jpeg");
-
 listaMemorias[13] = new memoriaRam ("mr14", "Memorias RAM", "kingston", "fury", "RGB", "ddr4", "8gb", "5200mhz", 9900, "./images/mr5.jpeg");
 listaMemorias[14] = new memoriaRam ("mr15", "Memorias RAM", "kingston", "fury", "RGB", "ddr4", "8gb", "5200mhz", 10800, "./images/mr6.jpeg");
 listaMemorias[15] = new memoriaRam ("mr16", "Memorias RAM", "Corsair", "Vengeance Pro Negro", "RGB", "ddr4", "8gb", "5200mhz", 10500, "./images/mr7.jpeg");
@@ -149,7 +190,7 @@ if (carrito == null) {
 }
  
 
-const todosLosProductos = listaMicros.concat(listaMothers,listaMemorias);
+const todosLosProductos = listaMicros.concat(listaMothers,listaMemorias,listaPlacas);
 
 mostrarProductos (todosLosProductos);
 let categorias = cargarOpciones (todosLosProductos, "categoria")
@@ -220,7 +261,7 @@ function mostrarFiltro () {
             if (subOpciones.length > 1) {           
                 document.getElementById("contFiltro").innerHTML += `<div> <p class="subOpciones">${opc}</p> <input name="${opcion}" type="checkbox" class="checkSubOpciones"> </div>` //Si la cantidad de subopciones es mas que 1 ponemos los checkbox
             } else {
-                if (opcionesElegidas.some((el) => el.opcion == opcion)) { ////
+                if (opcionesElegidas.some((el) => el.opcion == opcion)) { 
                     document.getElementById("contFiltro").innerHTML += `<div> <p class="subOpciones">${opc}</p> <img src="./images/close.png" alt="" title="${opcion}" class="borrarFiltro"></img> </div>`;
                 }                                                                                                   
                 else {
@@ -252,7 +293,7 @@ function ordenarPorPrecio () {
             if (a.precio < b.precio) return -1;
             if (a.precio == b.precio) return 0;
         })
-        opcOrdenPrecio = "";////            //Para que la opcion de ordenar precio quede seleccionada
+        opcOrdenPrecio = "";           //Para que la opcion de ordenar precio quede seleccionada
     }
 
     if (opcion == "precio descendente") {
@@ -261,7 +302,7 @@ function ordenarPorPrecio () {
             if (a.precio > b.precio) return -1;
             if (a.precio == b.precio) return 0;
         })
-        opcOrdenPrecio = "selected";////
+        opcOrdenPrecio = "selected";
     }
     mostrarProductos(filtro);
 }
@@ -324,13 +365,13 @@ function agregarAlCarrito () {
     let carritoCantidad = carrito.reduce((ac, el) => el.cantidad + ac, 0);              //Calculamos la cantidad total de productos en el carrito
 
     document.getElementById("carrito").innerHTML = "";          //Mostramos Icono carrito
-    document.getElementById("carrito").innerHTML += `<img src="./images/carrito.png" alt="" class="carritoImg" id="carritoImg">
+    document.getElementById("carrito").innerHTML += `<img src="./images/carrito.png" alt="" title="Ir al Carrito" class="carritoImg" id="carritoImg">
                                                      <img src="./images/vaciar.png" alt="Vaciar Carrito" title="Vaciar Carrito" class="vaciarCarritoImg" id="botonVaciar">   
                                                      <div class="carritoCant flex">${carritoCantidad}</div>`;
 
     document.getElementById("carritoImg").addEventListener("click", mostrarCarrito);        
-    document.getElementById("botonVaciar").addEventListener("click", vaciarCarrito);  ////  
-        guardarCarritoEnStorage ();////                                        
+    document.getElementById("botonVaciar").addEventListener("click", vaciarCarrito);    
+    guardarCarritoEnStorage ();                                        
 }
 
 function mostrarCarrito () {
@@ -388,7 +429,7 @@ function mostrarCarrito () {
     }
 }
 
-function verificarCarrito (e) {             //
+function verificarCarrito (e) {             
     e.preventDefault();     
     let error = true;
     let checksPagos = document.getElementsByClassName("checkPago");
@@ -437,7 +478,7 @@ function finalizarPago () {
                                                         </div>`
     carrito = [];
     document.getElementById("carrito").innerHTML = "";
-    guardarCarritoEnStorage ();////
+    guardarCarritoEnStorage ();
 }
 
 function seleccionCheckPago () {
@@ -476,7 +517,7 @@ function actualizarIconoCarrito () {
 
     if (carritoCantidad != 0) {
         document.getElementById("carrito").innerHTML = "";          //Mostramos Icono carrito
-        document.getElementById("carrito").innerHTML += `<img src="./images/carrito.png" alt="" class="carritoImg" id="carritoImg">
+        document.getElementById("carrito").innerHTML += `<img src="./images/carrito.png" alt="" title="Ir al Carrito" class="carritoImg" id="carritoImg">
                                                          <img src="./images/vaciar.png" alt="Vaciar Carrito" class="vaciarCarritoImg" title="Vaciar Carrito" id="botonVaciar">   
                                                          <div class="carritoCant flex">${carritoCantidad}</div>`;
         document.getElementById("carritoImg").addEventListener("click", mostrarCarrito);  ////   
@@ -514,12 +555,12 @@ function cargarOpciones (arrayDeProductos, propiedad) {
     return valores;
 }
 
-function guardarCarritoEnStorage () {  ////
+function guardarCarritoEnStorage () {  
     let carritoEnJSON = JSON.stringify(carrito);
     localStorage.setItem("carrito", carritoEnJSON);
 }
 
-function vaciarCarrito () { ////
+function vaciarCarrito () { 
     carrito = []
     actualizarIconoCarrito ();
     guardarCarritoEnStorage ();
