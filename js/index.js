@@ -77,7 +77,40 @@ class placaVideo {
 
 }
 
+class fuente {
+    constructor (id, categoria, marca, certificacion, potencia, precio, imgScr, cantidad) {
+        this.id = id;
+        this.categoria = categoria;
+        this.marca = marca;
+        this.certificacion = certificacion;
+        this.potencia = potencia;
+        this.precio = precio;
+        this.imgScr = imgScr;
+        this.cantidad = cantidad;
+
+        this.opcionesBusqueda = "Marca,Certificacion,Potencia".split(","); 
+    
+        this.describir = `Fuente ${this.marca} ${this.certificacion} ${this.potencia}`;
+    }
+
+}
+
                                                     //Cargamos los productos
+const listaFuentes = [];
+
+listaFuentes[0] = new fuente ("fp1", "Fuentes", "Thermaltake", "Sin certificacion", "500w", 8900, "./images/fp0.jpeg");
+listaFuentes[1] = new fuente ("fp2", "Fuentes", "Thermaltake", "Sin certificacion", "600w", 9999, "./images/fp1.jpeg");
+listaFuentes[2] = new fuente ("fp3", "Fuentes", "Gigabyte", "80 Plus Bronze", "450w", 9150, "./images/fp2.jpeg");
+listaFuentes[3] = new fuente ("fp4", "Fuentes", "Gigabyte", "80 Plus Bronze", "550w", 11700, "./images/fp3.jpeg");
+listaFuentes[4] = new fuente ("fp5", "Fuentes", "Gigabyte", "80 Plus Bronze", "650w", 14700, "./images/fp4.jpeg");
+listaFuentes[5] = new fuente ("fp6", "Fuentes", "Gigabyte", "80 Plus Gold", "750w", 21600, "./images/fp5.jpeg");
+listaFuentes[6] = new fuente ("fp7", "Fuentes", "Gigabyte", "80 Plus Gold", "850w", 22999, "./images/fp6.jpeg");
+listaFuentes[7] = new fuente ("fp8", "Fuentes", "Gigabyte", "80 Plus Gold", "1000w", 30999, "./images/fp7.jpeg");
+listaFuentes[8] = new fuente ("fp9", "Fuentes", "Essenses", "Sin certificacion", "750w", 4500, "./images/fp8.jpeg");
+listaFuentes[9] = new fuente ("fp10", "Fuentes", "Essenses", "Sin certificacion", "850w", 4700, "./images/fp9.jpeg");
+
+
+
 const listaPlacas = [];
 
 listaPlacas[0] = new placaVideo ("pv1", "Placas de Video", "Gigabyte", "GeForce RTX", "3060 Gaming Oc", "12gb", "DDR6", 117400, "./images/pv1.jpeg");
@@ -167,7 +200,7 @@ listaMemorias[10] = new memoriaRam ("mr11", "Memorias RAM", "kingston", "fury", 
 listaMemorias[11] = new memoriaRam ("mr12", "Memorias RAM", "kingston", "fury", "sin RGB", "ddr5", "16gb", "5200mhz", 26000, "./images/mr0.jpeg");
 listaMemorias[12] = new memoriaRam ("mr13", "Memorias RAM", "Corsair", "Dominator", "RGB", "ddr5", "32gb (2x16Gb)", "5200mhz", 76700, "./images/mr4.jpeg");
 listaMemorias[13] = new memoriaRam ("mr14", "Memorias RAM", "kingston", "fury", "RGB", "ddr5", "8gb", "5200mhz", 9900, "./images/mr5.jpeg");
-listaMemorias[14] = new memoriaRam ("mr15", "Memorias RAM", "kingston", "fury", "sin RGB", "ddr5", "8gb", "5600mhz", 16000, "./images/mr6.jpeg");
+listaMemorias[14] = new memoriaRam ("mr15", "Memorias RAM", "kingston", "fury", "RGB", "ddr5", "8gb", "5600mhz", 16000, "./images/mr6.jpeg");
 listaMemorias[15] = new memoriaRam ("mr16", "Memorias RAM", "Corsair", "Vengeance Pro Negro", "RGB", "ddr4", "8gb", "3200mhz", 10500, "./images/mr7.jpeg");
 listaMemorias[16] = new memoriaRam ("mr17", "Memorias RAM", "Corsair", "Vengeance Pro Negro", "RGB", "ddr4", "16gb (2x8Gb)", "2666mhz", 19900, "./images/mr8.jpeg");
 listaMemorias[17] = new memoriaRam ("mr18", "Memorias RAM", "Corsair", "Vengance Rs Negro", "RGB", "ddr4", "16gb (2x8Gb)", "3600mhz", 20900, "./images/mr9.jpeg");
@@ -190,7 +223,7 @@ if (carrito == null) {
 }
  
 
-const todosLosProductos = listaMicros.concat(listaMothers,listaMemorias,listaPlacas);
+const todosLosProductos = listaMicros.concat(listaMothers,listaMemorias,listaPlacas,listaFuentes);
 
 mostrarProductos (todosLosProductos);
 let categorias = cargarOpciones (todosLosProductos, "categoria")
@@ -405,7 +438,7 @@ function mostrarCarrito () {
     
     document.getElementById("contCarrito").innerHTML += `<div class="formasDePago" id="formasDePago">
                                                             <h3> Selecciona una forma de pago: </h3><br>
-                                                            <div class="contTextoPago flex"><p class="textoPago"> Efectivo/Transferencia (TOTAL: $${total * 0.9}) (10% OFF)</p><input type="checkbox" class="checkPago"> </div> <br>  
+                                                            <div class="contTextoPago flex"><p class="textoPago"> Efectivo/Transferencia (TOTAL: $${(total * 0.9).toFixed(2)}) (10% OFF)</p><input type="checkbox" class="checkPago"> </div> <br>  
 
                                                             <h3> Tarjetas de credito: </h3> <br>
                                                             <div class="contTextoPago flex"> <p class="textoPago"> 1 Cuota de $${total} </p> <input type="checkbox" class="checkPago"> </div>
@@ -465,7 +498,12 @@ function verificarCarrito (e) {
 }
 
 function confirmarCarrito () {
-   
+
+    let botonesMasMenos = document.getElementsByClassName("botonesMasMenos");    //Sacamos botones de sumar y restar al carrito
+    for (let boton of botonesMasMenos) {
+        boton.style = "display: none";
+    }
+      
     let opcionPago = "";
     let checksPagos = document.getElementsByClassName("checkPago");
     for (let check of checksPagos) {
