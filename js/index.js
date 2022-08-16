@@ -166,12 +166,12 @@ listaMemorias[9] = new memoriaRam ("mr10", "Memorias RAM", "Corsair", "Vengance 
 listaMemorias[10] = new memoriaRam ("mr11", "Memorias RAM", "kingston", "fury", "sin RGB", "ddr5", "8gb", "4800mhz", 15900, "./images/mr0.jpeg");
 listaMemorias[11] = new memoriaRam ("mr12", "Memorias RAM", "kingston", "fury", "sin RGB", "ddr5", "16gb", "5200mhz", 26000, "./images/mr0.jpeg");
 listaMemorias[12] = new memoriaRam ("mr13", "Memorias RAM", "Corsair", "Dominator", "RGB", "ddr5", "32gb (2x16Gb)", "5200mhz", 76700, "./images/mr4.jpeg");
-listaMemorias[13] = new memoriaRam ("mr14", "Memorias RAM", "kingston", "fury", "RGB", "ddr4", "8gb", "5200mhz", 9900, "./images/mr5.jpeg");
-listaMemorias[14] = new memoriaRam ("mr15", "Memorias RAM", "kingston", "fury", "RGB", "ddr4", "8gb", "5200mhz", 10800, "./images/mr6.jpeg");
-listaMemorias[15] = new memoriaRam ("mr16", "Memorias RAM", "Corsair", "Vengeance Pro Negro", "RGB", "ddr4", "8gb", "5200mhz", 10500, "./images/mr7.jpeg");
-listaMemorias[16] = new memoriaRam ("mr17", "Memorias RAM", "Corsair", "Vengeance Pro Negro", "RGB", "ddr4", "16gb (2x8Gb)", "5200mhz", 19900, "./images/mr8.jpeg");
-listaMemorias[17] = new memoriaRam ("mr18", "Memorias RAM", "Corsair", "Vengance Rs Negro", "RGB", "ddr4", "16gb (2x8Gb)", "5200mhz", 20900, "./images/mr9.jpeg");
-listaMemorias[18] = new memoriaRam ("mr19", "Memorias RAM", "Corsair", "Vengeance Pro Negro", "RGB", "ddr4", "16gb (2x8Gb)", "5200mhz", 19900, "./images/mr10.jpeg");
+listaMemorias[13] = new memoriaRam ("mr14", "Memorias RAM", "kingston", "fury", "RGB", "ddr5", "8gb", "5200mhz", 9900, "./images/mr5.jpeg");
+listaMemorias[14] = new memoriaRam ("mr15", "Memorias RAM", "kingston", "fury", "sin RGB", "ddr5", "8gb", "5600mhz", 16000, "./images/mr6.jpeg");
+listaMemorias[15] = new memoriaRam ("mr16", "Memorias RAM", "Corsair", "Vengeance Pro Negro", "RGB", "ddr4", "8gb", "3200mhz", 10500, "./images/mr7.jpeg");
+listaMemorias[16] = new memoriaRam ("mr17", "Memorias RAM", "Corsair", "Vengeance Pro Negro", "RGB", "ddr4", "16gb (2x8Gb)", "2666mhz", 19900, "./images/mr8.jpeg");
+listaMemorias[17] = new memoriaRam ("mr18", "Memorias RAM", "Corsair", "Vengance Rs Negro", "RGB", "ddr4", "16gb (2x8Gb)", "3600mhz", 20900, "./images/mr9.jpeg");
+listaMemorias[18] = new memoriaRam ("mr19", "Memorias RAM", "Corsair", "Vengeance Pro Negro", "RGB", "ddr4", "16gb (2x8Gb)", "2666mhz", 19900, "./images/mr10.jpeg");
 
 
 let opcionesElegidas = [];
