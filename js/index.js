@@ -420,12 +420,14 @@ function mostrarCarrito () {
          
     for (let producto of carrito) {
         document.getElementById("contCarrito").innerHTML += `<div class="productosCarrito flex">
-                                                                <div style="height:100%; position:relative">
+                                                                <div style="position:relative" class="flex">
                                                                     <img class="imgProductosCarrito" src=${producto.imgScr} alt="">
                                                                     <div class="carritoCantidades flex">x${producto.cantidad}</div>
                                                                 </div>
-                                                                <button value="${producto.id}" class="botonesMasMenos botonesMenos">-</button>
-                                                                <button value="${producto.id}" class="botonesMasMenos botonesMas">+</button>
+                                                                <div>
+                                                                    <button value="${producto.id}" class="botonesMasMenos botonesMenos">-</button>
+                                                                    <button value="${producto.id}" class="botonesMasMenos botonesMas">+</button>
+                                                                </div>
                                                                 <h6 class="carritoDescripciones">${producto.describir}</h6>
                                                                 <h2>$${producto.precio} x ${producto.cantidad} = $${producto.precio * producto.cantidad}</h2>
                                                             </div>`
@@ -437,7 +439,7 @@ function mostrarCarrito () {
                                                          <div>`
     
     document.getElementById("contCarrito").innerHTML += `<div class="formasDePago" id="formasDePago">
-                                                            <h3> Selecciona una forma de pago: </h3><br>
+                                                            <h3 class="tituloPago"> Selecciona una forma de pago: </h3><br>
                                                             <div class="contTextoPago flex"><p class="textoPago"> Efectivo/Transferencia (TOTAL: $${(total * 0.9).toFixed(2)}) (10% OFF)</p><input type="checkbox" class="checkPago"> </div> <br>  
 
                                                             <h3> Tarjetas de credito: </h3> <br>
