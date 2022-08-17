@@ -243,7 +243,7 @@ function buscarProducto () {
     filtro = [];
     let producto = document.getElementById("buscadorInput").value;
     if (producto != "") {
-        filtro = todosLosProductos.filter((el) => (el.describir.toLowerCase()).includes(producto.toLowerCase()));
+        filtro = todosLosProductos.filter((el) => (el.describir.toLowerCase()).includes(producto.toLowerCase().trim()));  //Con el método trim() eliminamos los espacios antes y despues de la palabra a buscar
         document.getElementById("contFiltro").style = "display: none";
         document.getElementById("main").style = "grid-template-columns: 0 100%";      //Columna de filtro en cero
         mostrarProductos(filtro);
@@ -556,7 +556,7 @@ function restarAlCarrito () {
     }
     mostrarCarrito();
     actualizarIconoCarrito();
-        guardarCarritoEnStorage();
+    guardarCarritoEnStorage();
 }
 
 function actualizarIconoCarrito () {
@@ -610,5 +610,7 @@ function guardarCarritoEnStorage () {
 function vaciarCarrito () { 
     carrito = []
     actualizarIconoCarrito ();
-    guardarCarritoEnStorage ();
+    localStorage.removeItem("carrito");
+    //guardarCarritoEnStorage ();
 }
+
