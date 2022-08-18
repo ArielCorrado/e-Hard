@@ -282,18 +282,17 @@ function mostrarFiltro () {
                                                                 <option>Precio ascendente</option>
                                                                 <option ${opcOrdenPrecio}>Precio descendente</option>
                                                             </select>
-                                                        </div>`
+                                                        </div>`;
             
     for (let opcion of opcionesDeBusqueda) {
-        document.getElementById("contFiltro").innerHTML += `<b><h4 class="filtroOpciones">${opcion}</h4></b>`  //Acá opcion puede ser "Marca"
+        document.getElementById("contFiltro").innerHTML += `<b><h4 class="filtroOpciones">${opcion}</h4></b>`;  //Acá opcion puede ser "Marca"
 
         opcion = opcion.toLowerCase();              
-                    
-        subOpciones = cargarOpciones (filtro, opcion)   //Buscamos las diferentes opciones de Marcas por ejemplo.
+        subOpciones = cargarOpciones (filtro, opcion);   //Buscamos las diferentes opciones de Marcas por ejemplo.
                     
         for (let opc of subOpciones) {              //Si la cantidad de subopciones es 1 sacamos el checkbox
             if (subOpciones.length > 1) {           
-                document.getElementById("contFiltro").innerHTML += `<div> <p class="subOpciones">${opc}</p> <input name="${opcion}" type="checkbox" class="checkSubOpciones"> </div>` //Si la cantidad de subopciones es mas que 1 ponemos los checkbox
+                document.getElementById("contFiltro").innerHTML += `<div> <p class="subOpciones">${opc}</p> <input name="${opcion}" type="checkbox" class="checkSubOpciones"> </div>`; //Si la cantidad de subopciones es mas que 1 ponemos los checkbox
             } else {
                 if (opcionesElegidas.some((el) => el.opcion == opcion)) { 
                     document.getElementById("contFiltro").innerHTML += `<div> <p class="subOpciones">${opc}</p> <img src="./images/close.png" alt="" title="${opcion}" class="borrarFiltro"></img> </div>`;
@@ -315,7 +314,7 @@ function mostrarFiltro () {
         check.addEventListener("click", listarSubOpciones );
     }
 
-    document.getElementById("precioOrdenSelect").addEventListener("change", ordenarPorPrecio)
+    document.getElementById("precioOrdenSelect").addEventListener("change", ordenarPorPrecio);
 }
 
 function ordenarPorPrecio () {
@@ -345,7 +344,6 @@ function ordenarPorPrecio () {
 }
 
 function borrarFiltro () {
-    
     filtro = filtroCategoria;
 
     let opcionE = this.title.toLowerCase();
@@ -377,19 +375,19 @@ function mostrarProductos (productos) {
             <h2>$${producto.precio}</h2>
             <h6>${producto.describir}</h6>
             <button value="${producto.id}" class="botonesCarrito">Agregar al Carrito</button>
-        </div>`
+        </div>`;
     }
 
     let botonesCarrito = document.getElementsByClassName("botonesCarrito");
 
     for (let boton of botonesCarrito) {
-        boton.addEventListener("click", agregarAlCarrito)
+        boton.addEventListener("click", agregarAlCarrito);
     }
 }
 
 function agregarAlCarrito () {
     let producto = todosLosProductos.find((el) => el.id == this.value); //Buscamos el producto elegido por su id en todos los productos
-    let enCarrito = carrito.findIndex((el) => el.id == producto.id) //Verificamos si el producto agregado ya está en el carrito
+    let enCarrito = carrito.findIndex((el) => el.id == producto.id); //Verificamos si el producto agregado ya está en el carrito
             
     if (enCarrito == -1) {
         carrito.push(producto);                             //Si no estñá lo pusheamos
@@ -429,19 +427,19 @@ function mostrarCarrito () {
                                                                 </div>
                                                                 <h6 class="carritoDescripciones">${producto.describir}</h6>
                                                                 <h2>$${producto.precio} x ${producto.cantidad} = $${producto.precio * producto.cantidad}</h2>
-                                                            </div>`
+                                                            </div>`;
     }                            
 
-    let total = carrito.reduce((ac, el) => ac + ((el.precio) * (el.cantidad)), 0 )
+    let total = carrito.reduce((ac, el) => ac + ((el.precio) * (el.cantidad)), 0 );
     document.getElementById("contCarrito").innerHTML += `<div class="total">
                                                             <h2 id="totalCarrito">TOTAL $${total}</h2> 
                                                             <p >(Tarjeta en 1 pago)</p>
-                                                         <div>`
+                                                         <div>`;
     
     document.getElementById("contCarrito").innerHTML += `<div class="formasDePago" id="formasDePago">
                                                             <h3 class="tituloPago"> Selecciona una forma de pago</h3><br>
                                                             <h3>Efectivo/Transferencia </h3>
-                                                            <div class="contTextoPago flex"> <p class="textoPago"> (TOTAL: <span class="totales">$${(total * 0.9).toFixed(2)}</span>) (10% OFF)</p><input type="checkbox" value="Efectivo/Transferencia:" class="checkPago"></div> <br>  
+                                                            <div class="contTextoPago flex"> <p class="textoPago"> (TOTAL: <span class="totales">$${(total * 0.9).toFixed(2)}</span>) (10% OFF)</p><input type="checkbox" value="Efectivo/Transferencia:" class="checkPago"></div> <br>
 
                                                             <h3> Tarjetas de credito </h3>
                                                             <div class="contTextoPago flex"> <p class="textoPago"> 1 Pago de <span class="totales">$${total}</span></p> <input type="checkbox" value="Tarjeta de Crédito:" class="checkPago"> </div>
@@ -449,15 +447,15 @@ function mostrarCarrito () {
                                                             <div class="contTextoPago flex"> <p class="textoPago"> 6 Cuotas de $${(total*1.18/6).toFixed(2)} (TOTAL: <span class="totales">$${(total*1.18).toFixed(2)}</span>)</p> <input type="checkbox" value="Tarjeta de Crédito:" class="checkPago"> </div>
                                                             <div class="contTextoPago flex"> <p class="textoPago"> 9 Cuotas de $${(total*1.27/9).toFixed(2)} (TOTAL: <span class="totales">$${(total*1.27).toFixed(2)}</span>)</p> <input type="checkbox" value="Tarjeta de Crédito:" class="checkPago"> </div>
                                                             <div class="contTextoPago flex"> <p class="textoPago"> 12 Cuotas de $${(total*1.36/12).toFixed(2)} (TOTAL: <span class="totales">$${(total*1.36).toFixed(2)}</span>)</p> <input type="checkbox" value="Tarjeta de Crédito:" class="checkPago"> </div>
-                                                         </div>`
+                                                         </div>`;
 
-    document.getElementById("contCarrito").innerHTML += `<button class="botonesCarrito botonConfirmarCarrito" id="botonConfirmarCarrito">Confirmar forma de pago</button>` 
+    document.getElementById("contCarrito").innerHTML += `<button class="botonesCarrito botonConfirmarCarrito" id="botonConfirmarCarrito">Confirmar forma de pago</button>`;
 
-    document.getElementById("botonConfirmarCarrito").addEventListener("click", () => verificarCarrito(event))
+    document.getElementById("botonConfirmarCarrito").addEventListener("click", () => verificarCarrito(event));
        
     let checkPago = document.getElementsByClassName("checkPago");
     for (let check of checkPago) {
-        check.addEventListener("click", seleccionCheckPago)
+        check.addEventListener("click", seleccionCheckPago);
     }
 
     let botonesMas = document.getElementsByClassName("botonesMas");
@@ -496,7 +494,7 @@ function verificarCarrito (e) {
         }
         let checkPago = document.getElementsByClassName("checkPago");
         for (let check of checkPago) {
-            check.addEventListener("click", seleccionCheckPago)
+            check.addEventListener("click", seleccionCheckPago);
         }
     }    
 }
@@ -519,12 +517,13 @@ function confirmarCarrito () {
     //document.getElementById("totalCarrito").remove();
     document.getElementById("formasDePago").innerHTML = `<h2>Has seleccionado la siguiente forma de pago:</h2> <br>
                                                          <h2>${formaDePago}</h2>   
-                                                         <h2>${opcionPago}<h2>`
+                                                         <h2>${opcionPago}<h2>`;
+
     document.getElementById("botonConfirmarCarrito").remove();
     document.getElementById("contCarrito").innerHTML += `<div class="flex">
                                                             <button class="botonesCarrito botonConfirmarCarrito" id="botonVolver">Volver</button>
                                                             <button class="botonesCarrito botonConfirmarCarrito" id="botonConfirmarPago">Confirmar pago</button>
-                                                         </div>`
+                                                         </div>`;
 
     document.getElementById("botonVolver").addEventListener("click", () => mostrarCarrito());
     document.getElementById("botonConfirmarPago").addEventListener("click", finalizarPago);
@@ -534,10 +533,10 @@ function finalizarPago () {
     document.getElementById("contCarrito").innerHTML = `<div class="formasDePago">
                                                             <h2>El pago se ha realizado con éxito</h2> <br>
                                                             <h2>Gracias por tu compra!</h2>
-                                                        </div>`
-    carrito = [];
+                                                        </div>`;
     document.getElementById("carrito").innerHTML = "";
-    guardarCarritoEnStorage ();
+    carrito = [];                                                    
+    localStorage.removeItem("carrito");
 }
 
 function sumarAlCarrito () {
@@ -553,14 +552,16 @@ function restarAlCarrito () {
     let id = this.value;
     let indexARestar = carrito.findIndex((el) => el.id == id);
     carrito[indexARestar].cantidad--;
-    if(carrito[indexARestar].cantidad == 0) {
-        carrito = carrito.filter((el) => el.id != id)       //Al llegar a cero borramos el producto del carrito
-        mostrarCarrito();
-        actualizarIconoCarrito();
+    if (carrito[indexARestar].cantidad == 0) {
+        carrito = carrito.filter((el) => el.id != id);       //Al llegar a cero borramos el producto del carrito
     }
     mostrarCarrito();
     actualizarIconoCarrito();
     guardarCarritoEnStorage();
+    
+    if (carrito.length == 0) {
+        vaciarCarrito ();
+    }    
 }
 
 function actualizarIconoCarrito () {
@@ -571,12 +572,12 @@ function actualizarIconoCarrito () {
         document.getElementById("carrito").innerHTML += `<img src="./images/carrito.png" alt="" title="Ir al Carrito" class="carritoImg" id="carritoImg">
                                                          <img src="./images/vaciar.png" alt="Vaciar Carrito" class="vaciarCarritoImg" title="Vaciar Carrito" id="botonVaciar">   
                                                          <div class="carritoCant flex">${carritoCantidad}</div>`;
-        document.getElementById("carritoImg").addEventListener("click", mostrarCarrito);  ////   
-        document.getElementById("botonVaciar").addEventListener("click", vaciarCarrito);  ////                                                    
+        document.getElementById("carritoImg").addEventListener("click", mostrarCarrito);    
+        document.getElementById("botonVaciar").addEventListener("click", vaciarCarrito);                                                     
     } else {
         document.getElementById("carrito").innerHTML = "";          //Si la cantidad de productos en carrito es cero borramos icono carrito
-        if(document.getElementById("contCarrito") != null)  {       //Si estamos en la pagina del carrito, mnostramos mensaje "carrito vacio"
-            document.getElementById("contProductos").innerHTML = "<h2>Carrito Vacío</h2>"
+        if(document.getElementById("contCarrito") != null)  {       //Si estamos en la pagina del carrito, mostramos mensaje "carrito vacio"
+            document.getElementById("contProductos").innerHTML = "<h2>Carrito Vacío</h2>";
         }    
     }           
 }
@@ -611,7 +612,7 @@ function guardarCarritoEnStorage () {
 }
 
 function vaciarCarrito () { 
-    carrito = []
+    carrito = [];
     actualizarIconoCarrito ();
     localStorage.removeItem("carrito");
 }
