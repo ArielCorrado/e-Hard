@@ -214,7 +214,7 @@ let opcionesDeBusqueda;
 let filtroCategoria;
 let opcOrdenPrecio = "";
 let formaDePago;
- //****/
+ //****//
 
 let carrito = JSON.parse(localStorage.getItem("carrito"));
 if (carrito == null) {
@@ -224,7 +224,7 @@ if (carrito == null) {
 }
  
 
-const todosLosProductos = listaMicros.concat(listaMothers,listaMemorias,listaPlacas,listaFuentes);
+const todosLosProductos = [...listaMicros, ...listaMothers, ...listaMemorias, ...listaPlacas, ...listaFuentes];
 
 mostrarProductos (todosLosProductos);
 let categorias = cargarOpciones (todosLosProductos, "categoria")
