@@ -213,7 +213,8 @@ let filtro;
 let opcionesDeBusqueda;
 let filtroCategoria;
 let opcOrdenPrecio = "";
-
+let formaDePago;
+ //****/
 
 let carrito = JSON.parse(localStorage.getItem("carrito"));
 if (carrito == null) {
@@ -284,7 +285,7 @@ function mostrarFiltro () {
                                                         </div>`
             
     for (let opcion of opcionesDeBusqueda) {
-        document.getElementById("contFiltro").innerHTML += `<b><h4>${opcion}</h4></b>`  //Acá opcion puede ser "Marca"
+        document.getElementById("contFiltro").innerHTML += `<b><h4 class="filtroOpciones">${opcion}</h4></b>`  //Acá opcion puede ser "Marca"
 
         opcion = opcion.toLowerCase();              
                     
@@ -388,7 +389,6 @@ function mostrarProductos (productos) {
 
 function agregarAlCarrito () {
     let producto = todosLosProductos.find((el) => el.id == this.value); //Buscamos el producto elegido por su id en todos los productos
-    
     let enCarrito = carrito.findIndex((el) => el.id == producto.id) //Verificamos si el producto agregado ya está en el carrito
             
     if (enCarrito == -1) {
@@ -415,7 +415,6 @@ function mostrarCarrito () {
     document.getElementById("contFiltro").style.display = "none";
     document.getElementById("main").style = "grid-template-columns: 0 100%;";
     document.getElementById("contProductos").innerHTML = "";
-    
     document.getElementById("contProductos").innerHTML += '<div class="contCarrito flex" id="contCarrito"> </div>';
          
     for (let producto of carrito) {
@@ -432,6 +431,7 @@ function mostrarCarrito () {
                                                                 <h2>$${producto.precio} x ${producto.cantidad} = $${producto.precio * producto.cantidad}</h2>
                                                             </div>`
     }                            
+
     let total = carrito.reduce((ac, el) => ac + ((el.precio) * (el.cantidad)), 0 )
     document.getElementById("contCarrito").innerHTML += `<div class="total">
                                                             <h2 id="totalCarrito">TOTAL $${total}</h2> 
@@ -439,19 +439,20 @@ function mostrarCarrito () {
                                                          <div>`
     
     document.getElementById("contCarrito").innerHTML += `<div class="formasDePago" id="formasDePago">
-                                                            <h3 class="tituloPago"> Selecciona una forma de pago: </h3><br>
-                                                            <div class="contTextoPago flex"><p class="textoPago"> Efectivo/Transferencia (TOTAL: $${(total * 0.9).toFixed(2)}) (10% OFF)</p><input type="checkbox" class="checkPago"> </div> <br>  
+                                                            <h3 class="tituloPago"> Selecciona una forma de pago</h3><br>
+                                                            <h3>Efectivo/Transferencia </h3>
+                                                            <div class="contTextoPago flex"> <p class="textoPago"> (TOTAL: <span class="totales">$${(total * 0.9).toFixed(2)}</span>) (10% OFF)</p><input type="checkbox" value="Efectivo/Transferencia:" class="checkPago"></div> <br>  
 
-                                                            <h3> Tarjetas de credito: </h3> <br>
-                                                            <div class="contTextoPago flex"> <p class="textoPago"> 1 Cuota de $${total} </p> <input type="checkbox" class="checkPago"> </div>
-                                                            <div class="contTextoPago flex"> <p class="textoPago"> 3 Cuotas de $${(total*1.09/3).toFixed(2)} (TOTAL: $${(total*1.09).toFixed(2)})</p> <input type="checkbox" class="checkPago"> </div>
-                                                            <div class="contTextoPago flex"> <p class="textoPago"> 6 Cuotas de $${(total*1.18/6).toFixed(2)} (TOTAL: $${(total*1.18).toFixed(2)})</p> <input type="checkbox" class="checkPago"> </div>
-                                                            <div class="contTextoPago flex"> <p class="textoPago"> 9 Cuotas de $${(total*1.27/9).toFixed(2)} (TOTAL: $${(total*1.27).toFixed(2)})</p> <input type="checkbox" class="checkPago"> </div>
-                                                            <div class="contTextoPago flex"> <p class="textoPago"> 12 Cuotas de $${(total*1.36/12).toFixed(2)} (TOTAL: $${(total*1.36).toFixed(2)})</p> <input type="checkbox" class="checkPago"> </div>
+                                                            <h3> Tarjetas de credito </h3>
+                                                            <div class="contTextoPago flex"> <p class="textoPago"> 1 Pago de <span class="totales">$${total}</span></p> <input type="checkbox" value="Tarjeta de Crédito:" class="checkPago"> </div>
+                                                            <div class="contTextoPago flex"> <p class="textoPago"> 3 Cuotas de $${(total*1.09/3).toFixed(2)} (TOTAL: <span class="totales">$${(total*1.09).toFixed(2)}</span>)</p> <input type="checkbox" value="Tarjeta de Crédito:" class="checkPago"> </div>
+                                                            <div class="contTextoPago flex"> <p class="textoPago"> 6 Cuotas de $${(total*1.18/6).toFixed(2)} (TOTAL: <span class="totales">$${(total*1.18).toFixed(2)}</span>)</p> <input type="checkbox" value="Tarjeta de Crédito:" class="checkPago"> </div>
+                                                            <div class="contTextoPago flex"> <p class="textoPago"> 9 Cuotas de $${(total*1.27/9).toFixed(2)} (TOTAL: <span class="totales">$${(total*1.27).toFixed(2)}</span>)</p> <input type="checkbox" value="Tarjeta de Crédito:" class="checkPago"> </div>
+                                                            <div class="contTextoPago flex"> <p class="textoPago"> 12 Cuotas de $${(total*1.36/12).toFixed(2)} (TOTAL: <span class="totales">$${(total*1.36).toFixed(2)}</span>)</p> <input type="checkbox" value="Tarjeta de Crédito:" class="checkPago"> </div>
                                                          </div>`
 
-    document.getElementById("contCarrito").innerHTML += `<button class="botonesCarrito botonConfirmarCarrito" id="botonConfirmarCarrito">Confirmar forma de pago</button>`
-                                                       
+    document.getElementById("contCarrito").innerHTML += `<button class="botonesCarrito botonConfirmarCarrito" id="botonConfirmarCarrito">Confirmar forma de pago</button>` 
+
     document.getElementById("botonConfirmarCarrito").addEventListener("click", () => verificarCarrito(event))
        
     let checkPago = document.getElementsByClassName("checkPago");
@@ -478,12 +479,13 @@ function seleccionCheckPago () {
     }
 }
 
-function verificarCarrito (e) {             
+function verificarCarrito (e) {         
     e.preventDefault();     
     let error = true;
     let checksPagos = document.getElementsByClassName("checkPago");
     for (let check of checksPagos) {
         if (check.checked) {        //Si el checkbox esta seleccionado check.checked devuelve true
+                formaDePago = check.value;
             confirmarCarrito();
             error = false;
         }
@@ -516,6 +518,7 @@ function confirmarCarrito () {
     
     //document.getElementById("totalCarrito").remove();
     document.getElementById("formasDePago").innerHTML = `<h2>Has seleccionado la siguiente forma de pago:</h2> <br>
+                                                         <h2>${formaDePago}</h2>   
                                                          <h2>${opcionPago}<h2>`
     document.getElementById("botonConfirmarCarrito").remove();
     document.getElementById("contCarrito").innerHTML += `<div class="flex">
@@ -524,7 +527,6 @@ function confirmarCarrito () {
                                                          </div>`
 
     document.getElementById("botonVolver").addEventListener("click", () => mostrarCarrito());
-
     document.getElementById("botonConfirmarPago").addEventListener("click", finalizarPago);
 }
 
@@ -595,7 +597,6 @@ function cargarCategoriasEnMenu () {
 
 function cargarOpciones (arrayDeProductos, propiedad) {
     let valores = [];
-
     for (let producto of arrayDeProductos) {   
         if(!valores.some((el) => el == producto[propiedad])) {
             valores.push(producto[propiedad]);
@@ -613,6 +614,5 @@ function vaciarCarrito () {
     carrito = []
     actualizarIconoCarrito ();
     localStorage.removeItem("carrito");
-    //guardarCarritoEnStorage ();
 }
 
