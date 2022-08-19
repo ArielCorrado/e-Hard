@@ -214,15 +214,9 @@ let opcionesDeBusqueda;
 let filtroCategoria;
 let opcOrdenPrecio = "";
 let formaDePago;
- //****//
-
-let carrito = JSON.parse(localStorage.getItem("carrito"));
-if (carrito == null) {
-    carrito = [];
-} else if (carrito.length > 0) {
-    actualizarIconoCarrito();
-}
  
+let carrito = JSON.parse(localStorage.getItem("carrito")) || [];        //Si no hay carrito en storage se lee null y carrito valdrá [] 
+actualizarIconoCarrito(); 
 
 const todosLosProductos = [...listaMicros, ...listaMothers, ...listaMemorias, ...listaPlacas, ...listaFuentes];
 
@@ -483,7 +477,7 @@ function verificarCarrito (e) {
     let checksPagos = document.getElementsByClassName("checkPago");
     for (let check of checksPagos) {
         if (check.checked) {        //Si el checkbox esta seleccionado check.checked devuelve true
-                formaDePago = check.value;
+            formaDePago = check.value;
             confirmarCarrito();
             error = false;
         }
