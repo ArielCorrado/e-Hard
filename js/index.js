@@ -207,7 +207,7 @@ listaMemorias[17] = new memoriaRam ("mr18", "Memorias RAM", "Corsair", "Vengance
 listaMemorias[18] = new memoriaRam ("mr19", "Memorias RAM", "Corsair", "Vengeance Pro Negro", "RGB", "ddr4", "16gb (2x8Gb)", "2666mhz", 19900, "./images/mr10.jpeg");
 
 
-let opcionesElegidas = [];
+let opcionesElegidas = []; 
 let botones;
 let filtro;
 let opcionesDeBusqueda;
