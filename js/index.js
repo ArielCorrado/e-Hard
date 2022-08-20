@@ -432,8 +432,8 @@ function mostrarCarrito () {
     
     document.getElementById("contCarrito").innerHTML += `<div class="formasDePago" id="formasDePago">
                                                             <h3 class="tituloPago"> Selecciona una forma de pago</h3><br>
-                                                            <h3>Efectivo/Transferencia </h3>
-                                                            <div class="contTextoPago flex"> <p class="textoPago"> (TOTAL: <span class="totales">$${(total * 0.9).toFixed(2)}</span>) (10% OFF)</p><input type="checkbox" value="Efectivo/Transferencia:" class="checkPago"></div> <br>
+                                                            <h3>Efectivo / Transferencia </h3>
+                                                            <div class="contTextoPago flex"> <p class="textoPago"> (TOTAL: <span class="totales">$${(total * 0.9).toFixed(2)}</span>) (10% OFF)</p><input type="checkbox" value="Efectivo / Transferencia:" class="checkPago"></div> <br>
 
                                                             <h3> Tarjetas de credito </h3>
                                                             <div class="contTextoPago flex"> <p class="textoPago"> 1 Pago de <span class="totales">$${total}</span></p> <input type="checkbox" value="Tarjeta de Crédito:" class="checkPago"> </div>
@@ -508,13 +508,12 @@ function confirmarCarrito () {
         }
     }
     
-    //document.getElementById("totalCarrito").remove();
     document.getElementById("formasDePago").innerHTML = `<h2>Has seleccionado la siguiente forma de pago:</h2> <br>
                                                          <h2>${formaDePago}</h2>   
                                                          <h2>${opcionPago}<h2>`;
 
     document.getElementById("botonConfirmarCarrito").remove();
-    document.getElementById("contCarrito").innerHTML += `<div class="flex">
+    document.getElementById("contCarrito").innerHTML += `<div class="flex" style="flex-wrap: wrap">
                                                             <button class="botonesCarrito botonConfirmarCarrito" id="botonVolver">Volver</button>
                                                             <button class="botonesCarrito botonConfirmarCarrito" id="botonConfirmarPago">Confirmar pago</button>
                                                          </div>`;
@@ -524,13 +523,39 @@ function confirmarCarrito () {
 }
 
 function finalizarPago () {
-    document.getElementById("contCarrito").innerHTML = `<div class="formasDePago">
-                                                            <h2>El pago se ha realizado con éxito</h2> <br>
-                                                            <h2>Gracias por tu compra!</h2>
-                                                        </div>`;
-    document.getElementById("carrito").innerHTML = "";
-    carrito = [];                                                    
-    localStorage.removeItem("carrito");
+    
+    document.getElementById("contCarrito").innerHTML = "";
+    document.getElementById("carrito").innerHTML = "";              //Borramos icono Carrito
+    carrito = [];                                                   //Vaciamos Carrito 
+    localStorage.removeItem("carrito");                                                    
+
+    Swal.fire({                                 //Mostramos cartel de pago en proceso durante 3 seg
+        text:'Procesando Pago',
+        timer: 3000,
+        timerProgressBar: true,
+        showConfirmButton: false,
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        didRender: () => {
+            Swal.showLoading() 
+        },
+    })
+
+    setTimeout (mensajeFinal, 3000)             //A los 3 segundos cambiamos de cartel
+    
+    function mensajeFinal () {
+        Swal.fire({
+            icon:'success',
+            text:'Pago realizado con éxito. Gracias por tu compra!',
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            
+        }).then((result) => {
+            if (result.isConfirmed) {
+                mostrarProductos (todosLosProductos);
+            }
+        }) 
+    }    
 }
 
 function sumarAlCarrito () {
