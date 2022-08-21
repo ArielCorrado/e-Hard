@@ -220,11 +220,19 @@ actualizarIconoCarrito();
 
 const todosLosProductos = [...listaMicros, ...listaMothers, ...listaMemorias, ...listaPlacas, ...listaFuentes];
 
-mostrarProductos (todosLosProductos);
+filtro = todosLosProductos;
+ordenarPorPrecio ();
 let categorias = cargarOpciones (todosLosProductos, "categoria")
 
 cargarCategoriasEnMenu ();
 document.getElementById("home").addEventListener("click", () => mostrarProductos (todosLosProductos))
+
+document.getElementById("logo").addEventListener("click", () => {
+    document.getElementById("main").style = "grid-template-columns: 0 100%;"      //Columna de filtro en cero
+    document.getElementById("contFiltro").style = "display: none";
+    filtro = todosLosProductos;
+    ordenarPorPrecio();
+});
 
 botonesCategorias = document.getElementsByClassName("botonesCategorias");
 for (let boton of botonesCategorias) {
@@ -312,28 +320,32 @@ function mostrarFiltro () {
 }
 
 function ordenarPorPrecio () {
+    let opcion;
 
     if (document.getElementById("precioOrdenSelect") != null) {         //Si estamos en home y seleccionamos home valdría null
-        let opcion = document.getElementById("precioOrdenSelect").value.toLowerCase();
+        opcion = document.getElementById("precioOrdenSelect").value.toLowerCase();
+    } else {
+        opcion = "precio ascendente";           //Si llamamos a la función ordenarPorPrecio y el filtro todavía no se mostró. La opción por defecto es precio ascendente
+    }   
         
-        if (opcion == "precio ascendente") {
-            filtro == filtro.sort((a,b) => {
-                if (a.precio > b.precio) return 1;
-                if (a.precio < b.precio) return -1;
-                if (a.precio == b.precio) return 0;
-            })
-            opcOrdenPrecio = "";           //Para que la opcion de ordenar precio quede seleccionada
-        }
+    if (opcion == "precio ascendente") {
+        filtro == filtro.sort((a,b) => {
+            if (a.precio > b.precio) return 1;
+            if (a.precio < b.precio) return -1;
+            if (a.precio == b.precio) return 0;
+        })
+        opcOrdenPrecio = "";           //Para que la opcion de ordenar precio quede seleccionada
+    }
 
-        if (opcion == "precio descendente") {
-            filtro == filtro.sort((a,b) => {
-                if (a.precio < b.precio) return 1;
-                if (a.precio > b.precio) return -1;
-                if (a.precio == b.precio) return 0;
-            })
-            opcOrdenPrecio = "selected";
-        }
-    }    
+    if (opcion == "precio descendente") {
+        filtro == filtro.sort((a,b) => {
+            if (a.precio < b.precio) return 1;
+            if (a.precio > b.precio) return -1;
+            if (a.precio == b.precio) return 0;
+        })
+        opcOrdenPrecio = "selected";
+    }
+       
     mostrarProductos(filtro);
 }
 
@@ -403,6 +415,10 @@ function agregarAlCarrito () {
 }
 
 function mostrarCarrito () {
+
+    window.scroll ({        //Al ir al carrito movemos la pantalla donde comienzan los productos
+        top: 460
+    })
         
     document.getElementById("contFiltro").style.display = "none";
     document.getElementById("main").style = "grid-template-columns: 0 100%;";
