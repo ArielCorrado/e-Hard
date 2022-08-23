@@ -409,17 +409,18 @@ function agregarAlCarrito () {
                                                      <img src="./images/vaciar.png" alt="Vaciar Carrito" title="Vaciar Carrito" class="vaciarCarritoImg" id="botonVaciar">   
                                                      <div class="carritoCant flex">${carritoCantidad}</div>`;
 
-    document.getElementById("carritoImg").addEventListener("click", mostrarCarrito);        
+    document.getElementById("carritoImg").addEventListener("click", () => {
+        mostrarCarrito ();
+        window.scroll ({        //Al ir al carrito por primera vez movemos la pantalla donde comienzan los productos
+            top: 460
+        })
+    });   
+   
     document.getElementById("botonVaciar").addEventListener("click", vaciarCarrito);    
     guardarCarritoEnStorage ();                                        
 }
 
 function mostrarCarrito () {
-
-    window.scroll ({        //Al ir al carrito movemos la pantalla donde comienzan los productos
-        top: 460
-    })
-        
     document.getElementById("contFiltro").style.display = "none";
     document.getElementById("main").style = "grid-template-columns: 0 100%;";
     document.getElementById("contProductos").innerHTML = "";
@@ -557,7 +558,7 @@ function finalizarPago () {
         },
     })
 
-    setTimeout (mensajeFinal, 3000)             //A los 3 segundos cambiamos de cartel
+    setTimeout (mensajeFinal, 3000);             //A los 3 segundos cambiamos de cartel
     
     function mensajeFinal () {
         Swal.fire({
