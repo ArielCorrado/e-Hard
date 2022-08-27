@@ -209,16 +209,16 @@ listaMemorias[18] = new memoriaRam ("mr19", "Memorias RAM", "Corsair", "Vengeanc
 const listaDeProductos = [...listaMicros, ...listaMothers, ...listaMemorias, ...listaPlacas, ...listaFuentes];
 
 const todosLosProductosEnJson = JSON.stringify(listaDeProductos);
-console.log (todosLosProductosEnJson); // LA LISTA DE TOTAL DE PRODUCTOS SE COPIÓ DE LA CONSOLA Y PEGÓ EN EL ARCHIVO productos.json
-
-let todosLosProductos = [];
 
 
+let todosLosProductos;
 
-fetch("http://127.0.0.1:5500/productos.json") 
-.then((resp) => resp.json())
-.then((data) => todosLosProductos = data);
+cargarDatosJson ();
 
+async function cargarDatosJson () {
+    const resp = await fetch ("productos.json")
+    const data = await resp.json();
+    todosLosProductos = data;
 
 
 
@@ -666,3 +666,4 @@ function vaciarCarrito () {
     localStorage.removeItem("carrito");
 }
 
+}
