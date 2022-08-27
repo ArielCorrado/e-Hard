@@ -214,7 +214,7 @@ iniciar ();
 
 async function iniciar () {
 
-    const resp = await fetch ("productos.json")
+    const resp = await fetch("productos.json")
     const data = await resp.json();
     const todosLosProductos = data;
 
