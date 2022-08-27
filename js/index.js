@@ -214,8 +214,8 @@ iniciar ();
 
 async function iniciar () {
 
-    const resp = await fetch("productos.json")
-    const data = await resp.json();
+    const resp = await fetch("productos.json");   //El fetch funciona correctamente una vez subidos los archivos del proyecto al servidor de netlify,
+    const data = await resp.json();               // localmente da el error: "Failed to Fetch"     
     const todosLosProductos = data;
 
     let opcionesElegidas = []; 
