@@ -207,11 +207,13 @@ listaMemorias[17] = new memoriaRam ("mr18", "Memorias RAM", "Corsair", "Vengance
 listaMemorias[18] = new memoriaRam ("mr19", "Memorias RAM", "Corsair", "Vengeance Pro Negro", "RGB", "ddr4", "16gb (2x8Gb)", "2666mhz", 19900, "./images/mr10.jpeg");
 
 const listaDeProductos = [...listaMicros, ...listaMothers, ...listaMemorias, ...listaPlacas, ...listaFuentes];
+// LA LISTA DE PRODUCTOS SE CARGÓ MANUALMENTE EN EL ARCHIVO "productos.json"
+
 
 iniciar ();
 
 async function iniciar () {
-    
+
     const resp = await fetch ("productos.json")
     const data = await resp.json();
     const todosLosProductos = data;
