@@ -206,6 +206,21 @@ listaMemorias[16] = new memoriaRam ("mr17", "Memorias RAM", "Corsair", "Vengeanc
 listaMemorias[17] = new memoriaRam ("mr18", "Memorias RAM", "Corsair", "Vengance Rs Negro", "RGB", "ddr4", "16gb (2x8Gb)", "3600mhz", 20900, "./images/mr9.jpeg");
 listaMemorias[18] = new memoriaRam ("mr19", "Memorias RAM", "Corsair", "Vengeance Pro Negro", "RGB", "ddr4", "16gb (2x8Gb)", "2666mhz", 19900, "./images/mr10.jpeg");
 
+const listaDeProductos = [...listaMicros, ...listaMothers, ...listaMemorias, ...listaPlacas, ...listaFuentes];
+
+const todosLosProductosEnJson = JSON.stringify(listaDeProductos);
+console.log (todosLosProductosEnJson); // LA LISTA DE TOTAL DE PRODUCTOS SE COPIÓ DE LA CONSOLA Y PEGÓ EN EL ARCHIVO productos.json
+
+let todosLosProductos = [];
+
+
+
+fetch("http://127.0.0.1:5500/productos.json") 
+.then((resp) => resp.json())
+.then((data) => todosLosProductos = data);
+
+
+
 
 let opcionesElegidas = []; 
 let botones;
@@ -217,8 +232,6 @@ let formaDePago;
  
 let carrito = JSON.parse(localStorage.getItem("carrito")) || [];        //Si no hay carrito en storage se lee null y carrito valdrá [] 
 actualizarIconoCarrito(); 
-
-const todosLosProductos = [...listaMicros, ...listaMothers, ...listaMemorias, ...listaPlacas, ...listaFuentes];
 
 filtro = todosLosProductos;
 ordenarPorPrecio ();
